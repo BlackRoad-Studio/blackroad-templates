@@ -20,6 +20,9 @@ A collection of HTML templates built with the BlackRoad Design System.
 | 12 | `12-profile.html` | User profile with avatar, activity feed, contributions |
 | 13 | `13-changelog.html` | Release notes with version timeline |
 | 14 | `14-onboarding.html` | Multi-step wizard with progress bar |
+| 15 | `15-api.html` | API reference with endpoints, code examples |
+| 16 | `16-team.html` | Team page with leadership, members, values |
+| 17 | `17-integrations.html` | Integrations marketplace with categories |
 
 ## Design System
 
