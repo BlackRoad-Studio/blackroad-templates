@@ -17,6 +17,9 @@ A collection of HTML templates built with the BlackRoad Design System.
 | 09 | `09-blog.html` | Blog listing with featured post, grid |
 | 10 | `10-settings.html` | Settings page with forms, toggles |
 | 11 | `11-status.html` | System status page with uptime chart |
+| 12 | `12-profile.html` | User profile with avatar, activity feed, contributions |
+| 13 | `13-changelog.html` | Release notes with version timeline |
+| 14 | `14-onboarding.html` | Multi-step wizard with progress bar |
 
 ## Design System
 
