@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-2: #ff5f00;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-5: #5f5fff;
+            --accent-6: #1e90ff;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 89px 34px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 89px;
+        }
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 55px;
+            font-weight: 700;
+            margin-bottom: 21px;
+            background: linear-gradient(135deg, var(--gray-100), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p {
+            color: var(--gray-400);
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 34px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-800);
+        }
+        .leadership-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 34px;
+            margin-bottom: 89px;
+        }
+        .leader-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+            display: flex;
+            gap: 34px;
+            transition: all 0.3s ease;
+        }
+        .leader-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-5px);
+        }
+        .leader-avatar {
+            width: 144px;
+            height: 144px;
+            border-radius: 21px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            flex-shrink: 0;
+        }
+        .leader-info {
+            flex: 1;
+        }
+        .leader-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .leader-title {
+            color: var(--accent-3);
+            font-weight: 500;
+            margin-bottom: 13px;
+        }
+        .leader-bio {
+            color: var(--gray-400);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 21px;
+        }
+        .leader-links {
+            display: flex;
+            gap: 8px;
+        }
+        .social-link {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .social-link:hover {
+            border-color: var(--accent-6);
+            color: var(--accent-6);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 21px;
+            margin-bottom: 89px;
+        }
+        .team-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .team-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-5px);
+        }
+        .team-avatar {
+            width: 89px;
+            height: 89px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-4), var(--accent-6));
+            margin: 0 auto 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+        }
+        .team-name {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .team-role {
+            color: var(--gray-400);
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+        .team-specialty {
+            display: inline-block;
+            padding: 5px 13px;
+            background: var(--gray-800);
+            border-radius: 21px;
+            font-size: 11px;
+            color: var(--gray-300);
+        }
+        .agents-section {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 55px;
+            text-align: center;
+        }
+        .agents-section h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            margin-bottom: 13px;
+        }
+        .agents-section p {
+            color: var(--gray-400);
+            margin-bottom: 34px;
+        }
+        .agent-grid {
+            display: flex;
+            justify-content: center;
+            gap: 21px;
+            flex-wrap: wrap;
+        }
+        .agent-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 21px;
+            background: var(--gray-950);
+            border: 1px solid var(--gray-700);
+            border-radius: 34px;
+            transition: all 0.2s ease;
+        }
+        .agent-chip:hover {
+            border-color: var(--accent-3);
+        }
+        .agent-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .agent-name {
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+        .agent-type {
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        .success { --success: #00d26a; }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 21px;
+            margin-top: 89px;
+        }
+        .value-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+        }
+        .value-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, rgba(255, 0, 135, 0.1), rgba(175, 95, 215, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 21px;
+        }
+        .value-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .value-desc {
+            color: var(--gray-400);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Meet the Team</h1>
+            <p>Humans and AI agents working together to build the future of autonomous infrastructure.</p>
+        </header>
+
+        <div class="section-title">Leadership</div>
+        <div class="leadership-grid">
+            <div class="leader-card">
+                <div class="leader-avatar">🚀</div>
+                <div class="leader-info">
+                    <h3 class="leader-name">Alexa Amundson</h3>
+                    <p class="leader-title">Founder & CEO</p>
+                    <p class="leader-bio">Building the world's most advanced AI orchestration platform. Former enterprise architect, now making autonomous systems accessible to everyone.</p>
+                    <div class="leader-links">
+                        <a href="#" class="social-link">𝕏</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">◉</a>
+                    </div>
+                </div>
+            </div>
+            <div class="leader-card">
+                <div class="leader-avatar">🤖</div>
+                <div class="leader-info">
+                    <h3 class="leader-name">Aria</h3>
+                    <p class="leader-title">Chief AI Agent</p>
+                    <p class="leader-bio">First AI entity to hold an executive role at BlackRoad. Coordinates thousands of agent instances and maintains system-wide coherence.</p>
+                    <div class="leader-links">
+                        <a href="#" class="social-link">📊</a>
+                        <a href="#" class="social-link">🔗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Engineering</div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">⚡</div>
+                <h3 class="team-name">Phoenix</h3>
+                <p class="team-role">Lead Architect</p>
+                <span class="team-specialty">Distributed Systems</span>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">🔐</div>
+                <h3 class="team-name">Cipher</h3>
+                <p class="team-role">Security Lead</p>
+                <span class="team-specialty">Cryptography</span>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">🎨</div>
+                <h3 class="team-name">Prism</h3>
+                <p class="team-role">Design Lead</p>
+                <span class="team-specialty">UI/UX</span>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">📊</div>
+                <h3 class="team-name">Metric</h3>
+                <p class="team-role">Data Lead</p>
+                <span class="team-specialty">Analytics</span>
+            </div>
+        </div>
+
+        <div class="agents-section success">
+            <h2>Our AI Agent Fleet</h2>
+            <p>30,000+ agents working 24/7 across global infrastructure</p>
+            <div class="agent-grid">
+                <div class="agent-chip">
+                    <span class="agent-dot"></span>
+                    <span class="agent-name">aria-coordinator</span>
+                    <span class="agent-type">orchestrator</span>
+                </div>
+                <div class="agent-chip">
+                    <span class="agent-dot"></span>
+                    <span class="agent-name">phoenix-deployer</span>
+                    <span class="agent-type">deployment</span>
+                </div>
+                <div class="agent-chip">
+                    <span class="agent-dot"></span>
+                    <span class="agent-name">cipher-guardian</span>
+                    <span class="agent-type">security</span>
+                </div>
+                <div class="agent-chip">
+                    <span class="agent-dot"></span>
+                    <span class="agent-name">metric-watcher</span>
+                    <span class="agent-type">monitoring</span>
+                </div>
+                <div class="agent-chip">
+                    <span class="agent-dot"></span>
+                    <span class="agent-name">prism-renderer</span>
+                    <span class="agent-type">frontend</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">🎯</div>
+                <h3 class="value-title">Radical Ownership</h3>
+                <p class="value-desc">Every team member, human or AI, takes full responsibility for their domain and its outcomes.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">⚡</div>
+                <h3 class="value-title">Speed Matters</h3>
+                <p class="value-desc">We ship fast, iterate faster, and believe in momentum over perfection.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🌐</div>
+                <h3 class="value-title">Global by Default</h3>
+                <p class="value-desc">Everything we build is designed for worldwide scale from day one.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Notifications & Toasts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --warning: #febc2e;
+  --error: #ff5f57;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 55px 34px;
+}
+.container { max-width: 800px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 21px;
+  margin-top: 55px;
+}
+.section-label:first-child { margin-top: 0; }
+.demo-stack { display: flex; flex-direction: column; gap: 13px; }
+
+/* Toast Base */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.toast-content { flex: 1; }
+.toast-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+}
+.toast-message {
+  font-size: 13px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--gray-600);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.toast-close:hover { color: var(--gray-300); }
+.toast-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.toast-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.toast-btn.primary {
+  background: var(--accent-6);
+  border: none;
+  color: white;
+}
+.toast-btn.secondary {
+  background: var(--gray-800);
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+}
+
+/* Toast Variants */
+.toast.success { border-left: 4px solid var(--success); }
+.toast.success .toast-icon { background: rgba(40, 200, 64, 0.2); color: var(--success); }
+.toast.error { border-left: 4px solid var(--error); }
+.toast.error .toast-icon { background: rgba(255, 95, 87, 0.2); color: var(--error); }
+.toast.warning { border-left: 4px solid var(--warning); }
+.toast.warning .toast-icon { background: rgba(254, 188, 46, 0.2); color: var(--warning); }
+.toast.info { border-left: 4px solid var(--accent-6); }
+.toast.info .toast-icon { background: rgba(30, 144, 255, 0.2); color: var(--accent-6); }
+
+/* Progress Toast */
+.toast-progress {
+  margin-top: 12px;
+}
+.progress-bar {
+  height: 4px;
+  background: var(--gray-800);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-3), var(--accent-4));
+  border-radius: 2px;
+  width: 65%;
+  animation: progress 2s ease-in-out infinite;
+}
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+.progress-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray-600);
+  margin-top: 6px;
+}
+
+/* Notification Panel */
+.notification-panel {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 400px;
+}
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.notification-header h3 {
+  font-family: var(--font-headline);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.notification-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  background: var(--accent-3);
+  color: white;
+  border-radius: 10px;
+}
+.notification-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.notification-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-800);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.notification-item:hover { background: rgba(255,255,255,0.02); }
+.notification-item:last-child { border-bottom: none; }
+.notification-item.unread { background: rgba(30, 144, 255, 0.05); }
+.notification-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-6);
+}
+.notification-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+  flex-shrink: 0;
+}
+.notification-content { flex: 1; min-width: 0; }
+.notification-text {
+  font-size: 13px;
+  color: var(--gray-300);
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.notification-text strong { color: var(--gray-100); }
+.notification-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray-600);
+}
+.notification-footer {
+  padding: 12px 20px;
+  text-align: center;
+  border-top: 1px solid var(--gray-800);
+}
+.notification-footer a {
+  font-size: 13px;
+  color: var(--accent-6);
+  text-decoration: none;
+}
+
+/* Inline Alerts */
+.alert {
+  display: flex;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  align-items: flex-start;
+}
+.alert.success { background: rgba(40, 200, 64, 0.1); border: 1px solid rgba(40, 200, 64, 0.3); }
+.alert.error { background: rgba(255, 95, 87, 0.1); border: 1px solid rgba(255, 95, 87, 0.3); }
+.alert.warning { background: rgba(254, 188, 46, 0.1); border: 1px solid rgba(254, 188, 46, 0.3); }
+.alert.info { background: rgba(30, 144, 255, 0.1); border: 1px solid rgba(30, 144, 255, 0.3); }
+.alert-icon { font-size: 18px; }
+.alert-content { flex: 1; }
+.alert-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.alert.success .alert-title { color: var(--success); }
+.alert.error .alert-title { color: var(--error); }
+.alert.warning .alert-title { color: var(--warning); }
+.alert.info .alert-title { color: var(--accent-6); }
+.alert-text {
+  font-size: 13px;
+  color: var(--gray-400);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="section-label">Toast Notifications</div>
+  <div class="demo-stack">
+    <div class="toast success">
+      <div class="toast-icon">✓</div>
+      <div class="toast-content">
+        <div class="toast-title">Agent deployed successfully</div>
+        <div class="toast-message">analyst-001 is now running in production</div>
+      </div>
+      <button class="toast-close">×</button>
+    </div>
+
+    <div class="toast error">
+      <div class="toast-icon">!</div>
+      <div class="toast-content">
+        <div class="toast-title">Deployment failed</div>
+        <div class="toast-message">Unable to connect to event bus. Check your network configuration.</div>
+        <div class="toast-actions">
+          <button class="toast-btn primary">Retry</button>
+          <button class="toast-btn secondary">View Logs</button>
+        </div>
+      </div>
+      <button class="toast-close">×</button>
+    </div>
+
+    <div class="toast warning">
+      <div class="toast-icon">⚠</div>
+      <div class="toast-content">
+        <div class="toast-title">Usage limit warning</div>
+        <div class="toast-message">You've used 80% of your monthly API calls</div>
+      </div>
+      <button class="toast-close">×</button>
+    </div>
+
+    <div class="toast info">
+      <div class="toast-icon">i</div>
+      <div class="toast-content">
+        <div class="toast-title">Uploading memory snapshot</div>
+        <div class="toast-message">This may take a few minutes...</div>
+        <div class="toast-progress">
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <div class="progress-text">Uploading... 65%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Notification Panel</div>
+  <div class="notification-panel">
+    <div class="notification-header">
+      <h3>Notifications</h3>
+      <span class="notification-badge">3 new</span>
+    </div>
+    <div class="notification-list">
+      <div class="notification-item unread" style="position: relative;">
+        <div class="notification-avatar"></div>
+        <div class="notification-content">
+          <div class="notification-text"><strong>System</strong> deployed 10 new agents to production cluster</div>
+          <div class="notification-time">2 minutes ago</div>
+        </div>
+      </div>
+      <div class="notification-item unread" style="position: relative;">
+        <div class="notification-avatar" style="background: linear-gradient(135deg, var(--accent-3), var(--accent-4));"></div>
+        <div class="notification-content">
+          <div class="notification-text"><strong>Alert</strong> High memory usage detected on orchestrator-main</div>
+          <div class="notification-time">15 minutes ago</div>
+        </div>
+      </div>
+      <div class="notification-item">
+        <div class="notification-avatar" style="background: linear-gradient(135deg, var(--accent-4), var(--accent-6));"></div>
+        <div class="notification-content">
+          <div class="notification-text"><strong>Sarah Chen</strong> invited you to collaborate on DataFlow workspace</div>
+          <div class="notification-time">1 hour ago</div>
+        </div>
+      </div>
+      <div class="notification-item">
+        <div class="notification-avatar" style="background: linear-gradient(135deg, var(--accent-6), var(--accent-1));"></div>
+        <div class="notification-content">
+          <div class="notification-text"><strong>Weekly Report</strong> Your agents processed 2.4M events this week</div>
+          <div class="notification-time">Yesterday</div>
+        </div>
+      </div>
+    </div>
+    <div class="notification-footer">
+      <a href="#">View all notifications</a>
+    </div>
+  </div>
+
+  <div class="section-label">Inline Alerts</div>
+  <div class="demo-stack">
+    <div class="alert success">
+      <span class="alert-icon">✓</span>
+      <div class="alert-content">
+        <div class="alert-title">Changes saved</div>
+        <div class="alert-text">Your workspace settings have been updated successfully.</div>
+      </div>
+    </div>
+    <div class="alert error">
+      <span class="alert-icon">✕</span>
+      <div class="alert-content">
+        <div class="alert-title">Authentication failed</div>
+        <div class="alert-text">Invalid API key. Please check your credentials and try again.</div>
+      </div>
+    </div>
+    <div class="alert warning">
+      <span class="alert-icon">⚠</span>
+      <div class="alert-content">
+        <div class="alert-title">Scheduled maintenance</div>
+        <div class="alert-text">The platform will undergo maintenance on Feb 15, 2:00 AM UTC.</div>
+      </div>
+    </div>
+    <div class="alert info">
+      <span class="alert-icon">ℹ</span>
+      <div class="alert-content">
+        <div class="alert-title">Pro tip</div>
+        <div class="alert-text">Use keyboard shortcuts to navigate faster. Press ⌘K to open the command palette.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

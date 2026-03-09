@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — 404</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+/* Background Animation */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  animation: float 10s ease-in-out infinite;
+}
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--accent-3);
+  top: -100px;
+  right: 10%;
+}
+.orb-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--accent-6);
+  bottom: -50px;
+  left: 20%;
+  animation-delay: -5s;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+/* Content */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 34px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.error-code {
+  font-family: var(--font-mono);
+  font-size: 150px;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-3), var(--accent-4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 21px;
+  position: relative;
+}
+.error-code::after {
+  content: '404';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-3), var(--accent-4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(40px);
+  opacity: 0.5;
+}
+.error-title {
+  font-family: var(--font-headline);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 13px;
+}
+.error-text {
+  font-size: 16px;
+  color: var(--gray-500);
+  max-width: 400px;
+  margin-bottom: 34px;
+  line-height: 1.7;
+}
+.error-actions {
+  display: flex;
+  gap: 13px;
+}
+.btn {
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border: none;
+  color: white;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 0, 135, 0.3);
+}
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+}
+.btn-secondary:hover {
+  background: var(--gray-900);
+  border-color: var(--gray-600);
+}
+/* Terminal Suggestion */
+.terminal-hint {
+  margin-top: 55px;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 21px;
+  max-width: 500px;
+  width: 100%;
+}
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 16px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+.terminal-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.terminal-dots span:nth-child(1) { background: #ff5f57; }
+.terminal-dots span:nth-child(2) { background: #febc2e; }
+.terminal-dots span:nth-child(3) { background: #28c840; }
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray-600);
+}
+.terminal-body {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+.terminal-line {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.terminal-prompt { color: var(--accent-6); }
+.terminal-cmd { color: var(--gray-300); }
+.terminal-output { color: var(--gray-500); margin-left: 24px; }
+.terminal-error { color: var(--accent-3); margin-left: 24px; }
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--accent-6);
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+/* Footer */
+.footer {
+  padding: 21px 34px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 21px;
+}
+.footer-links a {
+  font-size: 13px;
+  color: var(--gray-500);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gray-300); }
+@media (max-width: 600px) {
+  .error-code { font-size: 100px; }
+  .error-title { font-size: 24px; }
+  .error-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="container">
+  <div class="error-code">404</div>
+  <h1 class="error-title">Page not found</h1>
+  <p class="error-text">The agent you're looking for has gone rogue. It might have been terminated or never existed in the first place.</p>
+  
+  <div class="error-actions">
+    <a href="#" class="btn btn-primary">← Back to Dashboard</a>
+    <a href="#" class="btn btn-secondary">View Status Page</a>
+  </div>
+
+  <div class="terminal-hint">
+    <div class="terminal-header">
+      <div class="terminal-dots"><span></span><span></span><span></span></div>
+      <span class="terminal-title">blackroad-cli</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-cmd">blackroad status --agent missing-agent</span>
+      </div>
+      <div class="terminal-error">Error: Agent 'missing-agent' not found</div>
+      <div class="terminal-output">Try 'blackroad list' to see all available agents</div>
+      <div class="terminal-line">
+        <span class="terminal-prompt">$</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="#">Documentation</a>
+    <a href="#">Status</a>
+    <a href="#">Support</a>
+    <a href="#">Twitter</a>
+  </div>
+</footer>
+</body>
+</html>

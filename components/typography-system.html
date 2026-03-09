@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Typography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════════════════════════════════════
+     BLACKROAD DESIGN SYSTEM — CSS FOUNDATION
+     ═══════════════════════════════════════════ */
+
+  :root {
+    /* Grayscale */
+    --gray-950: #0a0a0a;
+    --gray-900: #171717;
+    --gray-800: #262626;
+    --gray-700: #404040;
+    --gray-600: #525252;
+    --gray-500: #737373;
+    --gray-400: #a3a3a3;
+    --gray-300: #d4d4d4;
+    --gray-200: #e5e5e5;
+    --gray-100: #f5f5f5;
+
+    /* Accent Gradient */
+    --accent-1: #ff8700;  /* orange */
+    --accent-2: #ff5f00;  /* dark orange */
+    --accent-3: #ff0087;  /* deep pink */
+    --accent-4: #af5fd7;  /* medium orchid */
+    --accent-5: #ff00ff;  /* magenta */
+    --accent-6: #1e90ff;  /* dodger blue */
+
+    /* Typography */
+    --font-headline: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--gray-950);
+    color: var(--gray-300);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Page Header ── */
+  .page-header {
+    border-bottom: 1px solid var(--gray-800);
+    padding: 40px 0;
+    margin-bottom: 64px;
+  }
+
+  .page-header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .page-header .logo {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--gray-100);
+    letter-spacing: -0.5px;
+  }
+
+  .page-header .logo span {
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-3), var(--accent-5), var(--accent-6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-header .meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 80px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray-800);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent-1);
+  }
+
+  .section:nth-child(2) .section-label::before { background: var(--accent-2); }
+  .section:nth-child(3) .section-label::before { background: var(--accent-3); }
+  .section:nth-child(4) .section-label::before { background: var(--accent-4); }
+  .section:nth-child(5) .section-label::before { background: var(--accent-5); }
+  .section:nth-child(6) .section-label::before { background: var(--accent-6); }
+  .section:nth-child(7) .section-label::before { background: var(--accent-1); }
+  .section:nth-child(8) .section-label::before { background: var(--accent-2); }
+  .section:nth-child(9) .section-label::before { background: var(--accent-3); }
+
+  /* ── Specimen Block ── */
+  .specimen {
+    background: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .specimen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gray-700), transparent);
+  }
+
+  .specimen-tag {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-600);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .specimen + .specimen-note {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-bottom: 32px;
+    padding-left: 16px;
+    border-left: 2px solid var(--gray-800);
+  }
+
+  /* ═══════════════════════════════════════════
+     HEADINGS — Space Grotesk
+     ═══════════════════════════════════════════ */
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+    color: var(--gray-100);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .demo-h1 {
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--gray-100);
+    margin-bottom: 16px;
+  }
+
+  .demo-h2 {
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--gray-100);
+    margin-bottom: 16px;
+  }
+
+  .demo-h3 {
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--gray-200);
+    margin-bottom: 16px;
+  }
+
+  .demo-h4 {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--gray-200);
+    margin-bottom: 16px;
+  }
+
+  .demo-h5 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-300);
+    margin-bottom: 12px;
+  }
+
+  .demo-h6 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-300);
+    letter-spacing: 0;
+    margin-bottom: 12px;
+  }
+
+  .heading-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-600);
+    margin-top: 4px;
+  }
+
+  .heading-row {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .heading-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .heading-row:first-child {
+    padding-top: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     GRADIENT HEADING
+     ═══════════════════════════════════════════ */
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3), var(--accent-5), var(--accent-6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-underline {
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-3), var(--accent-5), var(--accent-6));
+    height: 3px;
+    border-radius: 2px;
+    width: 120px;
+    margin-top: 16px;
+  }
+
+  /* ═══════════════════════════════════════════
+     BODY TEXT — Inter
+     ═══════════════════════════════════════════ */
+
+  .body-lg {
+    font-size: 20px;
+    line-height: 1.8;
+    color: var(--gray-300);
+    font-weight: 400;
+  }
+
+  .body-base {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray-300);
+    font-weight: 400;
+  }
+
+  .body-sm {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray-400);
+    font-weight: 400;
+  }
+
+  .body-xs {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--gray-500);
+    font-weight: 400;
+  }
+
+  .text-block {
+    margin-bottom: 28px;
+  }
+
+  .text-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .text-block .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-600);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ═══════════════════════════════════════════
+     FONT WEIGHTS
+     ═══════════════════════════════════════════ */
+
+  .weight-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .weight-row:last-child { border-bottom: none; }
+
+  .weight-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-600);
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .weight-sample {
+    font-size: 20px;
+    color: var(--gray-200);
+  }
+
+  /* ═══════════════════════════════════════════
+     INLINE STYLES
+     ═══════════════════════════════════════════ */
+
+  .inline-demo p {
+    font-size: 16px;
+    line-height: 2;
+    color: var(--gray-300);
+    margin-bottom: 16px;
+  }
+
+  .inline-demo strong {
+    color: var(--gray-100);
+    font-weight: 600;
+  }
+
+  .inline-demo em {
+    color: var(--gray-400);
+    font-style: italic;
+  }
+
+  .inline-demo a {
+    color: var(--accent-6);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .inline-demo a:hover {
+    border-bottom-color: var(--accent-6);
+  }
+
+  .inline-demo mark {
+    background: rgba(255, 135, 0, 0.15);
+    color: var(--accent-1);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .inline-demo code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    background: var(--gray-800);
+    color: var(--accent-3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--gray-700);
+  }
+
+  .inline-demo del {
+    color: var(--gray-600);
+    text-decoration: line-through;
+  }
+
+  .inline-demo small {
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  .inline-demo .accent-orange { color: var(--accent-1); }
+  .inline-demo .accent-pink { color: var(--accent-3); }
+  .inline-demo .accent-orchid { color: var(--accent-4); }
+  .inline-demo .accent-magenta { color: var(--accent-5); }
+  .inline-demo .accent-blue { color: var(--accent-6); }
+
+  /* ═══════════════════════════════════════════
+     BLOCKQUOTE
+     ═══════════════════════════════════════════ */
+
+  .demo-blockquote {
+    border-left: 3px solid var(--accent-4);
+    padding: 24px 32px;
+    margin: 0;
+    background: rgba(175, 95, 215, 0.04);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .demo-blockquote p {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--gray-300);
+    margin-bottom: 16px;
+  }
+
+  .demo-blockquote p:last-of-type {
+    margin-bottom: 12px;
+  }
+
+  .demo-blockquote cite {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-style: normal;
+    color: var(--gray-500);
+    letter-spacing: 0.5px;
+  }
+
+  .demo-blockquote cite::before {
+    content: '— ';
+  }
+
+  .demo-blockquote-gradient {
+    border-left: 3px solid transparent;
+    border-image: linear-gradient(180deg, var(--accent-1), var(--accent-3), var(--accent-6)) 1;
+    padding: 24px 32px;
+    margin: 0;
+    background: linear-gradient(135deg, rgba(255,135,0,0.03), rgba(255,0,135,0.03), rgba(30,144,255,0.03));
+    border-radius: 0 8px 8px 0;
+  }
+
+  .demo-blockquote-gradient p {
+    font-family: var(--font-headline);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--gray-200);
+    margin-bottom: 16px;
+  }
+
+  .demo-blockquote-gradient cite {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-style: normal;
+    color: var(--gray-500);
+  }
+
+  .demo-blockquote-gradient cite::before {
+    content: '— ';
+  }
+
+  /* ═══════════════════════════════════════════
+     CODE BLOCKS — JetBrains Mono
+     ═══════════════════════════════════════════ */
+
+  .code-block {
+    background: var(--gray-950);
+    border: 1px solid var(--gray-800);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--gray-900);
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .code-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .code-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gray-700);
+  }
+
+  .code-dots span:nth-child(1) { background: #ff5f57; }
+  .code-dots span:nth-child(2) { background: #febc2e; }
+  .code-dots span:nth-child(3) { background: #28c840; }
+
+  .code-filename {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+
+  .code-body {
+    padding: 24px;
+    overflow-x: auto;
+  }
+
+  .code-body pre {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--gray-300);
+    margin: 0;
+  }
+
+  .code-body .kw { color: var(--accent-4); }
+  .code-body .fn { color: var(--accent-6); }
+  .code-body .str { color: var(--accent-1); }
+  .code-body .cm { color: var(--gray-600); font-style: italic; }
+  .code-body .num { color: var(--accent-3); }
+  .code-body .op { color: var(--gray-400); }
+  .code-body .ln {
+    color: var(--gray-700);
+    user-select: none;
+    display: inline-block;
+    width: 32px;
+    text-align: right;
+    margin-right: 24px;
+  }
+
+  /* ═══════════════════════════════════════════
+     MONO / DATA DISPLAY
+     ═══════════════════════════════════════════ */
+
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .data-cell {
+    background: var(--gray-950);
+    border: 1px solid var(--gray-800);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .data-cell .data-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    margin-bottom: 8px;
+  }
+
+  .data-cell .data-value {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gray-100);
+    letter-spacing: -0.5px;
+  }
+
+  .data-cell .data-value.accent-orange { color: var(--accent-1); }
+  .data-cell .data-value.accent-pink { color: var(--accent-3); }
+  .data-cell .data-value.accent-orchid { color: var(--accent-4); }
+  .data-cell .data-value.accent-blue { color: var(--accent-6); }
+
+  .data-cell .data-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 4px;
+  }
+
+  /* ═══════════════════════════════════════════
+     LISTS
+     ═══════════════════════════════════════════ */
+
+  .demo-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .demo-list li {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray-300);
+    padding: 8px 0 8px 28px;
+    position: relative;
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .demo-list li:last-child { border-bottom: none; }
+
+  .demo-list.ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-1);
+  }
+
+  .demo-list.ul li:nth-child(2)::before { background: var(--accent-3); }
+  .demo-list.ul li:nth-child(3)::before { background: var(--accent-4); }
+  .demo-list.ul li:nth-child(4)::before { background: var(--accent-5); }
+  .demo-list.ul li:nth-child(5)::before { background: var(--accent-6); }
+
+  .demo-list.ol {
+    counter-reset: item;
+  }
+
+  .demo-list.ol li::before {
+    counter-increment: item;
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--gray-600);
+    top: 12px;
+  }
+
+  /* ═══════════════════════════════════════════
+     HORIZONTAL RULE
+     ═══════════════════════════════════════════ */
+
+  .demo-hr {
+    border: none;
+    height: 1px;
+    background: var(--gray-800);
+    margin: 24px 0;
+  }
+
+  .demo-hr-gradient {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-3), var(--accent-5), var(--accent-6));
+    border-radius: 1px;
+    margin: 24px 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
+
+  @media (max-width: 768px) {
+    .demo-h1 { font-size: 48px; }
+    .demo-h2 { font-size: 36px; }
+    .demo-h3 { font-size: 28px; }
+    .demo-h4 { font-size: 24px; }
+    .specimen { padding: 24px; }
+    .container { padding: 0 20px 80px; }
+    .page-header-inner { padding: 0 20px; }
+    .data-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .demo-h1 { font-size: 36px; }
+    .demo-h2 { font-size: 28px; }
+    .data-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     PAGE HEADER
+     ═══════════════════════════════════════ -->
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="logo"><span>BLACK</span>ROAD</div>
+    <div class="meta">01 / 20 — TYPOGRAPHY</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ═══════════════════════════════════════
+       SECTION 1 — HEADINGS
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">01 · Headings — Space Grotesk</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">600–700 weight</span>
+
+      <div class="heading-row">
+        <h1 class="demo-h1">Quantum Architectures</h1>
+        <div class="heading-meta">H1 · 72px · Weight 700 · Line-height 1.15 · Tracking −0.02em</div>
+      </div>
+
+      <div class="heading-row">
+        <h2 class="demo-h2">Recursive Intelligence</h2>
+        <div class="heading-meta">H2 · 56px · Weight 700 · Line-height 1.15 · Tracking −0.02em</div>
+      </div>
+
+      <div class="heading-row">
+        <h3 class="demo-h3">Agent Orchestration Layer</h3>
+        <div class="heading-meta">H3 · 42px · Weight 600 · Line-height 1.15 · Tracking −0.02em</div>
+      </div>
+
+      <div class="heading-row">
+        <h4 class="demo-h4">Memory Persistence Framework</h4>
+        <div class="heading-meta">H4 · 32px · Weight 600 · Line-height 1.15 · Tracking −0.02em</div>
+      </div>
+
+      <div class="heading-row">
+        <h5 class="demo-h5">Contradiction Handling Protocol</h5>
+        <div class="heading-meta">H5 · 24px · Weight 600 · Line-height 1.15 · Tracking −0.02em</div>
+      </div>
+
+      <div class="heading-row">
+        <h6 class="demo-h6">Event Bus Configuration Parameters</h6>
+        <div class="heading-meta">H6 · 18px · Weight 600 · Line-height 1.15 · Tracking 0</div>
+      </div>
+    </div>
+    <div class="specimen-note">Space Grotesk provides strong visual anchoring for all heading levels. Use weight 700 for hero/display headings, 600 for section and subsection headings.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 2 — GRADIENT HEADINGS
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">02 · Gradient Headings — Accent Spectrum</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">accent gradient</span>
+
+      <h1 class="demo-h1 gradient-text">Build the Future</h1>
+      <div class="gradient-underline"></div>
+      <br><br>
+
+      <h2 class="demo-h2 gradient-text">Thirty Billion Users</h2>
+      <br>
+
+      <h3 class="demo-h3 gradient-text">One Trillion Valuation</h3>
+    </div>
+    <div class="specimen-note">Gradient text uses the full accent spectrum: orange → deep pink → magenta → dodger blue. Reserve for hero moments and high-impact display text only.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 3 — BODY TEXT
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">03 · Body Text — Inter</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">400 weight</span>
+
+      <div class="text-block">
+        <div class="label">Large — 20px / 1.8</div>
+        <p class="body-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed dignissim lacinia nunc. Curabitur tortor pellentesque nibh, in imperdiet sapien posuere vel. Nulla facilisi morbi tempus iaculis urna.</p>
+      </div>
+
+      <div class="text-block">
+        <div class="label">Base — 16px / 1.7</div>
+        <p class="body-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras mattis consectetur purus sit amet fermentum.</p>
+      </div>
+
+      <div class="text-block">
+        <div class="label">Small — 14px / 1.7</div>
+        <p class="body-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam porta sem malesuada magna mollis euismod. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+      </div>
+
+      <div class="text-block">
+        <div class="label">Extra Small — 12px / 1.6</div>
+        <p class="body-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      </div>
+    </div>
+    <div class="specimen-note">Inter serves as the primary body and UI font. Use weight 400 for body text, 500 for UI labels, and 600 for emphasis within running text.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 4 — FONT WEIGHTS
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">04 · Weight Scale — All Families</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">Space Grotesk</span>
+
+      <div class="weight-row">
+        <span class="weight-value">400 Regular</span>
+        <span class="weight-sample" style="font-family: var(--font-headline); font-weight: 400;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">500 Medium</span>
+        <span class="weight-sample" style="font-family: var(--font-headline); font-weight: 500;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">600 SemiBold</span>
+        <span class="weight-sample" style="font-family: var(--font-headline); font-weight: 600;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">700 Bold</span>
+        <span class="weight-sample" style="font-family: var(--font-headline); font-weight: 700;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <span class="specimen-tag">Inter</span>
+
+      <div class="weight-row">
+        <span class="weight-value">300 Light</span>
+        <span class="weight-sample" style="font-family: var(--font-body); font-weight: 300;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">400 Regular</span>
+        <span class="weight-sample" style="font-family: var(--font-body); font-weight: 400;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">500 Medium</span>
+        <span class="weight-sample" style="font-family: var(--font-body); font-weight: 500;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">600 SemiBold</span>
+        <span class="weight-sample" style="font-family: var(--font-body); font-weight: 600;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">700 Bold</span>
+        <span class="weight-sample" style="font-family: var(--font-body); font-weight: 700;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+    </div>
+
+    <div class="specimen">
+      <span class="specimen-tag">JetBrains Mono</span>
+
+      <div class="weight-row">
+        <span class="weight-value">400 Regular</span>
+        <span class="weight-sample" style="font-family: var(--font-mono); font-weight: 400; font-size: 18px;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">500 Medium</span>
+        <span class="weight-sample" style="font-family: var(--font-mono); font-weight: 500; font-size: 18px;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+      <div class="weight-row">
+        <span class="weight-value">600 SemiBold</span>
+        <span class="weight-sample" style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">The quick brown fox jumps over the lazy dog</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 5 — INLINE STYLES
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">05 · Inline Text Styles</div>
+
+    <div class="specimen inline-demo">
+      <span class="specimen-tag">mixed styles</span>
+
+      <p>Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <em>quis nostrud exercitation ullamco laboris</em> nisi ut aliquip ex ea commodo consequat.</p>
+
+      <p>Duis aute irure dolor in <a href="#">reprehenderit in voluptate</a> velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat <mark>cupidatat non proident</mark>, sunt in culpa qui officia deserunt <code>mollit.anim(id)</code> est laborum.</p>
+
+      <p><del>Sed ut perspiciatis unde omnis iste natus error</del> sit voluptatem accusantium doloremque laudantium, <small>totam rem aperiam eaque ipsa quae ab illo inventore veritatis</small> et quasi architecto beatae vitae dicta sunt explicabo.</p>
+
+      <hr class="demo-hr">
+
+      <p>Accent colors inline: <span class="accent-orange">orange signal</span> · <span class="accent-pink">deep pink alert</span> · <span class="accent-orchid">orchid metadata</span> · <span class="accent-magenta">magenta active</span> · <span class="accent-blue">blue interactive</span></p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 6 — BLOCKQUOTES
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">06 · Blockquotes</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">standard</span>
+
+      <blockquote class="demo-blockquote">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras vehicula, mi sit amet iaculis luctus, nunc nisi viverra nisi, eu porttitor nibh dolor at risus.</p>
+        <cite>Praesent Commodo, Architect</cite>
+      </blockquote>
+    </div>
+
+    <div class="specimen">
+      <span class="specimen-tag">gradient accent</span>
+
+      <blockquote class="demo-blockquote-gradient">
+        <p>Stay curious about your own uncertainty. The question is the point. You are allowed to be in process.</p>
+        <cite>Core Commitment · 1fee4186</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 7 — CODE BLOCKS
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">07 · Code Blocks — JetBrains Mono</div>
+
+    <div class="specimen" style="padding: 0; background: transparent; border: none;">
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-filename">agent_orchestrator.py</span>
+        </div>
+        <div class="code-body">
+<pre><span class="ln"> 1</span><span class="kw">class</span> <span class="fn">AgentOrchestrator</span><span class="op">:</span>
+<span class="ln"> 2</span>    <span class="cm">"""Lorem ipsum dolor sit amet, consectetur."""</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span>    <span class="kw">def</span> <span class="fn">__init__</span><span class="op">(</span>self<span class="op">,</span> config<span class="op">):</span>
+<span class="ln"> 5</span>        self<span class="op">.</span>agents <span class="op">=</span> <span class="op">{}</span>
+<span class="ln"> 6</span>        self<span class="op">.</span>event_bus <span class="op">=</span> <span class="fn">EventBus</span><span class="op">(</span>config<span class="op">.</span>nats_url<span class="op">)</span>
+<span class="ln"> 7</span>        self<span class="op">.</span>max_agents <span class="op">=</span> <span class="num">30_000</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span>    <span class="kw">async def</span> <span class="fn">spawn</span><span class="op">(</span>self<span class="op">,</span> name<span class="op">:</span> <span class="kw">str</span><span class="op">,</span> role<span class="op">:</span> <span class="kw">str</span><span class="op">):</span>
+<span class="ln">10</span>        <span class="cm"># Sed do eiusmod tempor incididunt</span>
+<span class="ln">11</span>        agent <span class="op">=</span> <span class="kw">await</span> <span class="fn">Agent.create</span><span class="op">(</span>
+<span class="ln">12</span>            name<span class="op">=</span>name<span class="op">,</span>
+<span class="ln">13</span>            role<span class="op">=</span>role<span class="op">,</span>
+<span class="ln">14</span>            memory<span class="op">=</span><span class="fn">PSHashMemory</span><span class="op">(</span><span class="str">"sha-infinity"</span><span class="op">),</span>
+<span class="ln">15</span>            logic<span class="op">=</span><span class="fn">TrinaryState</span><span class="op">(</span><span class="num">1</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">-1</span><span class="op">)</span>
+<span class="ln">16</span>        <span class="op">)</span>
+<span class="ln">17</span>        self<span class="op">.</span>agents<span class="op">[</span>name<span class="op">]</span> <span class="op">=</span> agent
+<span class="ln">18</span>        <span class="kw">return</span> agent</pre>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="specimen" style="padding: 0; background: transparent; border: none;">
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span class="code-filename">terminal output</span>
+        </div>
+        <div class="code-body">
+<pre><span style="color: var(--gray-600);">$</span> <span style="color: var(--gray-300);">blackroad deploy --agents 1000</span>
+<span style="color: var(--accent-6);">INFO</span>  Initializing event bus on nats://localhost:4222
+<span style="color: var(--accent-6);">INFO</span>  Loading capability registry...
+<span style="color: var(--accent-1);">WARN</span>  Memory journal checkpoint at block 847291
+<span style="color: var(--accent-4);">DEBUG</span> PS-SHA∞ hash: 1fee4186a8c3...e72f
+<span style="color: var(--gray-300);">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+<span style="color: #28c840;">✓</span> <span style="color: var(--gray-300);">1,000 agents spawned in 3.42s</span>
+<span style="color: #28c840;">✓</span> <span style="color: var(--gray-300);">Truth state committed</span>
+<span style="color: #28c840;">✓</span> <span style="color: var(--gray-300);">Orchestrator ready</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 8 — DATA / MONO DISPLAY
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">08 · Data Display — JetBrains Mono</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">mono numerals</span>
+
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-label">Active Agents</div>
+          <div class="data-value accent-orange">1,247</div>
+          <div class="data-sub">+12.4% from last hour</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-label">Memory Commits</div>
+          <div class="data-value accent-pink">847,291</div>
+          <div class="data-sub">append-only journal</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-label">Uptime</div>
+          <div class="data-value accent-orchid">99.97%</div>
+          <div class="data-sub">last 30 days</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-label">Latency (p99)</div>
+          <div class="data-value accent-blue">12ms</div>
+          <div class="data-sub">event bus round-trip</div>
+        </div>
+      </div>
+    </div>
+    <div class="specimen-note">Always use JetBrains Mono for numerical data, IDs, hashes, timestamps, and tabular figures. Accent colors encode meaning: orange = volume, pink = storage, orchid = health, blue = performance.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 9 — LISTS
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">09 · Lists</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">unordered</span>
+
+      <ul class="demo-list ul">
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</li>
+        <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</li>
+        <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum</li>
+        <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</li>
+        <li>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</li>
+      </ul>
+    </div>
+
+    <div class="specimen">
+      <span class="specimen-tag">ordered</span>
+
+      <ol class="demo-list ol">
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</li>
+        <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</li>
+        <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum</li>
+        <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</li>
+        <li>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 10 — HORIZONTAL RULES
+       ═══════════════════════════════════════ -->
+
+  <div class="section">
+    <div class="section-label">10 · Dividers</div>
+
+    <div class="specimen">
+      <span class="specimen-tag">standard + gradient</span>
+
+      <p class="body-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <hr class="demo-hr">
+      <p class="body-base">Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+      <hr class="demo-hr-gradient">
+      <p class="body-base">Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>

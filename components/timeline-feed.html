@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline & Activity Feed - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --warning: #ffb800;
+            --error: #ff4757;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            padding: 55px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 21px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 55px;
+            max-width: 1200px;
+        }
+
+        /* Vertical Timeline */
+        .timeline-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+        }
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 34px;
+        }
+        .timeline-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .timeline-filter {
+            padding: 5px 13px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 8px;
+            color: var(--gray-300);
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .timeline {
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-800);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 55px;
+            padding-bottom: 34px;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--gray-900);
+            border: 3px solid;
+        }
+        .timeline-dot.success { border-color: var(--success); }
+        .timeline-dot.warning { border-color: var(--warning); }
+        .timeline-dot.error { border-color: var(--error); }
+        .timeline-dot.info { border-color: var(--accent-6); }
+        .timeline-dot.highlight { 
+            border-color: var(--accent-3);
+            background: var(--accent-3);
+        }
+        .timeline-time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-600);
+            margin-bottom: 5px;
+        }
+        .timeline-content h4 {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .timeline-content p {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .timeline-content a {
+            color: var(--accent-6);
+            text-decoration: none;
+        }
+        .timeline-content a:hover {
+            text-decoration: underline;
+        }
+        .timeline-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .timeline-tag {
+            padding: 2px 8px;
+            background: var(--gray-800);
+            border-radius: 5px;
+            font-size: 10px;
+            color: var(--gray-400);
+        }
+
+        /* Activity Feed */
+        .feed-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+        }
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 21px;
+        }
+        .feed-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .feed-live {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background: rgba(0, 210, 106, 0.1);
+            border-radius: 21px;
+            font-size: 11px;
+            color: var(--success);
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .feed-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+        .feed-item {
+            display: flex;
+            gap: 13px;
+            padding: 13px;
+            background: var(--gray-950);
+            border-radius: 13px;
+            border: 1px solid var(--gray-800);
+            transition: all 0.2s ease;
+        }
+        .feed-item:hover {
+            border-color: var(--gray-700);
+        }
+        .feed-item.new {
+            border-color: rgba(255, 0, 135, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .feed-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .feed-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .feed-message {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .feed-message strong {
+            color: var(--gray-100);
+        }
+        .feed-meta {
+            display: flex;
+            gap: 13px;
+            margin-top: 5px;
+        }
+        .feed-time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        .feed-source {
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+        .feed-actions {
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .feed-item:hover .feed-actions {
+            opacity: 1;
+        }
+        .feed-action {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: var(--gray-800);
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .feed-action:hover {
+            color: var(--gray-100);
+        }
+        .load-more {
+            display: flex;
+            justify-content: center;
+            margin-top: 21px;
+        }
+        .load-more-btn {
+            padding: 10px 21px;
+            background: transparent;
+            border: 1px solid var(--gray-700);
+            border-radius: 10px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .load-more-btn:hover {
+            border-color: var(--gray-500);
+            color: var(--gray-100);
+        }
+    </style>
+</head>
+<body>
+    <h3 class="section-title">Timeline & Activity Feed</h3>
+    
+    <div class="container">
+        <!-- Vertical Timeline -->
+        <div class="timeline-card">
+            <div class="timeline-header">
+                <h2 class="timeline-title">Deployment History</h2>
+                <select class="timeline-filter">
+                    <option>All Events</option>
+                    <option>Deploys</option>
+                    <option>Errors</option>
+                </select>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">2 min ago</div>
+                        <h4>Production deployment completed</h4>
+                        <p>Deployed <a href="#">blackroad-api@v2.5.0</a> to us-east-1</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">production</span>
+                            <span class="timeline-tag">api</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot success"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">15 min ago</div>
+                        <h4>Health check passed</h4>
+                        <p>All 847 agents reporting healthy status</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot warning"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">1 hour ago</div>
+                        <h4>Scaling event triggered</h4>
+                        <p>Auto-scaled from 500 to 847 agents due to traffic surge</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot error"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">3 hours ago</div>
+                        <h4>Build failed</h4>
+                        <p>TypeScript compilation error in <a href="#">src/agents/coordinator.ts</a></p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">build</span>
+                            <span class="timeline-tag">typescript</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot info"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-time">5 hours ago</div>
+                        <h4>PR merged</h4>
+                        <p>Merged <a href="#">#234</a>: Add real-time monitoring dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="feed-card">
+            <div class="feed-header">
+                <h2 class="feed-title">Activity Feed</h2>
+                <div class="feed-live">
+                    <span class="live-dot"></span>
+                    Live
+                </div>
+            </div>
+            <div class="feed-list">
+                <div class="feed-item new">
+                    <div class="feed-icon" style="background: rgba(0, 210, 106, 0.1)">🚀</div>
+                    <div class="feed-content">
+                        <div class="feed-message"><strong>aria-coordinator</strong> completed batch processing of 12,847 tasks</div>
+                        <div class="feed-meta">
+                            <span class="feed-time">Just now</span>
+                            <span class="feed-source">us-east-1</span>
+                        </div>
+                    </div>
+                    <div class="feed-actions">
+                        <button class="feed-action">📊</button>
+                        <button class="feed-action">⋯</button>
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-icon" style="background: rgba(30, 144, 255, 0.1)">📝</div>
+                    <div class="feed-content">
+                        <div class="feed-message"><strong>Alexa</strong> pushed 3 commits to <strong>main</strong></div>
+                        <div class="feed-meta">
+                            <span class="feed-time">5 min ago</span>
+                            <span class="feed-source">github</span>
+                        </div>
+                    </div>
+                    <div class="feed-actions">
+                        <button class="feed-action">👁</button>
+                        <button class="feed-action">⋯</button>
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-icon" style="background: rgba(255, 184, 0, 0.1)">⚠️</div>
+                    <div class="feed-content">
+                        <div class="feed-message"><strong>metric-collector</strong> CPU usage exceeded 80% threshold</div>
+                        <div class="feed-meta">
+                            <span class="feed-time">12 min ago</span>
+                            <span class="feed-source">monitoring</span>
+                        </div>
+                    </div>
+                    <div class="feed-actions">
+                        <button class="feed-action">🔧</button>
+                        <button class="feed-action">⋯</button>
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-icon" style="background: rgba(175, 95, 215, 0.1)">🔐</div>
+                    <div class="feed-content">
+                        <div class="feed-message"><strong>cipher-guardian</strong> blocked 234 suspicious requests</div>
+                        <div class="feed-meta">
+                            <span class="feed-time">28 min ago</span>
+                            <span class="feed-source">security</span>
+                        </div>
+                    </div>
+                    <div class="feed-actions">
+                        <button class="feed-action">📋</button>
+                        <button class="feed-action">⋯</button>
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-icon" style="background: rgba(255, 0, 135, 0.1)">🤖</div>
+                    <div class="feed-content">
+                        <div class="feed-message">New agent <strong>prism-v2</strong> registered in cluster</div>
+                        <div class="feed-meta">
+                            <span class="feed-time">45 min ago</span>
+                            <span class="feed-source">registry</span>
+                        </div>
+                    </div>
+                    <div class="feed-actions">
+                        <button class="feed-action">⚙️</button>
+                        <button class="feed-action">⋯</button>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more">
+                <button class="load-more-btn">Load More Activity</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

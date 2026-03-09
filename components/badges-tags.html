@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badges & Tags - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --warning: #ffb800;
+            --error: #ff4757;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            padding: 55px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 55px 0 21px;
+        }
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        .showcase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            padding: 21px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+        }
+
+        /* Basic Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-default {
+            background: var(--gray-800);
+            color: var(--gray-300);
+        }
+        .badge-primary {
+            background: var(--accent-3);
+            color: white;
+        }
+        .badge-secondary {
+            background: var(--accent-6);
+            color: white;
+        }
+        .badge-success {
+            background: rgba(0, 210, 106, 0.15);
+            color: var(--success);
+        }
+        .badge-warning {
+            background: rgba(255, 184, 0, 0.15);
+            color: var(--warning);
+        }
+        .badge-error {
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--error);
+        }
+        .badge-info {
+            background: rgba(30, 144, 255, 0.15);
+            color: var(--accent-6);
+        }
+
+        /* Outlined Badges */
+        .badge-outline {
+            background: transparent;
+            border: 1px solid;
+        }
+        .badge-outline-default {
+            border-color: var(--gray-700);
+            color: var(--gray-300);
+        }
+        .badge-outline-primary {
+            border-color: var(--accent-3);
+            color: var(--accent-3);
+        }
+        .badge-outline-success {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        /* Pill Badges */
+        .badge-pill {
+            border-radius: 50px;
+            padding: 4px 14px;
+        }
+
+        /* Dot Badges */
+        .badge-dot {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .dot-success { background: var(--success); }
+        .dot-warning { background: var(--warning); }
+        .dot-error { background: var(--error); }
+        .dot-info { background: var(--accent-6); }
+        .dot-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Icon Badges */
+        .badge-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Counter Badges */
+        .badge-counter {
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--gray-300);
+        }
+        .tag:hover {
+            border-color: var(--gray-600);
+            color: var(--gray-100);
+        }
+        .tag-remove {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: transparent;
+            border: none;
+            color: var(--gray-500);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tag-remove:hover {
+            background: var(--gray-700);
+            color: var(--gray-100);
+        }
+
+        /* Color Tags */
+        .tag-color {
+            padding-left: 8px;
+        }
+        .tag-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Status Tags */
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-tag-success {
+            background: rgba(0, 210, 106, 0.1);
+            border: 1px solid rgba(0, 210, 106, 0.2);
+            color: var(--success);
+        }
+        .status-tag-warning {
+            background: rgba(255, 184, 0, 0.1);
+            border: 1px solid rgba(255, 184, 0, 0.2);
+            color: var(--warning);
+        }
+        .status-tag-error {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            color: var(--error);
+        }
+
+        /* Version Tags */
+        .version-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 3px 8px;
+            background: var(--gray-950);
+            border: 1px solid var(--gray-700);
+            border-radius: 5px;
+            color: var(--gray-400);
+        }
+        .version-tag-new {
+            background: rgba(255, 0, 135, 0.1);
+            border-color: rgba(255, 0, 135, 0.2);
+            color: var(--accent-3);
+        }
+
+        /* Gradient Badge */
+        .badge-gradient {
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            color: white;
+        }
+
+        /* Avatar Badge (notification) */
+        .avatar-with-badge {
+            position: relative;
+            display: inline-block;
+        }
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .avatar-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 16px;
+            height: 16px;
+            background: var(--error);
+            border: 2px solid var(--gray-950);
+            border-radius: 50%;
+        }
+        .avatar-badge-online {
+            background: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <h3 class="section-title">Basic Badges</h3>
+    <div class="showcase">
+        <span class="badge badge-default">Default</span>
+        <span class="badge badge-primary">Primary</span>
+        <span class="badge badge-secondary">Secondary</span>
+        <span class="badge badge-success">Success</span>
+        <span class="badge badge-warning">Warning</span>
+        <span class="badge badge-error">Error</span>
+        <span class="badge badge-info">Info</span>
+        <span class="badge badge-gradient">Gradient</span>
+    </div>
+
+    <h3 class="section-title">Outlined Badges</h3>
+    <div class="showcase">
+        <span class="badge badge-outline badge-outline-default">Default</span>
+        <span class="badge badge-outline badge-outline-primary">Primary</span>
+        <span class="badge badge-outline badge-outline-success">Success</span>
+    </div>
+
+    <h3 class="section-title">Pill Badges</h3>
+    <div class="showcase">
+        <span class="badge badge-pill badge-primary">New Feature</span>
+        <span class="badge badge-pill badge-success">Completed</span>
+        <span class="badge badge-pill badge-warning">Pending</span>
+        <span class="badge badge-pill badge-error">Failed</span>
+    </div>
+
+    <h3 class="section-title">Dot Badges</h3>
+    <div class="showcase">
+        <span class="badge badge-default badge-dot"><span class="dot dot-success dot-pulse"></span> Running</span>
+        <span class="badge badge-default badge-dot"><span class="dot dot-warning"></span> Scaling</span>
+        <span class="badge badge-default badge-dot"><span class="dot dot-error"></span> Error</span>
+        <span class="badge badge-default badge-dot"><span class="dot dot-info"></span> Deploying</span>
+    </div>
+
+    <h3 class="section-title">Icon Badges</h3>
+    <div class="showcase">
+        <span class="badge badge-success badge-icon">✓ Verified</span>
+        <span class="badge badge-primary badge-icon">🚀 Featured</span>
+        <span class="badge badge-warning badge-icon">⚠ Needs Review</span>
+        <span class="badge badge-info badge-icon">🔒 Secure</span>
+    </div>
+
+    <h3 class="section-title">Counter Badges</h3>
+    <div class="showcase">
+        <span class="badge badge-counter badge-primary">5</span>
+        <span class="badge badge-counter badge-error">99+</span>
+        <span class="badge badge-counter badge-success">12</span>
+        <span class="badge badge-counter badge-default">0</span>
+    </div>
+
+    <h3 class="section-title">Tags</h3>
+    <div class="showcase">
+        <span class="tag">javascript</span>
+        <span class="tag">typescript</span>
+        <span class="tag">react<button class="tag-remove">×</button></span>
+        <span class="tag tag-color"><span class="tag-dot" style="background: var(--accent-3)"></span>design</span>
+        <span class="tag tag-color"><span class="tag-dot" style="background: var(--accent-6)"></span>engineering</span>
+    </div>
+
+    <h3 class="section-title">Status Tags</h3>
+    <div class="showcase">
+        <span class="status-tag status-tag-success"><span class="dot dot-success dot-pulse"></span> Operational</span>
+        <span class="status-tag status-tag-warning"><span class="dot dot-warning"></span> Degraded</span>
+        <span class="status-tag status-tag-error"><span class="dot dot-error"></span> Outage</span>
+    </div>
+
+    <h3 class="section-title">Version Tags</h3>
+    <div class="showcase">
+        <span class="version-tag">v2.5.0</span>
+        <span class="version-tag version-tag-new">v3.0.0-beta</span>
+        <span class="version-tag">latest</span>
+        <span class="version-tag">stable</span>
+    </div>
+
+    <h3 class="section-title">Avatar with Badge</h3>
+    <div class="showcase">
+        <span class="avatar-with-badge">
+            <div class="avatar">🚀</div>
+            <span class="avatar-badge"></span>
+        </span>
+        <span class="avatar-with-badge">
+            <div class="avatar">🤖</div>
+            <span class="avatar-badge avatar-badge-online"></span>
+        </span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Empty States</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 55px 34px;
+}
+.container { max-width: 1000px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 21px;
+}
+.empty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 21px;
+  margin-bottom: 55px;
+}
+.empty-state {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 55px 34px;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 21px;
+  opacity: 0.8;
+}
+.empty-title {
+  font-family: var(--font-headline);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 10px;
+}
+.empty-text {
+  font-size: 14px;
+  color: var(--gray-500);
+  max-width: 300px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+.empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.empty-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 0, 135, 0.3);
+}
+.empty-btn.secondary {
+  background: var(--gray-800);
+  color: var(--gray-300);
+}
+.empty-btn.secondary:hover {
+  background: var(--gray-700);
+  box-shadow: none;
+}
+.empty-actions {
+  display: flex;
+  gap: 13px;
+  justify-content: center;
+}
+
+/* Illustration styles */
+.empty-illustration {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+.illustration-circle {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--gray-700);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+}
+.illustration-dots {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-3);
+  border-radius: 50%;
+}
+.illustration-dots:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+.illustration-dots:nth-child(2) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.illustration-dots:nth-child(3) { left: 0; top: 50%; transform: translateY(-50%); }
+.illustration-dots:nth-child(4) { right: 0; top: 50%; transform: translateY(-50%); }
+
+/* Search empty */
+.search-empty .empty-illustration {
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(175, 95, 215, 0.1));
+  border-radius: 50%;
+}
+.search-term {
+  font-family: var(--font-mono);
+  background: var(--gray-800);
+  padding: 4px 12px;
+  border-radius: 4px;
+  color: var(--gray-300);
+  font-size: 13px;
+}
+
+/* Error state */
+.error-state {
+  border-color: rgba(255, 95, 87, 0.3);
+  background: linear-gradient(180deg, rgba(255, 95, 87, 0.05), var(--gray-900));
+}
+.error-state .empty-icon {
+  color: #ff5f57;
+}
+.retry-btn {
+  background: var(--gray-800);
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.2s;
+}
+.retry-btn:hover {
+  background: var(--gray-700);
+}
+
+/* Code snippet */
+.code-snippet {
+  background: var(--gray-950);
+  border: 1px solid var(--gray-800);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 24px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray-400);
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.code-snippet .cmd { color: var(--accent-6); }
+.code-snippet .flag { color: var(--accent-1); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="section-label">Empty States</div>
+  
+  <div class="empty-grid">
+    <div class="empty-state">
+      <div class="empty-illustration">
+        <div class="illustration-circle">🤖</div>
+        <span class="illustration-dots"></span>
+        <span class="illustration-dots"></span>
+        <span class="illustration-dots"></span>
+        <span class="illustration-dots"></span>
+      </div>
+      <h3 class="empty-title">No agents yet</h3>
+      <p class="empty-text">Deploy your first agent to start orchestrating intelligent workflows.</p>
+      <button class="empty-btn">⚡ Create Agent</button>
+    </div>
+
+    <div class="empty-state search-empty">
+      <div class="empty-illustration">
+        <div class="illustration-circle">🔍</div>
+      </div>
+      <h3 class="empty-title">No results found</h3>
+      <p class="empty-text">We couldn't find anything matching <span class="search-term">"quantum-processor"</span></p>
+      <div class="empty-actions">
+        <button class="empty-btn secondary">Clear Search</button>
+        <button class="empty-btn">Browse All</button>
+      </div>
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <h3 class="empty-title">No data to display</h3>
+      <p class="empty-text">Once your agents start processing events, analytics will appear here.</p>
+      <button class="empty-btn secondary">View Documentation</button>
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-icon">📁</div>
+      <h3 class="empty-title">This folder is empty</h3>
+      <p class="empty-text">Drag and drop files here or create new ones.</p>
+      <div class="empty-actions">
+        <button class="empty-btn secondary">Upload File</button>
+        <button class="empty-btn">New File</button>
+      </div>
+    </div>
+
+    <div class="empty-state error-state">
+      <div class="empty-icon">⚠️</div>
+      <h3 class="empty-title">Connection failed</h3>
+      <p class="empty-text">Unable to reach the event bus. Please check your network connection.</p>
+      <button class="retry-btn">↻ Try Again</button>
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-icon">🚀</div>
+      <h3 class="empty-title">Ready to deploy?</h3>
+      <p class="empty-text">Run this command in your terminal to deploy your first agent.</p>
+      <div class="code-snippet">
+        <span class="cmd">$</span> blackroad deploy <span class="flag">--agent</span> my-first-agent
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

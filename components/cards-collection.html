@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Card Components</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 55px 34px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 21px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 21px;
+  margin-bottom: 55px;
+}
+
+/* Basic Card */
+.card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.card:hover {
+  border-color: var(--gray-700);
+  transform: translateY(-4px);
+}
+.card-body { padding: 24px; }
+.card-title {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 10px;
+}
+.card-text {
+  font-size: 14px;
+  color: var(--gray-400);
+  line-height: 1.6;
+}
+
+/* Card with Header */
+.card-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--gray-800);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-header-title {
+  font-family: var(--font-headline);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-200);
+}
+.card-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(255, 135, 0, 0.15);
+  color: var(--accent-1);
+}
+
+/* Card with Image */
+.card-image {
+  height: 180px;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  position: relative;
+}
+.card-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, var(--gray-900));
+}
+
+/* Stat Card */
+.stat-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 24px;
+}
+.stat-card-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+}
+.stat-card-value {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 8px;
+}
+.stat-card-change {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--success);
+}
+.stat-card-change.down { color: var(--accent-3); }
+
+/* Profile Card */
+.profile-card {
+  text-align: center;
+}
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+  border-radius: 50%;
+  margin: 0 auto 16px;
+}
+.profile-name {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.profile-role {
+  font-size: 14px;
+  color: var(--gray-500);
+  margin-bottom: 16px;
+}
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-800);
+}
+.profile-stat-value {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.profile-stat-label {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+/* Agent Card */
+.agent-card {
+  position: relative;
+}
+.agent-status {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--success);
+}
+.agent-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(30, 144, 255, 0.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+.agent-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray-600);
+  margin-bottom: 4px;
+}
+.agent-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-800);
+}
+.agent-metric-value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--gray-200);
+}
+.agent-metric-label {
+  font-size: 11px;
+  color: var(--gray-600);
+}
+
+/* Pricing Card */
+.pricing-card.featured {
+  border-color: var(--accent-3);
+  background: linear-gradient(180deg, rgba(255,0,135,0.05), var(--gray-900));
+}
+.pricing-badge {
+  text-align: center;
+  padding: 8px;
+  background: var(--accent-3);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+.pricing-name {
+  font-family: var(--font-headline);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.pricing-price {
+  margin: 16px 0;
+}
+.pricing-amount {
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.pricing-period {
+  font-size: 14px;
+  color: var(--gray-500);
+}
+.pricing-features {
+  list-style: none;
+  margin-bottom: 24px;
+}
+.pricing-features li {
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--gray-300);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pricing-features li::before {
+  content: '✓';
+  color: var(--accent-1);
+}
+.pricing-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pricing-btn.primary {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border: none;
+  color: white;
+}
+.pricing-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+}
+
+/* Notification Card */
+.notification-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.notification-icon.info { background: rgba(30, 144, 255, 0.15); }
+.notification-icon.success { background: rgba(40, 200, 64, 0.15); }
+.notification-icon.warning { background: rgba(255, 135, 0, 0.15); }
+.notification-icon.error { background: rgba(255, 0, 135, 0.15); }
+.notification-content { flex: 1; }
+.notification-title {
+  font-weight: 500;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+}
+.notification-text {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+.notification-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="section-label">Basic Cards</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Simple Card</h3>
+        <p class="card-text">A basic card component with title and description. Hover to see the subtle lift effect.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-header-title">With Header</span>
+        <span class="card-badge">NEW</span>
+      </div>
+      <div class="card-body">
+        <p class="card-text">Card with a header section that can contain title and actions or badges.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-image">
+        <div class="card-image-overlay"></div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">With Image</h3>
+        <p class="card-text">Cards can include images or gradient backgrounds for visual interest.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Stat Cards</div>
+  <div class="card-grid">
+    <div class="stat-card">
+      <div class="stat-card-label">Active Agents</div>
+      <div class="stat-card-value" style="color: var(--accent-1)">1,247</div>
+      <div class="stat-card-change">↑ 12.4% from last hour</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Events / Second</div>
+      <div class="stat-card-value" style="color: var(--accent-3)">24.7K</div>
+      <div class="stat-card-change down">↓ 2.1% from last hour</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">Avg Latency</div>
+      <div class="stat-card-value" style="color: var(--accent-6)">8.2ms</div>
+      <div class="stat-card-change">↓ 1.4ms improvement</div>
+    </div>
+  </div>
+
+  <div class="section-label">Profile & Agent Cards</div>
+  <div class="card-grid">
+    <div class="card profile-card">
+      <div class="card-body">
+        <div class="profile-avatar"></div>
+        <div class="profile-name">Sarah Chen</div>
+        <div class="profile-role">Platform Engineer</div>
+        <div class="profile-stats">
+          <div><div class="profile-stat-value">127</div><div class="profile-stat-label">Agents</div></div>
+          <div><div class="profile-stat-value">89%</div><div class="profile-stat-label">Uptime</div></div>
+          <div><div class="profile-stat-value">4.2K</div><div class="profile-stat-label">Events</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card agent-card">
+      <div class="agent-status"></div>
+      <div class="card-body">
+        <div class="agent-icon">🤖</div>
+        <div class="agent-id">ag_1fee4186a8c3</div>
+        <div class="card-title">analyst-001</div>
+        <div class="card-text">Data processor agent</div>
+        <div class="agent-metrics">
+          <div><div class="agent-metric-value">2.4K</div><div class="agent-metric-label">Events</div></div>
+          <div><div class="agent-metric-value">6ms</div><div class="agent-metric-label">Latency</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Notification Cards</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-body notification-card">
+        <div class="notification-icon info">ℹ️</div>
+        <div class="notification-content">
+          <div class="notification-title">Agent deployed successfully</div>
+          <div class="notification-text">analyst-001 is now running in production</div>
+        </div>
+        <div class="notification-time">2m ago</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body notification-card">
+        <div class="notification-icon warning">⚠️</div>
+        <div class="notification-content">
+          <div class="notification-title">High latency detected</div>
+          <div class="notification-text">us-east-1 region experiencing delays</div>
+        </div>
+        <div class="notification-time">5m ago</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

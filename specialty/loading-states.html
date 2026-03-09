@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Loading States</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 55px 34px;
+}
+.container { max-width: 1000px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 21px;
+  margin-top: 55px;
+}
+.section-label:first-child { margin-top: 0; }
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 34px;
+  align-items: center;
+  margin-bottom: 34px;
+}
+
+/* Spinners */
+.spinner {
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--gray-800);
+  border-top-color: var(--accent-3);
+}
+.spinner-md {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--gray-800);
+  border-top-color: var(--accent-3);
+}
+.spinner-lg {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--gray-800);
+  border-top-color: var(--accent-3);
+}
+.spinner-gradient {
+  width: 48px;
+  height: 48px;
+  border: 4px solid transparent;
+  border-top-color: var(--accent-1);
+  border-right-color: var(--accent-3);
+}
+
+/* Dots */
+.dots {
+  display: flex;
+  gap: 8px;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-3);
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+.dot:nth-child(1) { animation-delay: 0s; }
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Pulse */
+.pulse {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-6);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(30, 144, 255, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(30, 144, 255, 0); }
+}
+
+/* Bar Progress */
+.progress-bar {
+  width: 200px;
+  height: 4px;
+  background: var(--gray-800);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-3), var(--accent-4));
+  width: 65%;
+  border-radius: 2px;
+}
+.progress-indeterminate .progress-fill {
+  width: 30%;
+  animation: indeterminate 1.5s ease-in-out infinite;
+}
+@keyframes indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* Skeleton Loading */
+.skeleton-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 24px;
+  width: 300px;
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--gray-800) 25%, var(--gray-700) 50%, var(--gray-800) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+.skeleton-title {
+  height: 20px;
+  width: 70%;
+  margin-bottom: 12px;
+}
+.skeleton-text {
+  height: 14px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.skeleton-text:last-child {
+  width: 60%;
+}
+
+/* Full Page Loader */
+.fullpage-loader {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 55px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+.loader-logo {
+  font-family: var(--font-headline);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 34px;
+}
+.loader-logo span {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.loader-ring {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+.loader-ring::before,
+.loader-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+.loader-ring::before {
+  border-top-color: var(--accent-3);
+  animation: spin 1s linear infinite;
+}
+.loader-ring::after {
+  border-bottom-color: var(--accent-1);
+  animation: spin 1.5s linear infinite reverse;
+}
+.loader-text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.loader-steps {
+  margin-top: 24px;
+  text-align: left;
+}
+.loader-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 13px;
+}
+.loader-step.done { color: var(--gray-300); }
+.loader-step.active { color: var(--accent-6); }
+.loader-step.pending { color: var(--gray-600); }
+.step-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+.loader-step.done .step-icon { background: rgba(40, 200, 64, 0.2); color: #28c840; }
+.loader-step.active .step-icon { background: rgba(30, 144, 255, 0.2); }
+.loader-step.pending .step-icon { background: var(--gray-800); }
+.mini-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top-color: var(--accent-6);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="section-label">Spinners</div>
+  <div class="demo-row">
+    <div class="spinner spinner-sm"></div>
+    <div class="spinner spinner-md"></div>
+    <div class="spinner spinner-lg"></div>
+    <div class="spinner spinner-gradient"></div>
+  </div>
+
+  <div class="section-label">Dots</div>
+  <div class="demo-row">
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <div class="section-label">Pulse</div>
+  <div class="demo-row">
+    <div class="pulse"></div>
+  </div>
+
+  <div class="section-label">Progress Bars</div>
+  <div class="demo-row">
+    <div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--gray-600); margin-top: 8px;">65% complete</div>
+    </div>
+    <div>
+      <div class="progress-bar progress-indeterminate"><div class="progress-fill"></div></div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--gray-600); margin-top: 8px;">Loading...</div>
+    </div>
+  </div>
+
+  <div class="section-label">Skeleton Loading</div>
+  <div class="demo-row">
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-avatar"></div>
+      <div class="skeleton skeleton-title"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+  </div>
+
+  <div class="section-label">Full Page Loader</div>
+  <div class="demo-row">
+    <div class="fullpage-loader">
+      <div class="loader-logo"><span>BLACK</span>ROAD</div>
+      <div class="loader-ring"></div>
+      <div class="loader-text">Initializing orchestrator...</div>
+      <div class="loader-steps">
+        <div class="loader-step done">
+          <div class="step-icon">✓</div>
+          Connecting to event bus
+        </div>
+        <div class="loader-step done">
+          <div class="step-icon">✓</div>
+          Loading agent registry
+        </div>
+        <div class="loader-step active">
+          <div class="step-icon"><div class="mini-spinner"></div></div>
+          Initializing memory journals
+        </div>
+        <div class="loader-step pending">
+          <div class="step-icon">○</div>
+          Starting health monitors
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

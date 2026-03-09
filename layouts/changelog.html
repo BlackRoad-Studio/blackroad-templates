@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-2: #ff5f00;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-5: #5f5fff;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --warning: #ffb800;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 89px 34px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+        .header p {
+            color: var(--gray-400);
+            font-size: 18px;
+        }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 55px;
+        }
+        .filter-btn {
+            padding: 8px 21px;
+            background: transparent;
+            border: 1px solid var(--gray-700);
+            border-radius: 21px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--gray-500);
+            color: var(--gray-100);
+        }
+        .filter-btn.active {
+            background: var(--gray-800);
+            border-color: var(--gray-700);
+            color: var(--gray-100);
+        }
+        .timeline {
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 120px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gray-800);
+        }
+        .release {
+            position: relative;
+            padding-left: 160px;
+            margin-bottom: 55px;
+        }
+        .release-date {
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 100px;
+            text-align: right;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .release-dot {
+            position: absolute;
+            left: 112px;
+            top: 8px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--gray-900);
+            border: 3px solid var(--accent-3);
+        }
+        .release.latest .release-dot {
+            background: var(--accent-3);
+            box-shadow: 0 0 20px rgba(255, 0, 135, 0.4);
+        }
+        .release-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+        }
+        .release.latest .release-card {
+            border-color: rgba(255, 0, 135, 0.3);
+        }
+        .release-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 21px;
+        }
+        .version {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .version-tag {
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag-latest {
+            background: var(--accent-3);
+            color: white;
+        }
+        .tag-minor {
+            background: var(--accent-6);
+            color: white;
+        }
+        .tag-patch {
+            background: var(--gray-700);
+            color: var(--gray-300);
+        }
+        .change-group {
+            margin-bottom: 21px;
+        }
+        .change-group:last-child {
+            margin-bottom: 0;
+        }
+        .change-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .type-added { color: var(--success); }
+        .type-improved { color: var(--accent-6); }
+        .type-fixed { color: var(--accent-1); }
+        .type-removed { color: var(--accent-3); }
+        .type-security { color: var(--accent-4); }
+        .change-list {
+            list-style: none;
+        }
+        .change-item {
+            padding: 8px 0;
+            padding-left: 21px;
+            position: relative;
+            color: var(--gray-300);
+            font-size: 14px;
+        }
+        .change-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gray-600);
+        }
+        .change-item code {
+            font-family: var(--font-mono);
+            background: var(--gray-800);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--accent-3);
+        }
+        .change-item a {
+            color: var(--accent-6);
+            text-decoration: none;
+        }
+        .change-item a:hover {
+            text-decoration: underline;
+        }
+        .contributors {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 21px;
+            padding-top: 21px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .contributors-label {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+        .contributor-avatars {
+            display: flex;
+        }
+        .contributor-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            border: 2px solid var(--gray-900);
+            margin-left: -8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .contributor-avatar:first-child {
+            margin-left: 0;
+        }
+        .subscribe-box {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+            text-align: center;
+            margin-top: 55px;
+        }
+        .subscribe-box h3 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .subscribe-box p {
+            color: var(--gray-400);
+            font-size: 14px;
+            margin-bottom: 21px;
+        }
+        .subscribe-form {
+            display: flex;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .subscribe-input {
+            flex: 1;
+            padding: 13px 21px;
+            background: var(--gray-950);
+            border: 1px solid var(--gray-700);
+            border-radius: 13px;
+            color: var(--gray-100);
+            font-family: var(--font-body);
+        }
+        .subscribe-input:focus {
+            outline: none;
+            border-color: var(--accent-3);
+        }
+        .subscribe-btn {
+            padding: 13px 21px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            border: none;
+            border-radius: 13px;
+            color: white;
+            font-family: var(--font-body);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 135, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Changelog</h1>
+            <p>New features, improvements, and fixes in BlackRoad OS</p>
+        </header>
+
+        <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Features</button>
+            <button class="filter-btn">Improvements</button>
+            <button class="filter-btn">Fixes</button>
+        </div>
+
+        <div class="timeline">
+            <div class="release latest">
+                <div class="release-date">Feb 7, 2026</div>
+                <div class="release-dot"></div>
+                <div class="release-card">
+                    <div class="release-header">
+                        <span class="version">v2.5.0</span>
+                        <span class="version-tag tag-latest">Latest</span>
+                    </div>
+                    
+                    <div class="change-group">
+                        <div class="change-type type-added">✦ Added</div>
+                        <ul class="change-list">
+                            <li class="change-item">30,000 agent deployment system with automatic scaling</li>
+                            <li class="change-item">Real-time collaboration dashboard for multi-Claude workflows</li>
+                            <li class="change-item">New <code>memory-task-marketplace.sh</code> for distributed task management</li>
+                            <li class="change-item">PS-SHA-∞ quantum-resistant hashing across all services</li>
+                        </ul>
+                    </div>
+
+                    <div class="change-group">
+                        <div class="change-type type-improved">⬆ Improved</div>
+                        <ul class="change-list">
+                            <li class="change-item">API response times reduced by 40% with edge caching</li>
+                            <li class="change-item">Agent health monitoring now updates every 100ms</li>
+                        </ul>
+                    </div>
+
+                    <div class="contributors">
+                        <span class="contributors-label">Contributors:</span>
+                        <div class="contributor-avatars">
+                            <div class="contributor-avatar">🚀</div>
+                            <div class="contributor-avatar">🤖</div>
+                            <div class="contributor-avatar">⚡</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="release">
+                <div class="release-date">Feb 1, 2026</div>
+                <div class="release-dot"></div>
+                <div class="release-card">
+                    <div class="release-header">
+                        <span class="version">v2.4.2</span>
+                        <span class="version-tag tag-patch">Patch</span>
+                    </div>
+                    
+                    <div class="change-group">
+                        <div class="change-type type-fixed">⚑ Fixed</div>
+                        <ul class="change-list">
+                            <li class="change-item">Memory leak in long-running agent instances - <a href="#">#847</a></li>
+                            <li class="change-item">WebSocket reconnection loop on network changes</li>
+                            <li class="change-item">Dashboard timezone offset calculation</li>
+                        </ul>
+                    </div>
+
+                    <div class="change-group">
+                        <div class="change-type type-security">🛡 Security</div>
+                        <ul class="change-list">
+                            <li class="change-item">Updated dependencies to patch CVE-2026-1234</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="release">
+                <div class="release-date">Jan 25, 2026</div>
+                <div class="release-dot"></div>
+                <div class="release-card">
+                    <div class="release-header">
+                        <span class="version">v2.4.0</span>
+                        <span class="version-tag tag-minor">Minor</span>
+                    </div>
+                    
+                    <div class="change-group">
+                        <div class="change-type type-added">✦ Added</div>
+                        <ul class="change-list">
+                            <li class="change-item">GreenLight template system for Claude coordination</li>
+                            <li class="change-item">Codex search with 8,789 indexed components</li>
+                            <li class="change-item">Traffic light project status indicators</li>
+                        </ul>
+                    </div>
+
+                    <div class="change-group">
+                        <div class="change-type type-removed">✕ Removed</div>
+                        <ul class="change-list">
+                            <li class="change-item">Deprecated <code>legacy-sync</code> module (use memory-system instead)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subscribe-box">
+            <h3>Stay Updated</h3>
+            <p>Get notified when we release new features and improvements.</p>
+            <form class="subscribe-form">
+                <input type="email" class="subscribe-input" placeholder="Enter your email">
+                <button type="submit" class="subscribe-btn">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

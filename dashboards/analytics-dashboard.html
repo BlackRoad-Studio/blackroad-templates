@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+}
+.dashboard {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+/* Sidebar */
+.sidebar {
+  background: var(--gray-900);
+  border-right: 1px solid var(--gray-800);
+  padding: 21px;
+}
+.logo {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 34px;
+}
+.logo span {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-section { margin-bottom: 28px; }
+.nav-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  margin-bottom: 12px;
+  padding: 0 12px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--gray-400);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 4px;
+  transition: all 0.2s;
+}
+.nav-item:hover { background: var(--gray-800); color: var(--gray-200); }
+.nav-item.active { background: rgba(255, 0, 135, 0.1); color: var(--accent-3); }
+/* Main */
+.main {
+  padding: 28px;
+  overflow-y: auto;
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.page-title {
+  font-family: var(--font-headline);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.header-actions {
+  display: flex;
+  gap: 13px;
+}
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary {
+  background: var(--gray-800);
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+}
+.btn-primary {
+  background: var(--accent-3);
+  border: none;
+  color: white;
+}
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 21px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 21px;
+}
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+.stat-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.stat-badge.up { background: rgba(40, 200, 64, 0.15); color: var(--success); }
+.stat-badge.down { background: rgba(255, 0, 135, 0.15); color: var(--accent-3); }
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.stat-card:nth-child(1) .stat-value { color: var(--accent-1); }
+.stat-card:nth-child(2) .stat-value { color: var(--accent-3); }
+.stat-card:nth-child(3) .stat-value { color: var(--accent-4); }
+.stat-card:nth-child(4) .stat-value { color: var(--accent-6); }
+.stat-sparkline {
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  margin-top: 12px;
+}
+.spark-bar {
+  flex: 1;
+  background: var(--gray-800);
+  border-radius: 2px;
+}
+.stat-card:nth-child(1) .spark-bar { background: rgba(255, 135, 0, 0.3); }
+.stat-card:nth-child(2) .spark-bar { background: rgba(255, 0, 135, 0.3); }
+.stat-card:nth-child(3) .spark-bar { background: rgba(175, 95, 215, 0.3); }
+.stat-card:nth-child(4) .spark-bar { background: rgba(30, 144, 255, 0.3); }
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 21px;
+  margin-bottom: 28px;
+}
+.chart-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.chart-title {
+  font-family: var(--font-headline);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.chart-tabs {
+  display: flex;
+  gap: 4px;
+}
+.chart-tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: var(--gray-500);
+  cursor: pointer;
+}
+.chart-tab.active { background: var(--gray-800); color: var(--gray-200); }
+.chart-body {
+  padding: 21px;
+  height: 280px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+.chart-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--accent-6), rgba(30, 144, 255, 0.3));
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s;
+}
+/* Donut Chart */
+.donut-chart {
+  width: 180px;
+  height: 180px;
+  margin: 21px auto;
+  position: relative;
+}
+.donut-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--accent-1) 0deg 126deg,
+    var(--accent-3) 126deg 234deg,
+    var(--accent-4) 234deg 306deg,
+    var(--accent-6) 306deg 360deg
+  );
+  mask: radial-gradient(transparent 55%, black 56%);
+  -webkit-mask: radial-gradient(transparent 55%, black 56%);
+}
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.donut-value {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.donut-label {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.donut-legend {
+  padding: 0 21px 21px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-800);
+}
+.legend-item:last-child { border-bottom: none; }
+.legend-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+.legend-name {
+  flex: 1;
+  font-size: 13px;
+  color: var(--gray-400);
+}
+.legend-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-200);
+}
+/* Table */
+.table-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 14px 21px;
+  border-bottom: 1px solid var(--gray-800);
+  background: rgba(255,255,255,0.02);
+}
+.table td {
+  padding: 14px 21px;
+  border-bottom: 1px solid var(--gray-800);
+  font-size: 14px;
+}
+.table tr:last-child td { border-bottom: none; }
+.table tr:hover td { background: rgba(255,255,255,0.02); }
+.agent-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.agent-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+}
+.agent-name {
+  font-family: var(--font-mono);
+  color: var(--gray-200);
+}
+.metric-cell {
+  font-family: var(--font-mono);
+  color: var(--gray-300);
+}
+@media (max-width: 1200px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .dashboard { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <div class="logo"><span>BLACK</span>ROAD</div>
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <a href="#" class="nav-item active">📊 Analytics</a>
+      <a href="#" class="nav-item">🤖 Agents</a>
+      <a href="#" class="nav-item">📡 Events</a>
+      <a href="#" class="nav-item">💾 Memory</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Manage</div>
+      <a href="#" class="nav-item">⚙️ Settings</a>
+      <a href="#" class="nav-item">🔑 API Keys</a>
+      <a href="#" class="nav-item">👥 Team</a>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="page-header">
+      <h1 class="page-title">Analytics Overview</h1>
+      <div class="header-actions">
+        <button class="btn btn-secondary">📅 Last 7 days</button>
+        <button class="btn btn-primary">↓ Export</button>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Total Events</span>
+          <span class="stat-badge up">↑ 12.4%</span>
+        </div>
+        <div class="stat-value">2.4M</div>
+        <div class="stat-sparkline">
+          <div class="spark-bar" style="height:60%"></div>
+          <div class="spark-bar" style="height:75%"></div>
+          <div class="spark-bar" style="height:65%"></div>
+          <div class="spark-bar" style="height:80%"></div>
+          <div class="spark-bar" style="height:90%"></div>
+          <div class="spark-bar" style="height:85%"></div>
+          <div class="spark-bar" style="height:100%"></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Active Agents</span>
+          <span class="stat-badge up">↑ 8</span>
+        </div>
+        <div class="stat-value">1,247</div>
+        <div class="stat-sparkline">
+          <div class="spark-bar" style="height:70%"></div>
+          <div class="spark-bar" style="height:75%"></div>
+          <div class="spark-bar" style="height:80%"></div>
+          <div class="spark-bar" style="height:78%"></div>
+          <div class="spark-bar" style="height:85%"></div>
+          <div class="spark-bar" style="height:90%"></div>
+          <div class="spark-bar" style="height:95%"></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Avg Latency</span>
+          <span class="stat-badge up">↓ 1.4ms</span>
+        </div>
+        <div class="stat-value">8.2ms</div>
+        <div class="stat-sparkline">
+          <div class="spark-bar" style="height:90%"></div>
+          <div class="spark-bar" style="height:85%"></div>
+          <div class="spark-bar" style="height:80%"></div>
+          <div class="spark-bar" style="height:75%"></div>
+          <div class="spark-bar" style="height:70%"></div>
+          <div class="spark-bar" style="height:65%"></div>
+          <div class="spark-bar" style="height:60%"></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Memory Usage</span>
+          <span class="stat-badge down">↑ 5.2%</span>
+        </div>
+        <div class="stat-value">847GB</div>
+        <div class="stat-sparkline">
+          <div class="spark-bar" style="height:50%"></div>
+          <div class="spark-bar" style="height:55%"></div>
+          <div class="spark-bar" style="height:60%"></div>
+          <div class="spark-bar" style="height:65%"></div>
+          <div class="spark-bar" style="height:70%"></div>
+          <div class="spark-bar" style="height:75%"></div>
+          <div class="spark-bar" style="height:80%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title">Event Volume</span>
+          <div class="chart-tabs">
+            <button class="chart-tab active">Hour</button>
+            <button class="chart-tab">Day</button>
+            <button class="chart-tab">Week</button>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div class="chart-bar" style="height:65%"></div>
+          <div class="chart-bar" style="height:78%"></div>
+          <div class="chart-bar" style="height:82%"></div>
+          <div class="chart-bar" style="height:71%"></div>
+          <div class="chart-bar" style="height:85%"></div>
+          <div class="chart-bar" style="height:92%"></div>
+          <div class="chart-bar" style="height:88%"></div>
+          <div class="chart-bar" style="height:79%"></div>
+          <div class="chart-bar" style="height:83%"></div>
+          <div class="chart-bar" style="height:95%"></div>
+          <div class="chart-bar" style="height:89%"></div>
+          <div class="chart-bar" style="height:76%"></div>
+          <div class="chart-bar" style="height:81%"></div>
+          <div class="chart-bar" style="height:87%"></div>
+          <div class="chart-bar" style="height:73%"></div>
+          <div class="chart-bar" style="height:68%"></div>
+          <div class="chart-bar" style="height:74%"></div>
+          <div class="chart-bar" style="height:91%"></div>
+          <div class="chart-bar" style="height:86%"></div>
+          <div class="chart-bar" style="height:80%"></div>
+          <div class="chart-bar" style="height:77%"></div>
+          <div class="chart-bar" style="height:84%"></div>
+          <div class="chart-bar" style="height:90%"></div>
+          <div class="chart-bar" style="height:72%"></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="chart-title">Agent Distribution</span>
+        </div>
+        <div class="donut-chart">
+          <div class="donut-ring"></div>
+          <div class="donut-center">
+            <div class="donut-value">1,247</div>
+            <div class="donut-label">Total Agents</div>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background:var(--accent-1)"></div>
+            <span class="legend-name">Processors</span>
+            <span class="legend-value">437</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:var(--accent-3)"></div>
+            <span class="legend-name">Analyzers</span>
+            <span class="legend-value">356</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:var(--accent-4)"></div>
+            <span class="legend-name">Monitors</span>
+            <span class="legend-value">254</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background:var(--accent-6)"></div>
+            <span class="legend-name">Coordinators</span>
+            <span class="legend-value">200</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-card">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Events/min</th>
+            <th>Latency</th>
+            <th>Memory</th>
+            <th>Uptime</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="agent-cell"><span class="agent-status"></span><span class="agent-name">analyst-001</span></div></td>
+            <td class="metric-cell">2,847</td>
+            <td class="metric-cell">4.2ms</td>
+            <td class="metric-cell">128MB</td>
+            <td class="metric-cell">99.99%</td>
+          </tr>
+          <tr>
+            <td><div class="agent-cell"><span class="agent-status"></span><span class="agent-name">processor-main</span></div></td>
+            <td class="metric-cell">8,124</td>
+            <td class="metric-cell">6.8ms</td>
+            <td class="metric-cell">256MB</td>
+            <td class="metric-cell">99.97%</td>
+          </tr>
+          <tr>
+            <td><div class="agent-cell"><span class="agent-status"></span><span class="agent-name">coordinator-alpha</span></div></td>
+            <td class="metric-cell">1,456</td>
+            <td class="metric-cell">3.1ms</td>
+            <td class="metric-cell">64MB</td>
+            <td class="metric-cell">100%</td>
+          </tr>
+          <tr>
+            <td><div class="agent-cell"><span class="agent-status" style="background:var(--accent-1)"></span><span class="agent-name">monitor-east</span></div></td>
+            <td class="metric-cell">945</td>
+            <td class="metric-cell">12.4ms</td>
+            <td class="metric-cell">96MB</td>
+            <td class="metric-cell">98.42%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+</body>
+</html>

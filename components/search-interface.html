@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Interface - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 55px;
+        }
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        /* Command Palette Style */
+        .search-palette {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 21px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 21px;
+            border-bottom: 1px solid var(--gray-800);
+        }
+        .search-icon {
+            font-size: 20px;
+            color: var(--gray-400);
+        }
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--gray-100);
+            font-family: var(--font-body);
+            font-size: 18px;
+            outline: none;
+        }
+        .search-input::placeholder {
+            color: var(--gray-600);
+        }
+        .search-shortcut {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .kbd {
+            padding: 4px 8px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 5px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-400);
+        }
+        .search-filters {
+            display: flex;
+            gap: 8px;
+            padding: 13px 21px;
+            border-bottom: 1px solid var(--gray-800);
+            background: var(--gray-950);
+        }
+        .filter-chip {
+            padding: 5px 13px;
+            background: transparent;
+            border: 1px solid var(--gray-700);
+            border-radius: 21px;
+            color: var(--gray-400);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-chip:hover {
+            border-color: var(--gray-500);
+            color: var(--gray-100);
+        }
+        .filter-chip.active {
+            background: var(--accent-3);
+            border-color: var(--accent-3);
+            color: white;
+        }
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .result-group {
+            padding: 8px 21px;
+        }
+        .result-group-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .result-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .result-item:hover,
+        .result-item.selected {
+            background: var(--gray-800);
+        }
+        .result-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .result-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .result-title {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .result-title mark {
+            background: rgba(255, 0, 135, 0.2);
+            color: var(--accent-3);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .result-meta {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        .result-action {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        .search-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 21px;
+            border-top: 1px solid var(--gray-800);
+            background: var(--gray-950);
+        }
+        .search-hints {
+            display: flex;
+            gap: 21px;
+        }
+        .hint {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+
+        /* Loading State */
+        .search-loading {
+            padding: 55px;
+            text-align: center;
+        }
+        .loading-spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid var(--gray-800);
+            border-top-color: var(--accent-3);
+            border-radius: 50%;
+            margin: 0 auto 13px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: var(--gray-400);
+            font-size: 13px;
+        }
+
+        /* Empty State */
+        .search-empty {
+            padding: 55px;
+            text-align: center;
+        }
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 13px;
+        }
+        .empty-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .empty-text {
+            color: var(--gray-400);
+            font-size: 13px;
+        }
+        .empty-suggestions {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 21px;
+        }
+        .suggestion {
+            padding: 5px 13px;
+            background: var(--gray-800);
+            border-radius: 21px;
+            font-size: 12px;
+            color: var(--gray-300);
+            cursor: pointer;
+        }
+        .suggestion:hover {
+            background: var(--gray-700);
+        }
+
+        /* Compact Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 21px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 13px;
+            margin-top: 55px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .search-bar:hover {
+            border-color: var(--gray-600);
+        }
+        .search-bar-icon {
+            color: var(--gray-500);
+        }
+        .search-bar-placeholder {
+            flex: 1;
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <!-- Command Palette with Results -->
+        <div class="search-palette">
+            <div class="search-header">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search agents, deployments, docs..." value="aria">
+                <div class="search-shortcut">
+                    <span class="kbd">ESC</span>
+                </div>
+            </div>
+            
+            <div class="search-filters">
+                <button class="filter-chip active">All</button>
+                <button class="filter-chip">Agents</button>
+                <button class="filter-chip">Repos</button>
+                <button class="filter-chip">Docs</button>
+                <button class="filter-chip">Commands</button>
+            </div>
+
+            <div class="search-results">
+                <div class="result-group">
+                    <div class="result-group-title">Agents</div>
+                    <div class="result-item selected">
+                        <div class="result-icon" style="background: rgba(255, 0, 135, 0.1)">🤖</div>
+                        <div class="result-content">
+                            <div class="result-title"><mark>aria</mark>-coordinator-v3</div>
+                            <div class="result-meta">Orchestration Agent • Running • us-east-1</div>
+                        </div>
+                        <span class="result-action">↵ Open</span>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-icon" style="background: rgba(30, 144, 255, 0.1)">🤖</div>
+                        <div class="result-content">
+                            <div class="result-title"><mark>aria</mark>-backup</div>
+                            <div class="result-meta">Backup Agent • Standby • eu-west-1</div>
+                        </div>
+                        <span class="result-action">↵ Open</span>
+                    </div>
+                </div>
+                <div class="result-group">
+                    <div class="result-group-title">Documentation</div>
+                    <div class="result-item">
+                        <div class="result-icon" style="background: rgba(175, 95, 215, 0.1)">📄</div>
+                        <div class="result-content">
+                            <div class="result-title">Getting Started with <mark>Aria</mark> Agents</div>
+                            <div class="result-meta">docs/guides/aria-quickstart.md</div>
+                        </div>
+                        <span class="result-action">↵ Open</span>
+                    </div>
+                </div>
+                <div class="result-group">
+                    <div class="result-group-title">Commands</div>
+                    <div class="result-item">
+                        <div class="result-icon" style="background: rgba(255, 135, 0, 0.1)">⌘</div>
+                        <div class="result-content">
+                            <div class="result-title">Deploy <mark>Aria</mark> to Production</div>
+                            <div class="result-meta">blackroad deploy aria --env production</div>
+                        </div>
+                        <span class="result-action">↵ Run</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-footer">
+                <div class="search-hints">
+                    <span class="hint"><span class="kbd">↑↓</span> Navigate</span>
+                    <span class="hint"><span class="kbd">↵</span> Select</span>
+                    <span class="hint"><span class="kbd">Tab</span> Filter</span>
+                </div>
+                <span class="hint">5 results</span>
+            </div>
+        </div>
+
+        <!-- Compact Search Bar -->
+        <div class="search-bar">
+            <span class="search-bar-icon">🔍</span>
+            <span class="search-bar-placeholder">Search or type a command...</span>
+            <span class="kbd">⌘K</span>
+        </div>
+    </div>
+</body>
+</html>

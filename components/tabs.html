@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabs - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            padding: 55px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 21px;
+            margin-top: 55px;
+        }
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        /* Underline Tabs */
+        .tabs-underline {
+            border-bottom: 1px solid var(--gray-800);
+            display: flex;
+            gap: 34px;
+        }
+        .tab-underline {
+            padding: 13px 0;
+            background: transparent;
+            border: none;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        .tab-underline:hover {
+            color: var(--gray-100);
+        }
+        .tab-underline.active {
+            color: var(--gray-100);
+        }
+        .tab-underline.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-3), var(--accent-4));
+        }
+        .tab-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: var(--gray-800);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .tab-underline.active .tab-badge {
+            background: var(--accent-3);
+            color: white;
+        }
+
+        /* Pill Tabs */
+        .tabs-pills {
+            display: inline-flex;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+            padding: 5px;
+            margin-top: 21px;
+        }
+        .tab-pill {
+            padding: 10px 21px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-pill:hover {
+            color: var(--gray-100);
+        }
+        .tab-pill.active {
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            color: white;
+        }
+
+        /* Box Tabs */
+        .tabs-box {
+            display: flex;
+            gap: 8px;
+            margin-top: 21px;
+        }
+        .tab-box {
+            padding: 10px 21px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 10px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-box:hover {
+            border-color: var(--gray-700);
+            color: var(--gray-100);
+        }
+        .tab-box.active {
+            background: var(--gray-800);
+            border-color: var(--gray-700);
+            color: var(--gray-100);
+        }
+
+        /* Vertical Tabs */
+        .tabs-vertical-container {
+            display: flex;
+            gap: 34px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 21px;
+            margin-top: 21px;
+        }
+        .tabs-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 200px;
+            border-right: 1px solid var(--gray-800);
+            padding-right: 21px;
+        }
+        .tab-vertical {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .tab-vertical:hover {
+            background: var(--gray-800);
+            color: var(--gray-100);
+        }
+        .tab-vertical.active {
+            background: rgba(255, 0, 135, 0.1);
+            color: var(--accent-3);
+        }
+        .tab-vertical-icon {
+            width: 20px;
+            text-align: center;
+        }
+        .tab-content {
+            flex: 1;
+            padding: 13px;
+        }
+        .tab-content h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            margin-bottom: 13px;
+        }
+        .tab-content p {
+            color: var(--gray-400);
+            line-height: 1.6;
+        }
+
+        /* Icon Tabs */
+        .tabs-icons {
+            display: flex;
+            gap: 5px;
+            margin-top: 21px;
+        }
+        .tab-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+            color: var(--gray-400);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .tab-icon:hover {
+            border-color: var(--gray-700);
+            color: var(--gray-100);
+        }
+        .tab-icon.active {
+            background: var(--accent-3);
+            border-color: var(--accent-3);
+            color: white;
+        }
+
+        /* Segmented Control */
+        .tabs-segmented {
+            display: inline-flex;
+            background: var(--gray-950);
+            border: 1px solid var(--gray-800);
+            border-radius: 10px;
+            padding: 3px;
+            margin-top: 21px;
+        }
+        .tab-segment {
+            padding: 8px 21px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-segment:hover {
+            color: var(--gray-100);
+        }
+        .tab-segment.active {
+            background: var(--gray-800);
+            color: var(--gray-100);
+        }
+
+        /* Code Editor Style Tabs */
+        .tabs-editor {
+            display: flex;
+            background: var(--gray-900);
+            border-bottom: 1px solid var(--gray-800);
+            margin-top: 21px;
+        }
+        .tab-editor {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 21px;
+            background: transparent;
+            border: none;
+            border-right: 1px solid var(--gray-800);
+            color: var(--gray-400);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-editor:hover {
+            background: var(--gray-800);
+            color: var(--gray-100);
+        }
+        .tab-editor.active {
+            background: var(--gray-950);
+            color: var(--gray-100);
+            border-bottom: 2px solid var(--accent-6);
+            margin-bottom: -1px;
+        }
+        .tab-editor-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-js { background: #f0db4f; }
+        .dot-ts { background: #3178c6; }
+        .dot-py { background: #3776ab; }
+        .dot-md { background: #083fa1; }
+        .tab-editor-close {
+            opacity: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: transparent;
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .tab-editor:hover .tab-editor-close {
+            opacity: 1;
+        }
+        .tab-editor-close:hover {
+            background: var(--gray-700);
+            color: var(--gray-100);
+        }
+    </style>
+</head>
+<body>
+    <h3 class="section-title">Underline Tabs</h3>
+    <div class="tabs-underline">
+        <button class="tab-underline active">Overview</button>
+        <button class="tab-underline">Agents <span class="tab-badge">847</span></button>
+        <button class="tab-underline">Deployments</button>
+        <button class="tab-underline">Settings</button>
+    </div>
+
+    <h3 class="section-title">Pill Tabs</h3>
+    <div class="tabs-pills">
+        <button class="tab-pill active">All</button>
+        <button class="tab-pill">Active</button>
+        <button class="tab-pill">Archived</button>
+    </div>
+
+    <h3 class="section-title">Box Tabs</h3>
+    <div class="tabs-box">
+        <button class="tab-box active">Daily</button>
+        <button class="tab-box">Weekly</button>
+        <button class="tab-box">Monthly</button>
+        <button class="tab-box">Yearly</button>
+    </div>
+
+    <h3 class="section-title">Icon Tabs</h3>
+    <div class="tabs-icons">
+        <button class="tab-icon active">📊</button>
+        <button class="tab-icon">📈</button>
+        <button class="tab-icon">🗓️</button>
+        <button class="tab-icon">⚙️</button>
+    </div>
+
+    <h3 class="section-title">Segmented Control</h3>
+    <div class="tabs-segmented">
+        <button class="tab-segment active">Grid</button>
+        <button class="tab-segment">List</button>
+        <button class="tab-segment">Table</button>
+    </div>
+
+    <h3 class="section-title">Code Editor Tabs</h3>
+    <div class="tabs-editor">
+        <button class="tab-editor active">
+            <span class="tab-editor-dot dot-ts"></span>
+            index.ts
+            <span class="tab-editor-close">×</span>
+        </button>
+        <button class="tab-editor">
+            <span class="tab-editor-dot dot-js"></span>
+            config.js
+            <span class="tab-editor-close">×</span>
+        </button>
+        <button class="tab-editor">
+            <span class="tab-editor-dot dot-py"></span>
+            agent.py
+            <span class="tab-editor-close">×</span>
+        </button>
+        <button class="tab-editor">
+            <span class="tab-editor-dot dot-md"></span>
+            README.md
+            <span class="tab-editor-close">×</span>
+        </button>
+    </div>
+
+    <h3 class="section-title">Vertical Tabs</h3>
+    <div class="tabs-vertical-container">
+        <div class="tabs-vertical">
+            <button class="tab-vertical active">
+                <span class="tab-vertical-icon">👤</span>
+                Profile
+            </button>
+            <button class="tab-vertical">
+                <span class="tab-vertical-icon">🔔</span>
+                Notifications
+            </button>
+            <button class="tab-vertical">
+                <span class="tab-vertical-icon">🔐</span>
+                Security
+            </button>
+            <button class="tab-vertical">
+                <span class="tab-vertical-icon">💳</span>
+                Billing
+            </button>
+            <button class="tab-vertical">
+                <span class="tab-vertical-icon">🔌</span>
+                Integrations
+            </button>
+        </div>
+        <div class="tab-content">
+            <h3>Profile Settings</h3>
+            <p>Manage your personal information, display preferences, and account details. Changes will be reflected across all BlackRoad services.</p>
+        </div>
+    </div>
+</body>
+</html>

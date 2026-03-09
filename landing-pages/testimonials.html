@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Testimonials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 89px 34px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 55px; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  margin-bottom: 13px;
+}
+.header h1 {
+  font-family: var(--font-headline);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 16px;
+}
+.header p {
+  font-size: 18px;
+  color: var(--gray-500);
+  max-width: 500px;
+  margin: 0 auto;
+}
+/* Testimonial Grid */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 21px;
+}
+.testimonial-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s;
+  position: relative;
+}
+.testimonial-card:hover {
+  border-color: var(--gray-700);
+  transform: translateY(-4px);
+}
+.testimonial-card.featured {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(255,0,135,0.05), rgba(255,135,0,0.05));
+  border-color: var(--accent-3);
+}
+.testimonial-card.featured .quote-icon {
+  color: var(--accent-3);
+}
+.quote-icon {
+  font-size: 32px;
+  color: var(--gray-700);
+  margin-bottom: 16px;
+}
+.testimonial-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--gray-300);
+  margin-bottom: 24px;
+}
+.testimonial-card.featured .testimonial-text {
+  font-size: 18px;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+}
+.testimonial-card:nth-child(2) .author-avatar { background: linear-gradient(135deg, var(--accent-3), var(--accent-4)); }
+.testimonial-card:nth-child(3) .author-avatar { background: linear-gradient(135deg, var(--accent-4), var(--accent-6)); }
+.testimonial-card:nth-child(4) .author-avatar { background: linear-gradient(135deg, var(--accent-6), var(--accent-1)); }
+.author-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 2px;
+}
+.author-info p {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+.company-logo {
+  margin-left: auto;
+  font-family: var(--font-headline);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-600);
+}
+/* Stats Section */
+.stats-section {
+  margin-top: 89px;
+  padding: 55px;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 34px;
+  text-align: center;
+}
+.stat-item .stat-value {
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.stat-item:nth-child(1) .stat-value { color: var(--accent-1); }
+.stat-item:nth-child(2) .stat-value { color: var(--accent-3); }
+.stat-item:nth-child(3) .stat-value { color: var(--accent-4); }
+.stat-item:nth-child(4) .stat-value { color: var(--accent-6); }
+.stat-item .stat-label {
+  font-size: 14px;
+  color: var(--gray-500);
+}
+/* Logos */
+.logos-section {
+  margin-top: 89px;
+  text-align: center;
+}
+.logos-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  margin-bottom: 34px;
+}
+.logos-grid {
+  display: flex;
+  justify-content: center;
+  gap: 55px;
+  flex-wrap: wrap;
+  opacity: 0.4;
+}
+.logos-grid span {
+  font-family: var(--font-headline);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gray-400);
+}
+@media (max-width: 900px) {
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .testimonial-card.featured { grid-column: span 1; }
+  .stats-section { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="section-label">Testimonials</div>
+    <h1>Loved by developers worldwide</h1>
+    <p>Join thousands of teams building the future with intelligent agents.</p>
+  </div>
+
+  <div class="testimonial-grid">
+    <div class="testimonial-card featured">
+      <div class="quote-icon">"</div>
+      <p class="testimonial-text">BlackRoad completely transformed how we handle data processing. We went from a team of 12 engineers manually orchestrating pipelines to a fleet of 500 autonomous agents handling everything 24/7. Our throughput increased 40x while our costs dropped 80%.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          <h4>Sarah Chen</h4>
+          <p>CTO at DataFlow</p>
+        </div>
+        <div class="company-logo">DATAFLOW</div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <p class="testimonial-text">The memory persistence feature is a game-changer. Our agents can learn and adapt over time, and we never lose context between sessions.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          <h4>Marcus Rodriguez</h4>
+          <p>VP Engineering at TechFlow</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <p class="testimonial-text">We evaluated 15 platforms before choosing BlackRoad. Nothing else came close in terms of performance, reliability, and developer experience.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          <h4>Emily Watson</h4>
+          <p>Head of AI at CloudBase</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <p class="testimonial-text">Sub-millisecond latency on event routing. We process 2 million events per second without breaking a sweat.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          <h4>Alex Kim</h4>
+          <p>Staff Engineer at Infinitum</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <p class="testimonial-text">Best documentation I've ever seen. Had our first agent running in production within 30 minutes of signing up.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          <h4>Jordan Lee</h4>
+          <p>Founder at StartupXYZ</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <p class="testimonial-text">The PS-SHA-∞ hashing gives us complete confidence in our data integrity. We can audit every single state change.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"></div>
+        <div class="author-info">
+          <h4>Priya Sharma</h4>
+          <p>Security Lead at SecureNet</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-section">
+    <div class="stat-item">
+      <div class="stat-value">30,000+</div>
+      <div class="stat-label">Active Agents</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">2,500+</div>
+      <div class="stat-label">Companies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">99.99%</div>
+      <div class="stat-label">Uptime SLA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">4.9/5</div>
+      <div class="stat-label">Customer Rating</div>
+    </div>
+  </div>
+
+  <div class="logos-section">
+    <div class="logos-label">Trusted by industry leaders</div>
+    <div class="logos-grid">
+      <span>DATAFLOW</span>
+      <span>TECHFLOW</span>
+      <span>CLOUDBASE</span>
+      <span>INFINITUM</span>
+      <span>SECURENET</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

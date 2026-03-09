@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Modals & Dialogs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --error: #ff5f57;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 55px 34px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 21px;
+  margin-top: 55px;
+}
+.section-label:first-child { margin-top: 0; }
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 21px;
+}
+/* Modal Base */
+.modal-demo {
+  background: rgba(0,0,0,0.5);
+  border-radius: 16px;
+  padding: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+.modal {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.modal-title {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.modal-close {
+  width: 28px;
+  height: 28px;
+  background: var(--gray-800);
+  border: none;
+  border-radius: 6px;
+  color: var(--gray-400);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: var(--gray-700); color: var(--gray-100); }
+.modal-body { padding: 21px; }
+.modal-body p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--gray-400);
+  margin-bottom: 21px;
+}
+.modal-footer {
+  display: flex;
+  gap: 13px;
+  padding: 21px;
+  border-top: 1px solid var(--gray-800);
+  background: rgba(255,255,255,0.02);
+}
+.modal-footer.right { justify-content: flex-end; }
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border: none;
+  color: white;
+}
+.btn-secondary {
+  background: var(--gray-800);
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+}
+.btn-danger {
+  background: var(--error);
+  border: none;
+  color: white;
+}
+.btn-success {
+  background: var(--success);
+  border: none;
+  color: white;
+}
+/* Form Modal */
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-300);
+  margin-bottom: 8px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-800);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--gray-100);
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-6);
+}
+/* Confirmation Modal */
+.confirm-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 21px;
+}
+.confirm-icon.danger { background: rgba(255, 95, 87, 0.15); }
+.confirm-icon.success { background: rgba(40, 200, 64, 0.15); }
+.confirm-icon.info { background: rgba(30, 144, 255, 0.15); }
+.confirm-text {
+  text-align: center;
+}
+.confirm-text h3 {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 8px;
+}
+.confirm-text p {
+  font-size: 14px;
+  color: var(--gray-500);
+  margin-bottom: 0;
+}
+/* Alert Modal */
+.alert-modal {
+  border-left: 4px solid var(--accent-1);
+}
+.alert-content {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.alert-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.alert-text h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 6px;
+}
+.alert-text p {
+  font-size: 13px;
+  color: var(--gray-400);
+  margin-bottom: 0;
+}
+/* Command Palette */
+.command-palette {
+  border: none;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-700);
+}
+.command-search {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.command-search-icon { color: var(--gray-500); font-size: 18px; }
+.command-search input {
+  flex: 1;
+  background: none;
+  border: none;
+  font-size: 15px;
+  color: var(--gray-100);
+  outline: none;
+}
+.command-search input::placeholder { color: var(--gray-600); }
+.command-search kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  background: var(--gray-800);
+  border-radius: 4px;
+  color: var(--gray-500);
+}
+.command-section {
+  padding: 8px;
+}
+.command-section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  padding: 8px 13px;
+}
+.command-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 10px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.command-item:hover { background: var(--gray-800); }
+.command-item.selected { background: rgba(30, 144, 255, 0.15); }
+.command-item-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--gray-800);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.command-item.selected .command-item-icon { background: var(--accent-6); }
+.command-item-text { flex: 1; }
+.command-item-title {
+  font-size: 14px;
+  color: var(--gray-200);
+}
+.command-item-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.command-item-shortcut {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray-600);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="section-label">Basic Modals</div>
+  <div class="demo-grid">
+    <div class="modal-demo">
+      <div class="modal">
+        <div class="modal-header">
+          <span class="modal-title">Create New Agent</span>
+          <button class="modal-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Agent Name</label>
+            <input type="text" class="form-input" placeholder="my-agent">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role</label>
+            <input type="text" class="form-input" placeholder="data-processor">
+          </div>
+        </div>
+        <div class="modal-footer right">
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-primary">Create Agent</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-demo">
+      <div class="modal">
+        <div class="modal-body">
+          <div class="confirm-icon danger">⚠️</div>
+          <div class="confirm-text">
+            <h3>Delete Agent?</h3>
+            <p>This action cannot be undone. All memory and event history will be permanently deleted.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" style="flex:1">Cancel</button>
+          <button class="btn btn-danger" style="flex:1">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Confirmation Dialogs</div>
+  <div class="demo-grid">
+    <div class="modal-demo">
+      <div class="modal">
+        <div class="modal-body">
+          <div class="confirm-icon success">✓</div>
+          <div class="confirm-text">
+            <h3>Agent Deployed!</h3>
+            <p>Your agent is now running in production and processing events.</p>
+          </div>
+        </div>
+        <div class="modal-footer right">
+          <button class="btn btn-success">View Dashboard</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-demo">
+      <div class="modal alert-modal">
+        <div class="modal-body">
+          <div class="alert-content">
+            <span class="alert-icon">⚡</span>
+            <div class="alert-text">
+              <h4>Usage Limit Warning</h4>
+              <p>You've used 80% of your monthly API calls. Consider upgrading to avoid service interruption.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer right">
+          <button class="btn btn-secondary">Dismiss</button>
+          <button class="btn btn-primary">Upgrade Plan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Command Palette</div>
+  <div class="demo-grid">
+    <div class="modal-demo" style="grid-column: span 2;">
+      <div class="modal command-palette" style="max-width: 600px;">
+        <div class="command-search">
+          <span class="command-search-icon">🔍</span>
+          <input type="text" placeholder="Search commands...">
+          <kbd>ESC</kbd>
+        </div>
+        <div class="command-section">
+          <div class="command-section-label">Recent</div>
+          <div class="command-item selected">
+            <div class="command-item-icon">⚡</div>
+            <div class="command-item-text">
+              <div class="command-item-title">Deploy Agent</div>
+              <div class="command-item-desc">Deploy a new agent to production</div>
+            </div>
+            <span class="command-item-shortcut">⌘D</span>
+          </div>
+          <div class="command-item">
+            <div class="command-item-icon">📊</div>
+            <div class="command-item-text">
+              <div class="command-item-title">View Analytics</div>
+              <div class="command-item-desc">Open the analytics dashboard</div>
+            </div>
+            <span class="command-item-shortcut">⌘A</span>
+          </div>
+          <div class="command-item">
+            <div class="command-item-icon">⚙️</div>
+            <div class="command-item-text">
+              <div class="command-item-title">Settings</div>
+              <div class="command-item-desc">Manage workspace settings</div>
+            </div>
+            <span class="command-item-shortcut">⌘,</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

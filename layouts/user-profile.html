@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-2: #ff5f00;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-5: #5f5fff;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            min-height: 100vh;
+        }
+        .profile-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent-3) 0%, var(--accent-4) 50%, var(--accent-6) 100%);
+            overflow: hidden;
+        }
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 34px;
+        }
+        .profile-main {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 34px;
+            margin-top: -89px;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 55px;
+        }
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 21px;
+        }
+        .profile-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+            text-align: center;
+        }
+        .avatar {
+            width: 144px;
+            height: 144px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            margin: 0 auto 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            border: 4px solid var(--gray-900);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .profile-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .profile-handle {
+            font-family: var(--font-mono);
+            color: var(--gray-400);
+            font-size: 14px;
+            margin-bottom: 13px;
+        }
+        .profile-bio {
+            color: var(--gray-300);
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 21px;
+        }
+        .profile-meta {
+            display: flex;
+            justify-content: center;
+            gap: 21px;
+            padding-top: 21px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .meta-item {
+            text-align: center;
+        }
+        .meta-value {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .meta-label {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+        .stats-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 21px;
+        }
+        .stats-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 21px;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--gray-800);
+        }
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-300);
+        }
+        .stat-icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .stat-value {
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 21px;
+        }
+        .content-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+        }
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 21px;
+        }
+        .content-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+        }
+        .tab {
+            padding: 8px 21px;
+            background: transparent;
+            border: 1px solid var(--gray-700);
+            border-radius: 8px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab:hover {
+            border-color: var(--gray-500);
+            color: var(--gray-100);
+        }
+        .tab.active {
+            background: var(--accent-3);
+            border-color: var(--accent-3);
+            color: white;
+        }
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 21px;
+        }
+        .activity-item {
+            display: flex;
+            gap: 21px;
+            padding: 21px;
+            background: var(--gray-950);
+            border-radius: 13px;
+            border: 1px solid var(--gray-800);
+            transition: all 0.2s ease;
+        }
+        .activity-item:hover {
+            border-color: var(--gray-700);
+            transform: translateX(5px);
+        }
+        .activity-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .activity-content {
+            flex: 1;
+        }
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .activity-title a {
+            color: var(--accent-6);
+            text-decoration: none;
+        }
+        .activity-title a:hover {
+            text-decoration: underline;
+        }
+        .activity-desc {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .activity-time {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--gray-600);
+            flex-shrink: 0;
+        }
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+        }
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 21px;
+            background: var(--gray-950);
+            border-radius: 13px;
+            border: 1px solid var(--gray-800);
+            transition: all 0.2s ease;
+        }
+        .badge:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-3px);
+        }
+        .badge-icon {
+            font-size: 34px;
+        }
+        .badge-name {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .badge-date {
+            font-size: 10px;
+            color: var(--gray-600);
+            font-family: var(--font-mono);
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-header"></div>
+    
+    <div class="container">
+        <div class="profile-main">
+            <div class="profile-sidebar">
+                <div class="profile-card">
+                    <div class="avatar">🚀</div>
+                    <h1 class="profile-name">Alexa Amundson</h1>
+                    <p class="profile-handle">@blackroad</p>
+                    <p class="profile-bio">Building the future of AI infrastructure. CEO at BlackRoad OS, Inc. Minnesota → Everywhere.</p>
+                    <div class="profile-meta">
+                        <div class="meta-item">
+                            <div class="meta-value">847</div>
+                            <div class="meta-label">Commits</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-value">56</div>
+                            <div class="meta-label">Repos</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-value">12</div>
+                            <div class="meta-label">Agents</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <h3 class="stats-title">Weekly Stats</h3>
+                    <div class="stat-row">
+                        <span class="stat-label">
+                            <span class="stat-icon" style="background: var(--accent-3)"></span>
+                            Deployments
+                        </span>
+                        <span class="stat-value" style="color: var(--accent-3)">234</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">
+                            <span class="stat-icon" style="background: var(--accent-6)"></span>
+                            API Calls
+                        </span>
+                        <span class="stat-value" style="color: var(--accent-6)">1.2M</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">
+                            <span class="stat-icon" style="background: var(--success)"></span>
+                            Uptime
+                        </span>
+                        <span class="stat-value" style="color: var(--success)">99.9%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+                <div class="content-card">
+                    <div class="content-header">
+                        <h2 class="content-title">Recent Activity</h2>
+                        <div class="tabs">
+                            <button class="tab active">All</button>
+                            <button class="tab">Commits</button>
+                            <button class="tab">Deploys</button>
+                        </div>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: rgba(0, 210, 106, 0.1)">🚀</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Deployed <a href="#">blackroad-api</a> to production</div>
+                                <div class="activity-desc">v2.4.1 • 12 files changed, 847 insertions(+)</div>
+                            </div>
+                            <div class="activity-time">2h ago</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: rgba(30, 144, 255, 0.1)">📝</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Pushed to <a href="#">blackroad-os/main</a></div>
+                                <div class="activity-desc">feat: add real-time agent monitoring dashboard</div>
+                            </div>
+                            <div class="activity-time">4h ago</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: rgba(255, 0, 135, 0.1)">🤖</div>
+                            <div class="activity-content">
+                                <div class="activity-title">Created agent <a href="#">aria-coordinator-v3</a></div>
+                                <div class="activity-desc">New AI agent for cross-repo orchestration</div>
+                            </div>
+                            <div class="activity-time">8h ago</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="content-header">
+                        <h2 class="content-title">Achievements</h2>
+                    </div>
+                    <div class="badges-grid">
+                        <div class="badge">
+                            <span class="badge-icon">🏆</span>
+                            <span class="badge-name">First Deploy</span>
+                            <span class="badge-date">Dec 2024</span>
+                        </div>
+                        <div class="badge">
+                            <span class="badge-icon">⚡</span>
+                            <span class="badge-name">Speed Demon</span>
+                            <span class="badge-date">Jan 2025</span>
+                        </div>
+                        <div class="badge">
+                            <span class="badge-icon">🎯</span>
+                            <span class="badge-name">100 Commits</span>
+                            <span class="badge-date">Jan 2025</span>
+                        </div>
+                        <div class="badge">
+                            <span class="badge-icon">🌟</span>
+                            <span class="badge-name">Empire Builder</span>
+                            <span class="badge-date">Feb 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

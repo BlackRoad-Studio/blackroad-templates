@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-200: #e5e5e5;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-2: #ff5f00;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-5: #ff00ff;
+  --accent-6: #1e90ff;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: var(--gray-900);
+  border-right: 1px solid var(--gray-800);
+  padding: 21px;
+  flex-shrink: 0;
+}
+
+.sidebar-logo {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 34px;
+  padding: 0 8px;
+}
+
+.sidebar-logo span {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sidebar-section {
+  margin-bottom: 28px;
+}
+
+.sidebar-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  padding: 0 8px;
+  margin-bottom: 8px;
+}
+
+.sidebar-nav {
+  list-style: none;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--gray-400);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+  margin-bottom: 2px;
+}
+
+.sidebar-nav a:hover {
+  background: var(--gray-800);
+  color: var(--gray-200);
+}
+
+.sidebar-nav a.active {
+  background: rgba(255, 0, 135, 0.1);
+  color: var(--accent-3);
+}
+
+.sidebar-nav .icon {
+  width: 18px;
+  text-align: center;
+}
+
+/* Main Content */
+.main {
+  flex: 1;
+  padding: 34px;
+  overflow-y: auto;
+}
+
+.page-header {
+  margin-bottom: 34px;
+}
+
+.page-header h1 {
+  font-family: var(--font-headline);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  font-size: 14px;
+  color: var(--gray-500);
+}
+
+/* Settings Sections */
+.settings-section {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  margin-bottom: 21px;
+  overflow: hidden;
+}
+
+.settings-section-header {
+  padding: 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.settings-section-header h2 {
+  font-family: var(--font-headline);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+}
+
+.settings-section-header p {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+}
+
+.setting-info h3 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-200);
+  margin-bottom: 4px;
+}
+
+.setting-info p {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: var(--gray-700);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-switch.active {
+  background: var(--accent-3);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s;
+}
+
+.toggle-switch.active::after {
+  transform: translateX(20px);
+}
+
+/* Input Field */
+.input-field {
+  background: var(--gray-950);
+  border: 1px solid var(--gray-700);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-200);
+  width: 280px;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--accent-6);
+}
+
+.input-field::placeholder {
+  color: var(--gray-600);
+}
+
+/* Select */
+.select-field {
+  background: var(--gray-950);
+  border: 1px solid var(--gray-700);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--gray-200);
+  width: 180px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23737373' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.select-field:focus {
+  outline: none;
+  border-color: var(--accent-6);
+}
+
+/* Button Row */
+.button-row {
+  display: flex;
+  gap: 13px;
+  padding: 21px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent-3);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--gray-300);
+  border: 1px solid var(--gray-700);
+}
+
+.btn-secondary:hover {
+  background: var(--gray-800);
+}
+
+.btn-danger {
+  background: transparent;
+  color: #ff4444;
+  border: 1px solid rgba(255, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 68, 68, 0.1);
+}
+
+/* API Key Display */
+.api-key-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.api-key {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-400);
+  background: var(--gray-950);
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-800);
+}
+
+.copy-btn {
+  background: var(--gray-800);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: var(--gray-400);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: var(--gray-700);
+  color: var(--gray-200);
+}
+
+/* Badge */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.badge-pro {
+  background: rgba(175, 95, 215, 0.15);
+  color: var(--accent-4);
+}
+
+.badge-beta {
+  background: rgba(255, 135, 0, 0.15);
+  color: var(--accent-1);
+}
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .input-field { width: 100%; }
+  .setting-row { flex-direction: column; align-items: flex-start; gap: 13px; }
+}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo"><span>BLACK</span>ROAD</div>
+  
+  <div class="sidebar-section">
+    <div class="sidebar-label">Workspace</div>
+    <ul class="sidebar-nav">
+      <li><a href="#"><span class="icon">📊</span> Dashboard</a></li>
+      <li><a href="#"><span class="icon">🤖</span> Agents</a></li>
+      <li><a href="#"><span class="icon">📡</span> Events</a></li>
+      <li><a href="#"><span class="icon">💾</span> Memory</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Account</div>
+    <ul class="sidebar-nav">
+      <li><a href="#" class="active"><span class="icon">⚙️</span> Settings</a></li>
+      <li><a href="#"><span class="icon">👥</span> Team</a></li>
+      <li><a href="#"><span class="icon">💳</span> Billing</a></li>
+      <li><a href="#"><span class="icon">🔑</span> API Keys</a></li>
+    </ul>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="page-header">
+    <h1>Settings</h1>
+    <p>Manage your workspace preferences and configuration</p>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-header">
+      <h2>General</h2>
+      <p>Basic workspace settings and preferences</p>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Workspace Name</h3>
+        <p>The display name for your workspace</p>
+      </div>
+      <input type="text" class="input-field" value="BlackRoad Production" />
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Timezone</h3>
+        <p>Used for scheduling and log timestamps</p>
+      </div>
+      <select class="select-field">
+        <option>UTC</option>
+        <option>America/New_York</option>
+        <option selected>America/Los_Angeles</option>
+        <option>Europe/London</option>
+      </select>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Default Agent Timeout</h3>
+        <p>Maximum execution time for agent tasks</p>
+      </div>
+      <input type="text" class="input-field" value="30000" placeholder="milliseconds" />
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-header">
+      <h2>API Configuration</h2>
+      <p>Manage your API keys and access tokens</p>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Production API Key</h3>
+        <p>Use this key for production deployments</p>
+      </div>
+      <div class="api-key-display">
+        <span class="api-key">br_prod_••••••••••••a8c3</span>
+        <button class="copy-btn">Copy</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Test API Key</h3>
+        <p>Use this key for development and testing</p>
+      </div>
+      <div class="api-key-display">
+        <span class="api-key">br_test_••••••••••••f72e</span>
+        <button class="copy-btn">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-header">
+      <h2>Features</h2>
+      <p>Enable or disable platform features</p>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Persistent Memory <span class="badge badge-pro">PRO</span></h3>
+        <p>Enable append-only memory journals for all agents</p>
+      </div>
+      <div class="toggle-switch active"></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Real-time Analytics</h3>
+        <p>Stream metrics to the analytics dashboard</p>
+      </div>
+      <div class="toggle-switch active"></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Quantum Hashing <span class="badge badge-beta">BETA</span></h3>
+        <p>Use PS-SHA-∞ for state verification</p>
+      </div>
+      <div class="toggle-switch"></div>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Auto-scaling</h3>
+        <p>Automatically scale agents based on load</p>
+      </div>
+      <div class="toggle-switch active"></div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-section-header">
+      <h2>Danger Zone</h2>
+      <p>Irreversible actions for your workspace</p>
+    </div>
+    <div class="button-row">
+      <button class="btn btn-danger">Delete All Agents</button>
+      <button class="btn btn-danger">Reset Memory</button>
+      <button class="btn btn-danger">Delete Workspace</button>
+    </div>
+  </div>
+</main>
+</body>
+</html>

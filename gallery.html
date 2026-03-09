@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackRoad Templates Gallery</title>
+    <style>
+        :root {
+            --amber: #F5A623;
+            --hot-pink: #FF1D6C;
+            --electric-blue: #2979FF;
+            --violet: #9C27B0;
+            --black: #000000;
+            --white: #FFFFFF;
+            --phi: 1.618;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            padding: 34px;
+            background: linear-gradient(180deg, rgba(255,29,108,0.15) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+        .header h1 {
+            font-size: 34px;
+            background: linear-gradient(135deg, var(--hot-pink), var(--amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        .header-stats {
+            float: right;
+            display: flex;
+            gap: 21px;
+            align-items: center;
+        }
+        .stat-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 21px;
+            font-size: 14px;
+        }
+        .stat-badge strong {
+            color: var(--amber);
+        }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #FF1D6C;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+            margin-right: 8px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        /* Filter Tabs */
+        .filters {
+            padding: 21px 34px;
+            display: flex;
+            gap: 13px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--white);
+            padding: 8px 21px;
+            border-radius: 21px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--hot-pink);
+            border-color: var(--hot-pink);
+        }
+        .filter-btn .count {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-size: 12px;
+        }
+        
+        /* Gallery Grid */
+        .gallery {
+            padding: 34px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 21px;
+        }
+        
+        /* Template Card */
+        .template-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 13px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .template-card:hover {
+            border-color: var(--hot-pink);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255,29,108,0.2);
+        }
+        .template-preview {
+            height: 250px;
+            background: #111;
+            position: relative;
+            overflow: hidden;
+        }
+        .template-preview iframe {
+            width: 200%;
+            height: 200%;
+            transform: scale(0.5);
+            transform-origin: top left;
+            border: none;
+            pointer-events: none;
+        }
+        .template-preview .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+        }
+        .template-card:hover .overlay {
+            opacity: 1;
+        }
+        .overlay-btn {
+            background: var(--hot-pink);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .overlay-btn:hover {
+            transform: scale(1.05);
+        }
+        .overlay-btn.secondary {
+            background: rgba(255,255,255,0.2);
+        }
+        .template-info {
+            padding: 16px;
+        }
+        .template-info h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .template-info .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .category-tag {
+            background: rgba(245,166,35,0.2);
+            color: var(--amber);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .template-date {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            padding: 21px;
+        }
+        .modal.active { display: block; }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 21px;
+        }
+        .modal-header h2 {
+            color: var(--amber);
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+        }
+        .modal-content {
+            height: calc(100vh - 100px);
+            background: white;
+            border-radius: 13px;
+            overflow: hidden;
+        }
+        .modal-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 89px 34px;
+            color: rgba(255,255,255,0.4);
+        }
+        .empty-state h2 {
+            color: var(--amber);
+            margin-bottom: 13px;
+        }
+        
+        /* Refresh Button */
+        .refresh-btn {
+            position: fixed;
+            bottom: 34px;
+            right: 34px;
+            background: linear-gradient(135deg, var(--hot-pink), var(--amber));
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 10px 30px rgba(255,29,108,0.4);
+            transition: transform 0.3s;
+            z-index: 99;
+        }
+        .refresh-btn:hover {
+            transform: scale(1.1) rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>BlackRoad Templates</h1>
+        <div class="header-stats">
+            <div class="stat-badge">
+                <span class="live-dot"></span>
+                <strong id="total-count">0</strong> Templates
+            </div>
+            <div class="stat-badge">
+                Last scan: <strong id="last-scan">--</strong>
+            </div>
+        </div>
+    </header>
+    
+    <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="all">All <span class="count" id="count-all">0</span></button>
+        <button class="filter-btn" data-filter="landing-pages">Landing Pages <span class="count" id="count-landing-pages">0</span></button>
+        <button class="filter-btn" data-filter="dashboards">Dashboards <span class="count" id="count-dashboards">0</span></button>
+        <button class="filter-btn" data-filter="components">Components <span class="count" id="count-components">0</span></button>
+        <button class="filter-btn" data-filter="layouts">Layouts <span class="count" id="count-layouts">0</span></button>
+        <button class="filter-btn" data-filter="animations">Animations <span class="count" id="count-animations">0</span></button>
+        <button class="filter-btn" data-filter="forms">Forms <span class="count" id="count-forms">0</span></button>
+        <button class="filter-btn" data-filter="specialty">Specialty <span class="count" id="count-specialty">0</span></button>
+        <button class="filter-btn" data-filter="root">Uncategorized <span class="count" id="count-root">0</span></button>
+    </div>
+    
+    <div class="gallery" id="gallery"></div>
+    
+    <div class="modal" id="modal">
+        <div class="modal-header">
+            <h2 id="modal-title">Template Preview</h2>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-content">
+            <iframe id="modal-iframe"></iframe>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" onclick="loadTemplates()" title="Refresh">↻</button>
+    
+    <script>
+        let templates = [];
+        let currentFilter = 'all';
+        
+        // Load template manifest
+        async function loadTemplates() {
+            try {
+                const response = await fetch('manifest.json?t=' + Date.now());
+                templates = await response.json();
+                updateCounts();
+                renderGallery();
+                document.getElementById('last-scan').textContent = new Date().toLocaleTimeString();
+            } catch (e) {
+                console.log('Loading from DOM...');
+                // Fallback: templates might be embedded
+            }
+        }
+        
+        function updateCounts() {
+            const counts = { all: templates.length };
+            templates.forEach(t => {
+                counts[t.category] = (counts[t.category] || 0) + 1;
+            });
+            
+            document.getElementById('total-count').textContent = templates.length;
+            document.getElementById('count-all').textContent = counts.all;
+            
+            ['landing-pages', 'dashboards', 'components', 'layouts', 'animations', 'forms', 'specialty', 'root'].forEach(cat => {
+                const el = document.getElementById('count-' + cat);
+                if (el) el.textContent = counts[cat] || 0;
+            });
+        }
+        
+        function renderGallery() {
+            const gallery = document.getElementById('gallery');
+            const filtered = currentFilter === 'all' 
+                ? templates 
+                : templates.filter(t => t.category === currentFilter);
+            
+            if (filtered.length === 0) {
+                gallery.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <h2>No templates yet</h2>
+                        <p>Drop templates here to see them in the gallery</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            gallery.innerHTML = filtered.map(t => `
+                <div class="template-card" data-category="${t.category}">
+                    <div class="template-preview">
+                        <iframe src="${t.path}" loading="lazy"></iframe>
+                        <div class="overlay">
+                            <button class="overlay-btn" onclick="openModal('${t.path}', '${t.name}')">Preview</button>
+                            <button class="overlay-btn secondary" onclick="window.open('${t.path}', '_blank')">Open</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>${t.name}</h3>
+                        <div class="meta">
+                            <span class="category-tag">${t.category}</span>
+                            <span class="template-date">${t.date || 'Today'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function openModal(path, name) {
+            document.getElementById('modal').classList.add('active');
+            document.getElementById('modal-title').textContent = name;
+            document.getElementById('modal-iframe').src = path;
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.getElementById('modal-iframe').src = '';
+        }
+        
+        // Filter buttons
+        document.getElementById('filters').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.filter;
+                renderGallery();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'r' && !e.metaKey) loadTemplates();
+        });
+        
+        // Auto-refresh every 5 seconds
+        setInterval(loadTemplates, 5000);
+        
+        // Initial load
+        loadTemplates();
+    </script>
+</body>
+</html>

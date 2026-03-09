@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Button Components</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --warning: #febc2e;
+  --error: #ff5f57;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 55px 34px;
+}
+.container { max-width: 1000px; margin: 0 auto; }
+.page-header {
+  margin-bottom: 55px;
+}
+.page-header h1 {
+  font-family: var(--font-headline);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 13px;
+}
+.page-header p {
+  color: var(--gray-500);
+  font-size: 16px;
+}
+.section {
+  margin-bottom: 55px;
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 21px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--gray-800);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--accent-3);
+}
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-bottom: 21px;
+  align-items: center;
+}
+/* Base Button */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+/* Sizes */
+.btn-xs { font-size: 11px; padding: 6px 10px; }
+.btn-sm { font-size: 13px; padding: 8px 14px; }
+.btn-md { font-size: 14px; padding: 12px 20px; }
+.btn-lg { font-size: 15px; padding: 14px 24px; }
+.btn-xl { font-size: 16px; padding: 16px 32px; }
+/* Primary */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  color: white;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 0, 135, 0.3);
+}
+/* Secondary */
+.btn-secondary {
+  background: var(--gray-800);
+  color: var(--gray-200);
+  border: 1px solid var(--gray-700);
+}
+.btn-secondary:hover {
+  background: var(--gray-700);
+  border-color: var(--gray-600);
+}
+/* Outline */
+.btn-outline {
+  background: transparent;
+  color: var(--gray-300);
+  border: 1px solid var(--gray-700);
+}
+.btn-outline:hover {
+  background: var(--gray-900);
+  border-color: var(--gray-600);
+}
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--gray-400);
+}
+.btn-ghost:hover {
+  background: var(--gray-900);
+  color: var(--gray-200);
+}
+/* Accent Colors */
+.btn-orange {
+  background: var(--accent-1);
+  color: var(--gray-950);
+}
+.btn-orange:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 15px rgba(255, 135, 0, 0.3);
+}
+.btn-blue {
+  background: var(--accent-6);
+  color: white;
+}
+.btn-blue:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 15px rgba(30, 144, 255, 0.3);
+}
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+.btn-warning {
+  background: var(--warning);
+  color: var(--gray-950);
+}
+.btn-danger {
+  background: var(--error);
+  color: white;
+}
+/* Gradient Variations */
+.btn-gradient-sunset {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+  color: white;
+}
+.btn-gradient-ocean {
+  background: linear-gradient(135deg, var(--accent-6), var(--accent-4));
+  color: white;
+}
+.btn-gradient-cosmic {
+  background: linear-gradient(135deg, var(--accent-3), #ff00ff, var(--accent-6));
+  color: white;
+}
+/* Icon Buttons */
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 8px;
+}
+.btn-icon.round {
+  border-radius: 50%;
+}
+/* Loading State */
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+/* Disabled */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+/* Button Group */
+.btn-group {
+  display: flex;
+}
+.btn-group .btn {
+  border-radius: 0;
+}
+.btn-group .btn:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.btn-group .btn:last-child {
+  border-radius: 0 8px 8px 0;
+}
+.btn-group .btn:not(:last-child) {
+  border-right: 1px solid rgba(0,0,0,0.2);
+}
+/* Pill Buttons */
+.btn-pill {
+  border-radius: 50px;
+}
+/* Code Preview */
+.code-preview {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 13px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray-400);
+  overflow-x: auto;
+}
+.code-preview .tag { color: var(--accent-3); }
+.code-preview .attr { color: var(--accent-6); }
+.code-preview .val { color: var(--accent-1); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1>Button Components</h1>
+    <p>A comprehensive collection of button styles for the BlackRoad design system.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Primary Buttons</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-xs">Extra Small</button>
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary btn-md">Medium</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+      <button class="btn btn-primary btn-xl">Extra Large</button>
+    </div>
+    <div class="code-preview">
+      <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"btn btn-primary btn-md"</span><span class="tag">&gt;</span>Medium<span class="tag">&lt;/button&gt;</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Button Variants</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-md">Primary</button>
+      <button class="btn btn-secondary btn-md">Secondary</button>
+      <button class="btn btn-outline btn-md">Outline</button>
+      <button class="btn btn-ghost btn-md">Ghost</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Accent Colors</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-md">Pink</button>
+      <button class="btn btn-orange btn-md">Orange</button>
+      <button class="btn btn-blue btn-md">Blue</button>
+      <button class="btn btn-success btn-md">Success</button>
+      <button class="btn btn-warning btn-md">Warning</button>
+      <button class="btn btn-danger btn-md">Danger</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Gradient Buttons</div>
+    <div class="button-row">
+      <button class="btn btn-gradient-sunset btn-md">Sunset</button>
+      <button class="btn btn-gradient-ocean btn-md">Ocean</button>
+      <button class="btn btn-gradient-cosmic btn-md">Cosmic</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">With Icons</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-md">⚡ Deploy</button>
+      <button class="btn btn-secondary btn-md">📊 Analytics</button>
+      <button class="btn btn-outline btn-md">🔄 Refresh</button>
+      <button class="btn btn-ghost btn-md">⚙️ Settings</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Icon Only</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-icon">⚡</button>
+      <button class="btn btn-secondary btn-icon">📊</button>
+      <button class="btn btn-outline btn-icon">🔄</button>
+      <button class="btn btn-ghost btn-icon">⚙️</button>
+      <button class="btn btn-primary btn-icon round">+</button>
+      <button class="btn btn-danger btn-icon round">×</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Pill Buttons</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-md btn-pill">Get Started</button>
+      <button class="btn btn-secondary btn-md btn-pill">Learn More</button>
+      <button class="btn btn-outline btn-md btn-pill">View Docs</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Button Groups</div>
+    <div class="button-row">
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-md">Day</button>
+        <button class="btn btn-primary btn-md">Week</button>
+        <button class="btn btn-secondary btn-md">Month</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">States</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-md">Normal</button>
+      <button class="btn btn-primary btn-md btn-loading">Loading</button>
+      <button class="btn btn-primary btn-md" disabled>Disabled</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

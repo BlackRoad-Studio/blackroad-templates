@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Article - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-2: #ff5f00;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-5: #5f5fff;
+            --accent-6: #1e90ff;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            line-height: 1.7;
+        }
+        .article-header {
+            padding: 89px 34px 55px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 21px;
+            margin-bottom: 34px;
+        }
+        .article-category {
+            padding: 5px 13px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            border-radius: 21px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .article-date {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .article-reading-time {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+        .article-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 21px;
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-300));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .article-subtitle {
+            font-size: 20px;
+            color: var(--gray-400);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .article-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+            margin-top: 34px;
+            padding-top: 34px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .author-info {
+            text-align: left;
+        }
+        .author-name {
+            font-weight: 600;
+        }
+        .author-title {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .article-hero-image {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 55px;
+            padding: 0 34px;
+        }
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--gray-900), var(--gray-800));
+            border-radius: 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            border: 1px solid var(--gray-700);
+        }
+        .article-content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 34px 89px;
+        }
+        .article-content p {
+            margin-bottom: 21px;
+            color: var(--gray-300);
+        }
+        .article-content h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            margin: 55px 0 21px;
+            color: var(--gray-100);
+        }
+        .article-content h3 {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 34px 0 13px;
+            color: var(--gray-100);
+        }
+        .article-content a {
+            color: var(--accent-6);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        .article-content a:hover {
+            border-color: var(--accent-6);
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 21px;
+            padding-left: 34px;
+            color: var(--gray-300);
+        }
+        .article-content li {
+            margin-bottom: 8px;
+        }
+        .article-content blockquote {
+            margin: 34px 0;
+            padding: 21px 34px;
+            background: var(--gray-900);
+            border-left: 4px solid var(--accent-3);
+            border-radius: 0 13px 13px 0;
+            font-style: italic;
+            color: var(--gray-300);
+        }
+        .article-content code {
+            font-family: var(--font-mono);
+            background: var(--gray-900);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: var(--accent-3);
+        }
+        .article-content pre {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+            padding: 21px;
+            overflow-x: auto;
+            margin: 21px 0;
+        }
+        .article-content pre code {
+            background: transparent;
+            padding: 0;
+            color: var(--gray-300);
+        }
+        .callout {
+            margin: 34px 0;
+            padding: 21px;
+            background: rgba(30, 144, 255, 0.1);
+            border: 1px solid rgba(30, 144, 255, 0.2);
+            border-radius: 13px;
+            display: flex;
+            gap: 13px;
+        }
+        .callout-icon {
+            font-size: 21px;
+            flex-shrink: 0;
+        }
+        .callout-content {
+            flex: 1;
+        }
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .callout-text {
+            font-size: 14px;
+            color: var(--gray-300);
+        }
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 55px;
+            padding-top: 34px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .tag {
+            padding: 5px 13px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 21px;
+            font-size: 12px;
+            color: var(--gray-400);
+            transition: all 0.2s ease;
+        }
+        .tag:hover {
+            border-color: var(--accent-3);
+            color: var(--accent-3);
+        }
+        .article-share {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-top: 21px;
+        }
+        .share-label {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .share-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .share-btn:hover {
+            border-color: var(--accent-6);
+            transform: translateY(-2px);
+        }
+        .related-articles {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 55px 34px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .related-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 34px;
+            text-align: center;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 21px;
+        }
+        .related-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .related-card:hover {
+            border-color: var(--gray-600);
+            transform: translateY(-5px);
+        }
+        .related-image {
+            height: 144px;
+            background: linear-gradient(135deg, var(--gray-800), var(--gray-900));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+        }
+        .related-content {
+            padding: 21px;
+        }
+        .related-card-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .related-excerpt {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header class="article-header">
+            <div class="article-meta">
+                <span class="article-category">Engineering</span>
+                <span class="article-date">Feb 7, 2026</span>
+                <span class="article-reading-time">8 min read</span>
+            </div>
+            <h1 class="article-title">Building AI Agents That Scale to 30,000 Instances</h1>
+            <p class="article-subtitle">How we designed BlackRoad's distributed agent architecture to handle massive parallel workloads while maintaining sub-100ms latency.</p>
+            <div class="article-author">
+                <div class="author-avatar">🚀</div>
+                <div class="author-info">
+                    <div class="author-name">Alexa Amundson</div>
+                    <div class="author-title">CEO, BlackRoad OS</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="article-hero-image">
+            <div class="hero-image">🤖</div>
+        </div>
+
+        <div class="article-content">
+            <p>When we set out to build BlackRoad's agent infrastructure, we knew we needed something different. Traditional approaches couldn't handle our scale requirements—we needed to orchestrate thousands of AI agents simultaneously while keeping latency under 100ms.</p>
+
+            <h2>The Architecture Challenge</h2>
+            <p>Most agent frameworks are designed for single-instance deployments. They work great for prototypes but fall apart when you need to scale. We had to rethink everything from the ground up.</p>
+
+            <blockquote>
+                "The key insight was treating agents not as monolithic applications, but as stateless functions that could be distributed across any node in our mesh."
+            </blockquote>
+
+            <h3>Key Design Decisions</h3>
+            <ul>
+                <li><strong>Stateless Agent Cores</strong> - Each agent maintains no local state, enabling instant failover</li>
+                <li><strong>Event-Driven Communication</strong> - Using our custom PS-SHA-∞ protocol for secure message passing</li>
+                <li><strong>Hierarchical Orchestration</strong> - Coordinator agents manage pools of worker agents</li>
+                <li><strong>Dynamic Scaling</strong> - Agents spawn and terminate based on workload</li>
+            </ul>
+
+            <div class="callout">
+                <span class="callout-icon">💡</span>
+                <div class="callout-content">
+                    <div class="callout-title">Pro Tip</div>
+                    <div class="callout-text">Start with a smaller agent pool and let the system scale up. It's more efficient than pre-allocating resources you might not need.</div>
+                </div>
+            </div>
+
+            <h2>Implementation Details</h2>
+            <p>The core of our system is the Agent Registry—a distributed hash table that tracks every active agent instance. Here's how agents register themselves:</p>
+
+            <pre><code>const agent = await registry.spawn({
+  type: 'worker',
+  capabilities: ['code-review', 'testing'],
+  maxConcurrency: 10
+});
+
+agent.on('task', async (task) => {
+  const result = await processTask(task);
+  return result;
+});</code></pre>
+
+            <p>Each agent runs in isolation but can communicate with any other agent through our message bus. This enables complex workflows where agents collaborate to solve problems.</p>
+
+            <h2>Results</h2>
+            <p>After six months of development and testing, we achieved our goals:</p>
+            <ol>
+                <li>30,000+ concurrent agent instances across 15 regions</li>
+                <li>Average latency of 47ms for inter-agent communication</li>
+                <li>99.99% uptime with automatic failover</li>
+                <li>Linear scaling up to 100,000 agents (and beyond)</li>
+            </ol>
+
+            <p>The system now powers all of BlackRoad's AI infrastructure, from code review bots to our autonomous deployment pipeline. Learn more in our <a href="#">technical documentation</a>.</p>
+
+            <div class="article-tags">
+                <span class="tag">#agents</span>
+                <span class="tag">#infrastructure</span>
+                <span class="tag">#scaling</span>
+                <span class="tag">#distributed-systems</span>
+                <span class="tag">#ai</span>
+            </div>
+
+            <div class="article-share">
+                <span class="share-label">Share:</span>
+                <button class="share-btn">𝕏</button>
+                <button class="share-btn">in</button>
+                <button class="share-btn">📋</button>
+            </div>
+        </div>
+    </article>
+
+    <section class="related-articles">
+        <h2 class="related-title">Related Articles</h2>
+        <div class="related-grid">
+            <div class="related-card">
+                <div class="related-image">🔐</div>
+                <div class="related-content">
+                    <h3 class="related-card-title">PS-SHA-∞: Our Quantum-Resistant Protocol</h3>
+                    <p class="related-excerpt">How we built infinite cascade hashing for the post-quantum era.</p>
+                </div>
+            </div>
+            <div class="related-card">
+                <div class="related-image">📊</div>
+                <div class="related-content">
+                    <h3 class="related-card-title">Real-Time Monitoring at Scale</h3>
+                    <p class="related-excerpt">Building dashboards that update 60 times per second.</p>
+                </div>
+            </div>
+            <div class="related-card">
+                <div class="related-image">🌐</div>
+                <div class="related-content">
+                    <h3 class="related-card-title">Edge Deployment Strategies</h3>
+                    <p class="related-excerpt">Running agents on Cloudflare's global network.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

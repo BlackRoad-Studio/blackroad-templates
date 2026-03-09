@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+.checkout-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 55px 34px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 55px;
+}
+.logo {
+  font-family: var(--font-headline);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 34px;
+}
+.logo span {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* Progress Steps */
+.progress-steps {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 34px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--gray-800);
+  color: var(--gray-500);
+}
+.step.active .step-num {
+  background: var(--accent-3);
+  color: white;
+}
+.step.done .step-num {
+  background: var(--success);
+  color: white;
+}
+.step-label {
+  font-size: 13px;
+  color: var(--gray-600);
+}
+.step.active .step-label {
+  color: var(--gray-200);
+}
+.step-line {
+  width: 40px;
+  height: 2px;
+  background: var(--gray-800);
+}
+.step.done + .step-line {
+  background: var(--success);
+}
+/* Form Sections */
+.form-section {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 21px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 21px;
+}
+.section-title {
+  font-family: var(--font-headline);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.section-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  background: rgba(40, 200, 64, 0.15);
+  color: var(--success);
+  border-radius: 4px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+.form-group {
+  margin-bottom: 18px;
+}
+.form-group.full {
+  grid-column: span 2;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-400);
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-800);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--gray-100);
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-6);
+}
+.form-input::placeholder {
+  color: var(--gray-600);
+}
+/* Card Input */
+.card-input-wrapper {
+  position: relative;
+}
+.card-icons {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+}
+.card-icon {
+  width: 32px;
+  height: 20px;
+  background: var(--gray-800);
+  border-radius: 3px;
+}
+/* Radio Options */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-800);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.radio-option:hover {
+  border-color: var(--gray-700);
+}
+.radio-option.selected {
+  border-color: var(--accent-6);
+  background: rgba(30, 144, 255, 0.05);
+}
+.radio-dot {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--gray-600);
+  border-radius: 50%;
+  position: relative;
+}
+.radio-option.selected .radio-dot {
+  border-color: var(--accent-6);
+}
+.radio-option.selected .radio-dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: var(--accent-6);
+  border-radius: 50%;
+}
+.radio-content {
+  flex: 1;
+}
+.radio-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-200);
+}
+.radio-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.radio-price {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--gray-300);
+}
+/* Order Summary */
+.order-summary {
+  position: sticky;
+  top: 34px;
+}
+.summary-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.summary-header {
+  padding: 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.summary-header h3 {
+  font-family: var(--font-headline);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.summary-items {
+  padding: 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.item-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.item-name {
+  font-size: 14px;
+  color: var(--gray-200);
+}
+.item-detail {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.item-price {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--gray-200);
+}
+.summary-totals {
+  padding: 21px;
+}
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.total-row.final {
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 1px solid var(--gray-800);
+  font-weight: 600;
+}
+.total-label {
+  color: var(--gray-400);
+}
+.total-value {
+  font-family: var(--font-mono);
+  color: var(--gray-200);
+}
+.total-row.final .total-value {
+  font-size: 20px;
+  color: var(--gray-100);
+}
+.discount {
+  color: var(--success);
+}
+.checkout-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 21px;
+}
+.checkout-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.secure-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+@media (max-width: 900px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .order-summary { position: static; order: -1; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: span 1; }
+}
+</style>
+</head>
+<body>
+<div class="checkout-container">
+  <div class="checkout-form">
+    <div class="logo"><span>BLACK</span>ROAD</div>
+    
+    <div class="progress-steps">
+      <div class="step done">
+        <div class="step-num">✓</div>
+        <span class="step-label">Plan</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active">
+        <div class="step-num">2</div>
+        <span class="step-label">Payment</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <span class="step-label">Confirm</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">Billing Information</h2>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="John">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Doe">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="john@company.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company (Optional)</label>
+        <input type="text" class="form-input" placeholder="Acme Inc.">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">Payment Method</h2>
+        <span class="section-badge">Secure</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Card Number</label>
+        <div class="card-input-wrapper">
+          <input type="text" class="form-input" placeholder="1234 5678 9012 3456">
+          <div class="card-icons">
+            <div class="card-icon"></div>
+            <div class="card-icon"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Expiry Date</label>
+          <input type="text" class="form-input" placeholder="MM / YY">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVC</label>
+          <input type="text" class="form-input" placeholder="123">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">Billing Cycle</h2>
+      </div>
+      <div class="radio-group">
+        <div class="radio-option">
+          <div class="radio-dot"></div>
+          <div class="radio-content">
+            <div class="radio-title">Monthly</div>
+            <div class="radio-desc">Billed every month</div>
+          </div>
+          <div class="radio-price">$49/mo</div>
+        </div>
+        <div class="radio-option selected">
+          <div class="radio-dot"></div>
+          <div class="radio-content">
+            <div class="radio-title">Yearly <span style="color: var(--success); font-size: 12px;">Save 20%</span></div>
+            <div class="radio-desc">Billed annually</div>
+          </div>
+          <div class="radio-price">$39/mo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <div class="summary-card">
+      <div class="summary-header">
+        <h3>Order Summary</h3>
+      </div>
+      <div class="summary-items">
+        <div class="summary-item">
+          <div class="item-info">
+            <div class="item-icon">⚡</div>
+            <div>
+              <div class="item-name">Pro Plan</div>
+              <div class="item-detail">100 agents, 100K API calls</div>
+            </div>
+          </div>
+          <div class="item-price">$468.00</div>
+        </div>
+      </div>
+      <div class="summary-totals">
+        <div class="total-row">
+          <span class="total-label">Subtotal</span>
+          <span class="total-value">$588.00</span>
+        </div>
+        <div class="total-row">
+          <span class="total-label">Annual Discount</span>
+          <span class="total-value discount">-$120.00</span>
+        </div>
+        <div class="total-row">
+          <span class="total-label">Tax</span>
+          <span class="total-value">$0.00</span>
+        </div>
+        <div class="total-row final">
+          <span class="total-label">Total</span>
+          <span class="total-value">$468.00</span>
+        </div>
+      </div>
+    </div>
+    <button class="checkout-btn">Complete Purchase</button>
+    <div class="secure-badge">
+      🔒 Secured by Stripe
+    </div>
+  </div>
+</div>
+</body>
+</html>

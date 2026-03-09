@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --warning: #ffb800;
+            --error: #ff4757;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 55px 34px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+            margin-bottom: 34px;
+        }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .status-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 13px;
+            padding: 21px 34px;
+            background: rgba(0, 210, 106, 0.1);
+            border: 1px solid rgba(0, 210, 106, 0.2);
+            border-radius: 55px;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 210, 106, 0.4); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(0, 210, 106, 0); }
+        }
+        .status-text {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--success);
+        }
+        .last-updated {
+            margin-top: 13px;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 21px;
+        }
+        .services-list {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            overflow: hidden;
+            margin-bottom: 55px;
+        }
+        .service-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 21px;
+            border-bottom: 1px solid var(--gray-800);
+        }
+        .service-item:last-child {
+            border-bottom: none;
+        }
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .service-name {
+            font-weight: 500;
+        }
+        .service-desc {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 13px;
+            border-radius: 21px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-operational {
+            background: rgba(0, 210, 106, 0.1);
+            color: var(--success);
+        }
+        .status-degraded {
+            background: rgba(255, 184, 0, 0.1);
+            color: var(--warning);
+        }
+        .status-outage {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--error);
+        }
+        .uptime-grid {
+            display: flex;
+            gap: 2px;
+            margin-top: 21px;
+        }
+        .uptime-bar {
+            flex: 1;
+            height: 34px;
+            border-radius: 3px;
+            background: var(--success);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .uptime-bar:hover {
+            transform: scaleY(1.1);
+        }
+        .uptime-bar.degraded {
+            background: var(--warning);
+        }
+        .uptime-bar.outage {
+            background: var(--error);
+        }
+        .uptime-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        .uptime-summary {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 34px;
+            padding: 21px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+        }
+        .uptime-stat {
+            text-align: center;
+        }
+        .uptime-value {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--success);
+        }
+        .uptime-label {
+            font-size: 12px;
+            color: var(--gray-400);
+            margin-top: 5px;
+        }
+        .incidents {
+            margin-bottom: 55px;
+        }
+        .incident-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+            padding: 21px;
+            margin-bottom: 13px;
+        }
+        .incident-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 13px;
+        }
+        .incident-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+        .incident-badge {
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .badge-resolved {
+            background: rgba(0, 210, 106, 0.1);
+            color: var(--success);
+        }
+        .badge-investigating {
+            background: rgba(255, 184, 0, 0.1);
+            color: var(--warning);
+        }
+        .incident-timeline {
+            border-left: 2px solid var(--gray-800);
+            padding-left: 21px;
+            margin-left: 8px;
+        }
+        .timeline-entry {
+            position: relative;
+            padding-bottom: 13px;
+        }
+        .timeline-entry:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gray-800);
+            border: 2px solid var(--gray-700);
+        }
+        .timeline-entry:first-child::before {
+            background: var(--success);
+            border-color: var(--success);
+        }
+        .timeline-time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-600);
+            margin-bottom: 3px;
+        }
+        .timeline-text {
+            font-size: 13px;
+            color: var(--gray-300);
+        }
+        .subscribe-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+            text-align: center;
+        }
+        .subscribe-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .subscribe-text {
+            color: var(--gray-400);
+            font-size: 14px;
+            margin-bottom: 21px;
+        }
+        .subscribe-form {
+            display: flex;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .subscribe-input {
+            flex: 1;
+            padding: 13px 21px;
+            background: var(--gray-950);
+            border: 1px solid var(--gray-700);
+            border-radius: 10px;
+            color: var(--gray-100);
+            font-family: var(--font-body);
+        }
+        .subscribe-btn {
+            padding: 13px 21px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 10px;
+            color: var(--gray-300);
+            font-family: var(--font-body);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🖤</div>
+                <span class="logo-text">BlackRoad Status</span>
+            </div>
+            <div class="status-banner">
+                <span class="status-dot"></span>
+                <span class="status-text">All Systems Operational</span>
+            </div>
+            <p class="last-updated">Updated 2 minutes ago</p>
+        </header>
+
+        <section>
+            <h2 class="section-title">Services</h2>
+            <div class="services-list">
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(255, 0, 135, 0.1)">🌐</div>
+                        <div>
+                            <div class="service-name">API Gateway</div>
+                            <div class="service-desc">Core API endpoints and routing</div>
+                        </div>
+                    </div>
+                    <span class="service-status status-operational"><span class="status-dot" style="width: 6px; height: 6px;"></span> Operational</span>
+                </div>
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(30, 144, 255, 0.1)">🤖</div>
+                        <div>
+                            <div class="service-name">Agent Mesh</div>
+                            <div class="service-desc">Distributed agent orchestration</div>
+                        </div>
+                    </div>
+                    <span class="service-status status-operational"><span class="status-dot" style="width: 6px; height: 6px;"></span> Operational</span>
+                </div>
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(175, 95, 215, 0.1)">📊</div>
+                        <div>
+                            <div class="service-name">Dashboard</div>
+                            <div class="service-desc">Web application and console</div>
+                        </div>
+                    </div>
+                    <span class="service-status status-operational"><span class="status-dot" style="width: 6px; height: 6px;"></span> Operational</span>
+                </div>
+                <div class="service-item">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(255, 135, 0, 0.1)">💾</div>
+                        <div>
+                            <div class="service-name">Storage</div>
+                            <div class="service-desc">Object storage and databases</div>
+                        </div>
+                    </div>
+                    <span class="service-status status-degraded"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--warning);"></span> Degraded</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">90-Day Uptime</h2>
+            <div class="uptime-grid">
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar degraded"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar outage"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+                <div class="uptime-bar"></div><div class="uptime-bar"></div><div class="uptime-bar"></div>
+            </div>
+            <div class="uptime-labels">
+                <span>90 days ago</span>
+                <span>Today</span>
+            </div>
+            <div class="uptime-summary">
+                <div class="uptime-stat">
+                    <div class="uptime-value">99.95%</div>
+                    <div class="uptime-label">Overall Uptime</div>
+                </div>
+                <div class="uptime-stat">
+                    <div class="uptime-value">47ms</div>
+                    <div class="uptime-label">Avg Response</div>
+                </div>
+                <div class="uptime-stat">
+                    <div class="uptime-value">2</div>
+                    <div class="uptime-label">Incidents</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="incidents">
+            <h2 class="section-title">Recent Incidents</h2>
+            <div class="incident-card">
+                <div class="incident-header">
+                    <span class="incident-title">Storage Latency Degradation</span>
+                    <span class="incident-badge badge-investigating">Investigating</span>
+                </div>
+                <div class="incident-timeline">
+                    <div class="timeline-entry">
+                        <div class="timeline-time">Feb 7, 2026 14:32 UTC</div>
+                        <div class="timeline-text">Investigating elevated latency in storage operations. No data loss reported.</div>
+                    </div>
+                    <div class="timeline-entry">
+                        <div class="timeline-time">Feb 7, 2026 14:15 UTC</div>
+                        <div class="timeline-text">We are aware of storage performance issues affecting some users.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="incident-card">
+                <div class="incident-header">
+                    <span class="incident-title">API Gateway Outage</span>
+                    <span class="incident-badge badge-resolved">Resolved</span>
+                </div>
+                <div class="incident-timeline">
+                    <div class="timeline-entry">
+                        <div class="timeline-time">Jan 28, 2026 09:45 UTC</div>
+                        <div class="timeline-text">Issue resolved. Root cause: misconfigured load balancer during deployment.</div>
+                    </div>
+                    <div class="timeline-entry">
+                        <div class="timeline-time">Jan 28, 2026 09:30 UTC</div>
+                        <div class="timeline-text">Implemented fix. Monitoring recovery.</div>
+                    </div>
+                    <div class="timeline-entry">
+                        <div class="timeline-time">Jan 28, 2026 09:15 UTC</div>
+                        <div class="timeline-text">API Gateway experiencing 503 errors. Investigating.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="subscribe-card">
+                <h3 class="subscribe-title">Get Status Updates</h3>
+                <p class="subscribe-text">Subscribe to receive notifications about system status changes.</p>
+                <form class="subscribe-form">
+                    <input type="email" class="subscribe-input" placeholder="Enter your email">
+                    <button type="submit" class="subscribe-btn">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

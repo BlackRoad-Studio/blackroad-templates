@@ -12,7 +12,7 @@
   --gray-600:#525252;--gray-500:#737373;--gray-400:#a3a3a3;--gray-300:#d4d4d4;
   --gray-200:#e5e5e5;--gray-100:#f5f5f5;
   --accent-1:#ff8700;--accent-2:#ff5f00;--accent-3:#ff0087;
-  --accent-4:#af5fd7;--accent-5:#ff00ff;--accent-6:#1e90ff;
+  --accent-4:#af5fd7;--accent-5:#9C27B0;--accent-6:#1e90ff;
   --font-headline:'Space Grotesk',sans-serif;
   --font-body:'Inter',sans-serif;
   --font-mono:'JetBrains Mono',monospace;
@@ -481,7 +481,7 @@ nav .nav-links{display:none}
 // ===== PARTICLE CONSTELLATION =====
 (function(){
   const c=document.getElementById('particles-canvas'),ctx=c.getContext('2d');
-  const colors=['#ff8700','#ff0087','#af5fd7','#ff00ff','#1e90ff'];
+  const colors=['#ff8700','#ff0087','#af5fd7','#9C27B0','#1e90ff'];
   let w,h;function resize(){const r=c.parentElement.getBoundingClientRect();w=c.width=r.width;h=c.height=r.height}
   resize();window.addEventListener('resize',resize);
   const pts=[];for(let i=0;i<50;i++)pts.push({x:Math.random()*400,y:Math.random()*300,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,color:colors[i%5],r:Math.random()*2+1});
@@ -554,7 +554,7 @@ nav .nav-links{display:none}
   const c=document.getElementById('gravity-canvas'),ctx=c.getContext('2d');
   let w,h;function resize(){const r=c.parentElement.getBoundingClientRect();w=c.width=r.width;h=c.height=r.height}
   resize();window.addEventListener('resize',resize);
-  const colors=['#ff8700','#ff5f00','#ff0087','#af5fd7','#ff00ff','#1e90ff'];
+  const colors=['#ff8700','#ff5f00','#ff0087','#af5fd7','#9C27B0','#1e90ff'];
   const balls=[];for(let i=0;i<12;i++)balls.push({x:Math.random()*300+50,y:Math.random()*200+40,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,r:Math.random()*6+3,color:colors[i%6]});
   const center={x:200,y:140};
   function draw(){ctx.clearRect(0,0,w,h);center.x=w/2;center.y=h/2;

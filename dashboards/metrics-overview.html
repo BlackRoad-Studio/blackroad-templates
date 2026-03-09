@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics Overview - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --warning: #ffb800;
+            --error: #ff4757;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            min-height: 100vh;
+            padding: 34px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 34px;
+        }
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header-actions {
+            display: flex;
+            gap: 13px;
+        }
+        .time-range {
+            display: flex;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 10px;
+            padding: 3px;
+        }
+        .time-btn {
+            padding: 8px 13px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--gray-400);
+            font-family: var(--font-body);
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .time-btn.active {
+            background: var(--gray-800);
+            color: var(--gray-100);
+        }
+        .refresh-btn {
+            padding: 8px 13px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 10px;
+            color: var(--gray-300);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 21px;
+            margin-bottom: 34px;
+        }
+        .metric-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 21px;
+        }
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 13px;
+        }
+        .metric-label {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .metric-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .metric-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+        .change-up { color: var(--success); }
+        .change-down { color: var(--error); }
+        .sparkline {
+            height: 40px;
+            margin-top: 13px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+        }
+        .spark-bar {
+            flex: 1;
+            background: var(--gray-800);
+            border-radius: 2px;
+            transition: height 0.3s ease;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 21px;
+            margin-bottom: 34px;
+        }
+        .chart-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 21px;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 21px;
+        }
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .chart-legend {
+            display: flex;
+            gap: 21px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .chart-area {
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+        }
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            flex: 1;
+            height: 100%;
+        }
+        .bar-group {
+            flex: 1;
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            height: 100%;
+        }
+        .bar {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease;
+        }
+        .bar-primary { background: linear-gradient(180deg, var(--accent-3), var(--accent-4)); }
+        .bar-secondary { background: var(--gray-700); }
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 13px;
+            padding-top: 13px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .chart-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-600);
+        }
+        .donut-chart {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .donut-ring {
+            fill: none;
+            stroke-width: 20;
+        }
+        .donut-segment {
+            fill: none;
+            stroke-width: 20;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+        .donut-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .donut-value {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .donut-label {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+        .breakdown-list {
+            margin-top: 21px;
+        }
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-800);
+        }
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+        .breakdown-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+        .breakdown-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .breakdown-value {
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 21px;
+        }
+        .status-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 21px;
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 21px;
+        }
+        .status-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 21px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .badge-healthy {
+            background: rgba(0, 210, 106, 0.1);
+            color: var(--success);
+        }
+        .badge-warning {
+            background: rgba(255, 184, 0, 0.1);
+            color: var(--warning);
+        }
+        .status-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px;
+        }
+        .status-metric {
+            background: var(--gray-950);
+            padding: 13px;
+            border-radius: 13px;
+        }
+        .status-metric-label {
+            font-size: 11px;
+            color: var(--gray-500);
+            margin-bottom: 5px;
+        }
+        .status-metric-value {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Metrics Overview</h1>
+        <div class="header-actions">
+            <div class="time-range">
+                <button class="time-btn">1H</button>
+                <button class="time-btn">6H</button>
+                <button class="time-btn active">24H</button>
+                <button class="time-btn">7D</button>
+                <button class="time-btn">30D</button>
+            </div>
+            <button class="refresh-btn">↻ Refresh</button>
+        </div>
+    </header>
+
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-label">Total Requests</span>
+                <div class="metric-icon" style="background: rgba(255, 0, 135, 0.1)">📊</div>
+            </div>
+            <div class="metric-value">2.4M</div>
+            <div class="metric-change change-up">↑ 12.5% from yesterday</div>
+            <div class="sparkline">
+                <div class="spark-bar" style="height: 60%; background: var(--accent-3)"></div>
+                <div class="spark-bar" style="height: 75%; background: var(--accent-3)"></div>
+                <div class="spark-bar" style="height: 45%; background: var(--accent-3)"></div>
+                <div class="spark-bar" style="height: 90%; background: var(--accent-3)"></div>
+                <div class="spark-bar" style="height: 70%; background: var(--accent-3)"></div>
+                <div class="spark-bar" style="height: 85%; background: var(--accent-3)"></div>
+                <div class="spark-bar" style="height: 100%; background: var(--accent-3)"></div>
+            </div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-label">Avg Latency</span>
+                <div class="metric-icon" style="background: rgba(30, 144, 255, 0.1)">⚡</div>
+            </div>
+            <div class="metric-value">47ms</div>
+            <div class="metric-change change-up">↓ 8.2% improvement</div>
+            <div class="sparkline">
+                <div class="spark-bar" style="height: 80%; background: var(--accent-6)"></div>
+                <div class="spark-bar" style="height: 65%; background: var(--accent-6)"></div>
+                <div class="spark-bar" style="height: 70%; background: var(--accent-6)"></div>
+                <div class="spark-bar" style="height: 55%; background: var(--accent-6)"></div>
+                <div class="spark-bar" style="height: 50%; background: var(--accent-6)"></div>
+                <div class="spark-bar" style="height: 45%; background: var(--accent-6)"></div>
+                <div class="spark-bar" style="height: 40%; background: var(--accent-6)"></div>
+            </div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-label">Error Rate</span>
+                <div class="metric-icon" style="background: rgba(0, 210, 106, 0.1)">✓</div>
+            </div>
+            <div class="metric-value">0.02%</div>
+            <div class="metric-change change-up">↓ 0.01% from yesterday</div>
+            <div class="sparkline">
+                <div class="spark-bar" style="height: 20%; background: var(--success)"></div>
+                <div class="spark-bar" style="height: 15%; background: var(--success)"></div>
+                <div class="spark-bar" style="height: 25%; background: var(--success)"></div>
+                <div class="spark-bar" style="height: 10%; background: var(--success)"></div>
+                <div class="spark-bar" style="height: 5%; background: var(--success)"></div>
+                <div class="spark-bar" style="height: 8%; background: var(--success)"></div>
+                <div class="spark-bar" style="height: 3%; background: var(--success)"></div>
+            </div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-header">
+                <span class="metric-label">Active Agents</span>
+                <div class="metric-icon" style="background: rgba(175, 95, 215, 0.1)">🤖</div>
+            </div>
+            <div class="metric-value">847</div>
+            <div class="metric-change change-up">↑ 23 new today</div>
+            <div class="sparkline">
+                <div class="spark-bar" style="height: 50%; background: var(--accent-4)"></div>
+                <div class="spark-bar" style="height: 55%; background: var(--accent-4)"></div>
+                <div class="spark-bar" style="height: 60%; background: var(--accent-4)"></div>
+                <div class="spark-bar" style="height: 70%; background: var(--accent-4)"></div>
+                <div class="spark-bar" style="height: 75%; background: var(--accent-4)"></div>
+                <div class="spark-bar" style="height: 85%; background: var(--accent-4)"></div>
+                <div class="spark-bar" style="height: 100%; background: var(--accent-4)"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title">Request Volume</h3>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background: var(--accent-3)"></span>
+                        This Week
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background: var(--gray-700)"></span>
+                        Last Week
+                    </div>
+                </div>
+            </div>
+            <div class="chart-area">
+                <div class="chart-bars">
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 45%"></div><div class="bar bar-primary" style="height: 60%"></div></div>
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 55%"></div><div class="bar bar-primary" style="height: 70%"></div></div>
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 50%"></div><div class="bar bar-primary" style="height: 65%"></div></div>
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 60%"></div><div class="bar bar-primary" style="height: 85%"></div></div>
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 70%"></div><div class="bar bar-primary" style="height: 95%"></div></div>
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 65%"></div><div class="bar bar-primary" style="height: 80%"></div></div>
+                    <div class="bar-group"><div class="bar bar-secondary" style="height: 75%"></div><div class="bar bar-primary" style="height: 100%"></div></div>
+                </div>
+            </div>
+            <div class="chart-labels">
+                <span class="chart-label">Mon</span>
+                <span class="chart-label">Tue</span>
+                <span class="chart-label">Wed</span>
+                <span class="chart-label">Thu</span>
+                <span class="chart-label">Fri</span>
+                <span class="chart-label">Sat</span>
+                <span class="chart-label">Sun</span>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title">Traffic by Region</h3>
+            </div>
+            <div class="donut-chart">
+                <svg viewBox="0 0 100 100">
+                    <circle class="donut-ring" cx="50" cy="50" r="40" stroke="var(--gray-800)"/>
+                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--accent-3)" stroke-dasharray="120 251" stroke-dashoffset="0"/>
+                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--accent-6)" stroke-dasharray="75 251" stroke-dashoffset="-120"/>
+                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--accent-4)" stroke-dasharray="40 251" stroke-dashoffset="-195"/>
+                    <circle class="donut-segment" cx="50" cy="50" r="40" stroke="var(--accent-1)" stroke-dasharray="16 251" stroke-dashoffset="-235"/>
+                </svg>
+                <div class="donut-center">
+                    <div class="donut-value">15</div>
+                    <div class="donut-label">Regions</div>
+                </div>
+            </div>
+            <div class="breakdown-list">
+                <div class="breakdown-item">
+                    <span class="breakdown-label"><span class="breakdown-dot" style="background: var(--accent-3)"></span>US East</span>
+                    <span class="breakdown-value">48%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label"><span class="breakdown-dot" style="background: var(--accent-6)"></span>EU West</span>
+                    <span class="breakdown-value">30%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label"><span class="breakdown-dot" style="background: var(--accent-4)"></span>Asia Pacific</span>
+                    <span class="breakdown-value">16%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label"><span class="breakdown-dot" style="background: var(--accent-1)"></span>Other</span>
+                    <span class="breakdown-value">6%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-grid">
+        <div class="status-card">
+            <div class="status-header">
+                <h3 class="status-title">API Gateway</h3>
+                <span class="status-badge badge-healthy">Healthy</span>
+            </div>
+            <div class="status-metrics">
+                <div class="status-metric">
+                    <div class="status-metric-label">Uptime</div>
+                    <div class="status-metric-value" style="color: var(--success)">99.99%</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Throughput</div>
+                    <div class="status-metric-value">12.4K/s</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">P99 Latency</div>
+                    <div class="status-metric-value">89ms</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Connections</div>
+                    <div class="status-metric-value">8,421</div>
+                </div>
+            </div>
+        </div>
+        <div class="status-card">
+            <div class="status-header">
+                <h3 class="status-title">Agent Mesh</h3>
+                <span class="status-badge badge-healthy">Healthy</span>
+            </div>
+            <div class="status-metrics">
+                <div class="status-metric">
+                    <div class="status-metric-label">Active Nodes</div>
+                    <div class="status-metric-value" style="color: var(--success)">847</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Queue Depth</div>
+                    <div class="status-metric-value">234</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Avg Task Time</div>
+                    <div class="status-metric-value">1.2s</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Success Rate</div>
+                    <div class="status-metric-value" style="color: var(--success)">99.8%</div>
+                </div>
+            </div>
+        </div>
+        <div class="status-card">
+            <div class="status-header">
+                <h3 class="status-title">Storage</h3>
+                <span class="status-badge badge-warning">Warning</span>
+            </div>
+            <div class="status-metrics">
+                <div class="status-metric">
+                    <div class="status-metric-label">Used</div>
+                    <div class="status-metric-value" style="color: var(--warning)">78%</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Available</div>
+                    <div class="status-metric-value">2.4 TB</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Read IOPS</div>
+                    <div class="status-metric-value">45K</div>
+                </div>
+                <div class="status-metric">
+                    <div class="status-metric-label">Write IOPS</div>
+                    <div class="status-metric-value">12K</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

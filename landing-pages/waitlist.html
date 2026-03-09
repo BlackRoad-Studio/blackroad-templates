@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Waitlist - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 34px;
+            overflow: hidden;
+        }
+        .background-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .glow-1 {
+            top: -200px;
+            right: -100px;
+            background: var(--accent-3);
+        }
+        .glow-2 {
+            bottom: -200px;
+            left: -100px;
+            background: var(--accent-4);
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+            margin-bottom: 55px;
+        }
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 21px;
+            background: rgba(255, 0, 135, 0.1);
+            border: 1px solid rgba(255, 0, 135, 0.2);
+            border-radius: 34px;
+            margin-bottom: 34px;
+        }
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-3);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .badge-text {
+            font-size: 13px;
+            color: var(--accent-3);
+            font-weight: 500;
+        }
+        h1 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 21px;
+        }
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4), var(--accent-6));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: var(--gray-400);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 55px;
+        }
+        .waitlist-form {
+            display: flex;
+            gap: 13px;
+            margin-bottom: 21px;
+        }
+        .form-input {
+            flex: 1;
+            padding: 16px 21px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-700);
+            border-radius: 13px;
+            color: var(--gray-100);
+            font-family: var(--font-body);
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-3);
+            box-shadow: 0 0 0 3px rgba(255, 0, 135, 0.1);
+        }
+        .form-input::placeholder {
+            color: var(--gray-600);
+        }
+        .submit-btn {
+            padding: 16px 34px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            border: none;
+            border-radius: 13px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 135, 0.3);
+        }
+        .waitlist-count {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+        .waitlist-count strong {
+            color: var(--gray-100);
+            font-family: var(--font-mono);
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 34px;
+            margin-top: 55px;
+            padding-top: 55px;
+            border-top: 1px solid var(--gray-800);
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .feature-icon {
+            color: var(--success);
+        }
+
+        /* Success State */
+        .success-state {
+            display: none;
+        }
+        .success-icon {
+            width: 89px;
+            height: 89px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), #00b35a);
+            margin: 0 auto 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            animation: popIn 0.5s ease;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .success-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            margin-bottom: 13px;
+        }
+        .success-text {
+            color: var(--gray-400);
+            margin-bottom: 34px;
+        }
+        .position-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 13px;
+            padding: 21px 34px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+        }
+        .position-number {
+            font-family: var(--font-display);
+            font-size: 40px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .position-label {
+            text-align: left;
+        }
+        .position-label strong {
+            display: block;
+            font-size: 16px;
+        }
+        .position-label span {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-glow glow-1"></div>
+    <div class="background-glow glow-2"></div>
+    
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">🖤</div>
+            <span class="logo-text">BlackRoad</span>
+        </div>
+
+        <!-- Initial Form State -->
+        <div class="form-state">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">Early Access</span>
+            </div>
+            
+            <h1>The future of <span>AI orchestration</span> is coming</h1>
+            <p class="subtitle">Deploy 30,000+ AI agents with sub-100ms latency. Join the waitlist to be first in line.</p>
+            
+            <form class="waitlist-form">
+                <input type="email" class="form-input" placeholder="Enter your email">
+                <button type="submit" class="submit-btn">Join Waitlist</button>
+            </form>
+            
+            <p class="waitlist-count"><strong>2,847</strong> builders already waiting</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">✓</span>
+                    Free to start
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✓</span>
+                    No credit card
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✓</span>
+                    Early access perks
+                </div>
+            </div>
+        </div>
+
+        <!-- Success State (hidden by default) -->
+        <div class="success-state">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">You're on the list!</h2>
+            <p class="success-text">We'll notify you when BlackRoad is ready for you.</p>
+            <div class="position-badge">
+                <span class="position-number">#2,848</span>
+                <div class="position-label">
+                    <strong>Your Position</strong>
+                    <span>Share to move up the line</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

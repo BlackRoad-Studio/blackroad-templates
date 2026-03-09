@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --error: #ff4757;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 34px;
+        }
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 55px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .contact-info h1 {
+            font-family: var(--font-display);
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 21px;
+        }
+        .contact-info h1 span {
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .contact-info p {
+            color: var(--gray-400);
+            line-height: 1.7;
+            margin-bottom: 34px;
+        }
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 21px;
+        }
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 21px;
+        }
+        .method-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 13px;
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .method-text h3 {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .method-text p {
+            font-size: 14px;
+            color: var(--gray-400);
+            margin-bottom: 0;
+        }
+        .method-text a {
+            color: var(--accent-6);
+            text-decoration: none;
+        }
+        .method-text a:hover {
+            text-decoration: underline;
+        }
+        .contact-form-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 34px;
+        }
+        .form-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 34px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 21px;
+            margin-bottom: 21px;
+        }
+        .form-group {
+            margin-bottom: 21px;
+        }
+        .form-group:last-of-type {
+            margin-bottom: 34px;
+        }
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-300);
+            margin-bottom: 8px;
+        }
+        .form-label .required {
+            color: var(--accent-3);
+        }
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 13px 21px;
+            background: var(--gray-950);
+            border: 1px solid var(--gray-700);
+            border-radius: 13px;
+            color: var(--gray-100);
+            font-family: var(--font-body);
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-3);
+            box-shadow: 0 0 0 3px rgba(255, 0, 135, 0.1);
+        }
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--gray-600);
+        }
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a3a3a3' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 13px center;
+            padding-right: 40px;
+        }
+        .form-textarea {
+            min-height: 144px;
+            resize: vertical;
+        }
+        .form-input.error,
+        .form-select.error,
+        .form-textarea.error {
+            border-color: var(--error);
+        }
+        .error-message {
+            font-size: 12px;
+            color: var(--error);
+            margin-top: 5px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            border: none;
+            border-radius: 13px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 135, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .form-footer {
+            text-align: center;
+            margin-top: 21px;
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+        .form-footer a {
+            color: var(--accent-6);
+            text-decoration: none;
+        }
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 55px 34px;
+        }
+        .success-icon {
+            width: 89px;
+            height: 89px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), #00b35a);
+            margin: 0 auto 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        .success-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .success-text {
+            color: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h1>Let's build <span>something amazing</span> together</h1>
+            <p>Have a question about BlackRoad? Want to discuss enterprise solutions? We'd love to hear from you. Our team typically responds within 24 hours.</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="method-icon">📧</div>
+                    <div class="method-text">
+                        <h3>Email Us</h3>
+                        <p><a href="mailto:hello@blackroad.io">hello@blackroad.io</a></p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="method-icon">💬</div>
+                    <div class="method-text">
+                        <h3>Discord Community</h3>
+                        <p><a href="#">Join 5,000+ builders</a></p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="method-icon">📍</div>
+                    <div class="method-text">
+                        <h3>Location</h3>
+                        <p>Minneapolis, Minnesota</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-card">
+            <h2 class="form-title">Send us a message</h2>
+            <form>
+                <div class="form-row">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">First Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="John">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Last Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Doe">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email <span class="required">*</span></label>
+                    <input type="email" class="form-input error" placeholder="john@company.com">
+                    <p class="error-message">Please enter a valid email address</p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select class="form-select">
+                        <option value="">Select a topic</option>
+                        <option value="sales">Sales Inquiry</option>
+                        <option value="support">Technical Support</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Message <span class="required">*</span></label>
+                    <textarea class="form-textarea" placeholder="Tell us about your project or question..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send Message</button>
+                
+                <p class="form-footer">By submitting, you agree to our <a href="#">Privacy Policy</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

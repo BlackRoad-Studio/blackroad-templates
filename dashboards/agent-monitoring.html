@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — Agent Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-600: #525252;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-200: #e5e5e5;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-2: #ff5f00;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-5: #ff00ff;
+  --accent-6: #1e90ff;
+  --success: #28c840;
+  --warning: #febc2e;
+  --error: #ff5f57;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+/* Top Header */
+.top-bar {
+  background: var(--gray-900);
+  border-bottom: 1px solid var(--gray-800);
+  padding: 13px 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+}
+
+.logo {
+  font-family: var(--font-headline);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-100);
+}
+
+.logo span {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.breadcrumb a {
+  color: var(--gray-400);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--gray-200);
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--success);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.time-range {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 8px 14px;
+  background: var(--gray-800);
+  border: 1px solid var(--gray-700);
+  border-radius: 6px;
+  color: var(--gray-300);
+  cursor: pointer;
+}
+
+/* Main Dashboard */
+.dashboard {
+  padding: 34px;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 21px;
+  margin-bottom: 34px;
+}
+
+.stat-card {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  padding: 21px;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+}
+
+.stat-card:nth-child(1) .stat-value { color: var(--accent-1); }
+.stat-card:nth-child(2) .stat-value { color: var(--success); }
+.stat-card:nth-child(3) .stat-value { color: var(--accent-3); }
+.stat-card:nth-child(4) .stat-value { color: var(--accent-4); }
+.stat-card:nth-child(5) .stat-value { color: var(--accent-6); }
+
+.stat-change {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-change.up { color: var(--success); }
+.stat-change.down { color: var(--error); }
+
+/* Grid Layout */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 21px;
+  margin-bottom: 21px;
+}
+
+/* Panel */
+.panel {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 21px;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.panel-title {
+  font-family: var(--font-headline);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+
+.panel-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.panel-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  background: var(--gray-800);
+  border: none;
+  border-radius: 4px;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.panel-btn:hover {
+  background: var(--gray-700);
+  color: var(--gray-200);
+}
+
+.panel-btn.active {
+  background: var(--accent-6);
+  color: white;
+}
+
+/* Chart Placeholder */
+.chart-area {
+  height: 250px;
+  padding: 21px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 100%;
+}
+
+.chart-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--accent-6), rgba(30, 144, 255, 0.3));
+  border-radius: 2px 2px 0 0;
+  transition: height 0.3s;
+}
+
+/* Agent List */
+.agent-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.agent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 21px;
+  border-bottom: 1px solid var(--gray-800);
+  transition: background 0.2s;
+}
+
+.agent-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.agent-item:last-child {
+  border-bottom: none;
+}
+
+.agent-info {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.agent-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.agent-status.running { background: var(--success); }
+.agent-status.idle { background: var(--warning); }
+.agent-status.error { background: var(--error); }
+
+.agent-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-200);
+}
+
+.agent-role {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.agent-metrics {
+  display: flex;
+  gap: 21px;
+  text-align: right;
+}
+
+.metric {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.metric-value {
+  color: var(--gray-200);
+}
+
+.metric-label {
+  font-size: 10px;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Event Log */
+.event-log {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 21px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.event-line {
+  display: flex;
+  gap: 13px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.event-time {
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.event-level {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.event-level.info { background: rgba(30, 144, 255, 0.15); color: var(--accent-6); }
+.event-level.warn { background: rgba(255, 135, 0, 0.15); color: var(--accent-1); }
+.event-level.error { background: rgba(255, 68, 68, 0.15); color: var(--error); }
+.event-level.debug { background: rgba(175, 95, 215, 0.15); color: var(--accent-4); }
+
+.event-msg {
+  color: var(--gray-400);
+}
+
+.event-msg .highlight { color: var(--accent-1); }
+
+/* Alert Banner */
+.alert-banner {
+  background: linear-gradient(90deg, rgba(255, 135, 0, 0.1), rgba(255, 0, 135, 0.1));
+  border: 1px solid rgba(255, 135, 0, 0.3);
+  border-radius: 8px;
+  padding: 14px 21px;
+  margin-bottom: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.alert-icon {
+  font-size: 18px;
+}
+
+.alert-text {
+  font-size: 13px;
+}
+
+.alert-text strong {
+  color: var(--accent-1);
+}
+
+.alert-dismiss {
+  background: none;
+  border: none;
+  color: var(--gray-500);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+@media (max-width: 1200px) {
+  .stats-row { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .top-bar { padding: 13px 21px; }
+  .dashboard { padding: 21px; }
+}
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <div class="top-bar-left">
+    <div class="logo"><span>BLACK</span>ROAD</div>
+    <div class="breadcrumb">
+      <a href="#">Dashboard</a> / <a href="#">Agents</a> / Monitoring
+    </div>
+  </div>
+  <div class="top-bar-right">
+    <div class="live-indicator">
+      <span class="live-dot"></span>
+      LIVE
+    </div>
+    <select class="time-range">
+      <option>Last 1 hour</option>
+      <option selected>Last 24 hours</option>
+      <option>Last 7 days</option>
+      <option>Last 30 days</option>
+    </select>
+  </div>
+</header>
+
+<main class="dashboard">
+  <div class="alert-banner">
+    <div class="alert-content">
+      <span class="alert-icon">⚠️</span>
+      <span class="alert-text"><strong>3 agents</strong> experiencing elevated latency in us-east-1 region</span>
+    </div>
+    <button class="alert-dismiss">×</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Total Agents</div>
+      <div class="stat-value">1,247</div>
+      <div class="stat-change up">↑ 12.4%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Running</div>
+      <div class="stat-value">1,198</div>
+      <div class="stat-change up">↑ 8 from last hour</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Events/sec</div>
+      <div class="stat-value">24.7K</div>
+      <div class="stat-change down">↓ 2.1%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Memory Commits</div>
+      <div class="stat-value">847K</div>
+      <div class="stat-change up">↑ 15.2%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Latency</div>
+      <div class="stat-value">8.2ms</div>
+      <div class="stat-change up">↓ 1.4ms</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Event Throughput</span>
+        <div class="panel-actions">
+          <button class="panel-btn active">1H</button>
+          <button class="panel-btn">24H</button>
+          <button class="panel-btn">7D</button>
+        </div>
+      </div>
+      <div class="chart-area">
+        <div class="chart-bars">
+          <div class="chart-bar" style="height: 65%"></div>
+          <div class="chart-bar" style="height: 78%"></div>
+          <div class="chart-bar" style="height: 82%"></div>
+          <div class="chart-bar" style="height: 71%"></div>
+          <div class="chart-bar" style="height: 85%"></div>
+          <div class="chart-bar" style="height: 92%"></div>
+          <div class="chart-bar" style="height: 88%"></div>
+          <div class="chart-bar" style="height: 79%"></div>
+          <div class="chart-bar" style="height: 83%"></div>
+          <div class="chart-bar" style="height: 95%"></div>
+          <div class="chart-bar" style="height: 89%"></div>
+          <div class="chart-bar" style="height: 76%"></div>
+          <div class="chart-bar" style="height: 81%"></div>
+          <div class="chart-bar" style="height: 87%"></div>
+          <div class="chart-bar" style="height: 73%"></div>
+          <div class="chart-bar" style="height: 68%"></div>
+          <div class="chart-bar" style="height: 74%"></div>
+          <div class="chart-bar" style="height: 91%"></div>
+          <div class="chart-bar" style="height: 86%"></div>
+          <div class="chart-bar" style="height: 80%"></div>
+          <div class="chart-bar" style="height: 77%"></div>
+          <div class="chart-bar" style="height: 84%"></div>
+          <div class="chart-bar" style="height: 90%"></div>
+          <div class="chart-bar" style="height: 72%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Active Agents</span>
+        <button class="panel-btn">View All</button>
+      </div>
+      <div class="agent-list">
+        <div class="agent-item">
+          <div class="agent-info">
+            <span class="agent-status running"></span>
+            <div>
+              <div class="agent-name">analyst-001</div>
+              <div class="agent-role">data-processor</div>
+            </div>
+          </div>
+          <div class="agent-metrics">
+            <div class="metric">
+              <div class="metric-value">2.4K</div>
+              <div class="metric-label">events</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">6ms</div>
+              <div class="metric-label">latency</div>
+            </div>
+          </div>
+        </div>
+        <div class="agent-item">
+          <div class="agent-info">
+            <span class="agent-status running"></span>
+            <div>
+              <div class="agent-name">orchestrator-main</div>
+              <div class="agent-role">coordinator</div>
+            </div>
+          </div>
+          <div class="agent-metrics">
+            <div class="metric">
+              <div class="metric-value">8.1K</div>
+              <div class="metric-label">events</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">4ms</div>
+              <div class="metric-label">latency</div>
+            </div>
+          </div>
+        </div>
+        <div class="agent-item">
+          <div class="agent-info">
+            <span class="agent-status idle"></span>
+            <div>
+              <div class="agent-name">memory-gc-02</div>
+              <div class="agent-role">maintenance</div>
+            </div>
+          </div>
+          <div class="agent-metrics">
+            <div class="metric">
+              <div class="metric-value">412</div>
+              <div class="metric-label">events</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">12ms</div>
+              <div class="metric-label">latency</div>
+            </div>
+          </div>
+        </div>
+        <div class="agent-item">
+          <div class="agent-info">
+            <span class="agent-status error"></span>
+            <div>
+              <div class="agent-name">api-gateway-us-east</div>
+              <div class="agent-role">gateway</div>
+            </div>
+          </div>
+          <div class="agent-metrics">
+            <div class="metric">
+              <div class="metric-value">0</div>
+              <div class="metric-label">events</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">—</div>
+              <div class="metric-label">latency</div>
+            </div>
+          </div>
+        </div>
+        <div class="agent-item">
+          <div class="agent-info">
+            <span class="agent-status running"></span>
+            <div>
+              <div class="agent-name">indexer-primary</div>
+              <div class="agent-role">search</div>
+            </div>
+          </div>
+          <div class="agent-metrics">
+            <div class="metric">
+              <div class="metric-value">5.6K</div>
+              <div class="metric-label">events</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">9ms</div>
+              <div class="metric-label">latency</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Event Log</span>
+      <div class="panel-actions">
+        <button class="panel-btn">All</button>
+        <button class="panel-btn">Errors</button>
+        <button class="panel-btn">Export</button>
+      </div>
+    </div>
+    <div class="event-log">
+      <div class="event-line">
+        <span class="event-time">18:45:23</span>
+        <span class="event-level info">INFO</span>
+        <span class="event-msg">Agent <span class="highlight">analyst-001</span> processed 847 events in 2.4s</span>
+      </div>
+      <div class="event-line">
+        <span class="event-time">18:45:21</span>
+        <span class="event-level debug">DEBUG</span>
+        <span class="event-msg">Memory checkpoint committed at block <span class="highlight">847291</span></span>
+      </div>
+      <div class="event-line">
+        <span class="event-time">18:45:18</span>
+        <span class="event-level warn">WARN</span>
+        <span class="event-msg">High latency detected on <span class="highlight">api-gateway-us-east</span> (142ms)</span>
+      </div>
+      <div class="event-line">
+        <span class="event-time">18:45:15</span>
+        <span class="event-level error">ERROR</span>
+        <span class="event-msg">Connection timeout to <span class="highlight">nats://us-east-1:4222</span></span>
+      </div>
+      <div class="event-line">
+        <span class="event-time">18:45:12</span>
+        <span class="event-level info">INFO</span>
+        <span class="event-msg">Auto-scaled <span class="highlight">processor</span> pool from 10 to 15 replicas</span>
+      </div>
+      <div class="event-line">
+        <span class="event-time">18:45:08</span>
+        <span class="event-level info">INFO</span>
+        <span class="event-msg">PS-SHA∞ hash verified: <span class="highlight">1fee4186...e72f</span></span>
+      </div>
+      <div class="event-line">
+        <span class="event-time">18:45:02</span>
+        <span class="event-level debug">DEBUG</span>
+        <span class="event-msg">Agent <span class="highlight">indexer-primary</span> subscribed to 12 channels</span>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

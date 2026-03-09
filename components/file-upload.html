@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-1: #ff8700;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --error: #ff4757;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            padding: 55px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 21px;
+        }
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 34px;
+            max-width: 1000px;
+        }
+
+        /* Large Drop Zone */
+        .upload-zone {
+            background: var(--gray-900);
+            border: 2px dashed var(--gray-700);
+            border-radius: 21px;
+            padding: 55px 34px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .upload-zone:hover {
+            border-color: var(--accent-3);
+            background: rgba(255, 0, 135, 0.02);
+        }
+        .upload-zone.dragging {
+            border-color: var(--accent-3);
+            background: rgba(255, 0, 135, 0.05);
+            transform: scale(1.01);
+        }
+        .upload-icon {
+            width: 89px;
+            height: 89px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 0, 135, 0.1), rgba(175, 95, 215, 0.1));
+            margin: 0 auto 21px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+        }
+        .upload-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .upload-subtitle {
+            color: var(--gray-400);
+            margin-bottom: 21px;
+        }
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 34px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            border: none;
+            border-radius: 13px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 135, 0.3);
+        }
+        .upload-limits {
+            margin-top: 21px;
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        /* File List with Progress */
+        .upload-list {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 21px;
+            padding: 21px;
+        }
+        .upload-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 21px;
+        }
+        .upload-list-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .upload-list-count {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px;
+            background: var(--gray-950);
+            border-radius: 13px;
+            margin-bottom: 8px;
+        }
+        .file-item:last-child {
+            margin-bottom: 0;
+        }
+        .file-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-meta {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+        .file-size {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+        .file-progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--gray-800);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .file-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-3), var(--accent-4));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .file-progress-text {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--gray-400);
+            width: 35px;
+            text-align: right;
+        }
+        .file-action {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: transparent;
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .file-action:hover {
+            background: var(--gray-800);
+            color: var(--gray-100);
+        }
+        .file-status {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .status-success { color: var(--success); }
+        .status-error { color: var(--error); }
+        .status-uploading {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Compact Upload */
+        .upload-compact {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 13px;
+            padding: 21px;
+            display: flex;
+            align-items: center;
+            gap: 21px;
+            margin-top: 34px;
+        }
+        .compact-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 13px;
+            background: rgba(30, 144, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .compact-text {
+            flex: 1;
+        }
+        .compact-text h4 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .compact-text p {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .compact-btn {
+            padding: 10px 21px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 10px;
+            color: var(--gray-300);
+            font-family: var(--font-body);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .compact-btn:hover {
+            border-color: var(--gray-600);
+            color: var(--gray-100);
+        }
+
+        /* Avatar Upload */
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 21px;
+            margin-top: 21px;
+        }
+        .avatar-preview {
+            width: 89px;
+            height: 89px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            position: relative;
+        }
+        .avatar-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            cursor: pointer;
+        }
+        .avatar-preview:hover .avatar-overlay {
+            opacity: 1;
+        }
+        .avatar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .avatar-btn {
+            padding: 8px 13px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 8px;
+            color: var(--gray-300);
+            font-family: var(--font-body);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .avatar-btn:hover {
+            border-color: var(--gray-600);
+            color: var(--gray-100);
+        }
+        .avatar-btn.danger {
+            color: var(--error);
+            border-color: transparent;
+        }
+        .avatar-btn.danger:hover {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h3 class="section-title">File Upload Components</h3>
+    
+    <div class="upload-grid">
+        <!-- Large Drop Zone -->
+        <div class="upload-zone">
+            <div class="upload-icon">📁</div>
+            <h3 class="upload-title">Drop files here</h3>
+            <p class="upload-subtitle">or click to browse from your computer</p>
+            <button class="upload-btn">
+                <span>📎</span> Choose Files
+            </button>
+            <p class="upload-limits">Max 10 files • Up to 50MB each • .zip, .tar.gz, .json</p>
+        </div>
+
+        <!-- File List with Progress -->
+        <div class="upload-list">
+            <div class="upload-list-header">
+                <h4 class="upload-list-title">Uploading Files</h4>
+                <span class="upload-list-count">3 of 4 complete</span>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-icon" style="background: rgba(0, 210, 106, 0.1)">📦</div>
+                <div class="file-info">
+                    <div class="file-name">agent-config-v2.5.0.zip</div>
+                    <div class="file-meta">
+                        <span class="file-size">2.4 MB</span>
+                    </div>
+                </div>
+                <div class="file-status status-success">✓</div>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-icon" style="background: rgba(30, 144, 255, 0.1)">📄</div>
+                <div class="file-info">
+                    <div class="file-name">deployment-manifest.json</div>
+                    <div class="file-meta">
+                        <span class="file-size">128 KB</span>
+                    </div>
+                </div>
+                <div class="file-status status-success">✓</div>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-icon" style="background: rgba(255, 0, 135, 0.1)">🗜️</div>
+                <div class="file-info">
+                    <div class="file-name">model-weights.tar.gz</div>
+                    <div class="file-meta">
+                        <span class="file-size">48.7 MB</span>
+                        <div class="file-progress-bar">
+                            <div class="file-progress-fill" style="width: 67%"></div>
+                        </div>
+                        <span class="file-progress-text">67%</span>
+                    </div>
+                </div>
+                <div class="file-status status-uploading">⟳</div>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-icon" style="background: rgba(255, 71, 87, 0.1)">❌</div>
+                <div class="file-info">
+                    <div class="file-name">corrupted-file.zip</div>
+                    <div class="file-meta">
+                        <span class="file-size" style="color: var(--error)">Upload failed</span>
+                    </div>
+                </div>
+                <button class="file-action">↻</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compact Upload -->
+    <div class="upload-compact">
+        <div class="compact-icon">📎</div>
+        <div class="compact-text">
+            <h4>Attach Configuration</h4>
+            <p>Upload your custom agent config file</p>
+        </div>
+        <button class="compact-btn">Browse</button>
+    </div>
+
+    <!-- Avatar Upload -->
+    <div class="avatar-upload">
+        <div class="avatar-preview">
+            🚀
+            <div class="avatar-overlay">📷</div>
+        </div>
+        <div class="avatar-actions">
+            <button class="avatar-btn">Change avatar</button>
+            <button class="avatar-btn danger">Remove</button>
+        </div>
+    </div>
+</body>
+</html>

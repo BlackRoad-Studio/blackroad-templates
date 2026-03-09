@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer - BlackRoad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gray-950: #0a0a0a;
+            --gray-900: #171717;
+            --gray-800: #262626;
+            --gray-700: #404040;
+            --gray-600: #525252;
+            --gray-400: #a3a3a3;
+            --gray-300: #d4d4d4;
+            --gray-100: #f5f5f5;
+            --accent-3: #ff0087;
+            --accent-4: #af5fd7;
+            --accent-6: #1e90ff;
+            --success: #00d26a;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-950);
+            color: var(--gray-100);
+            padding-top: 200px;
+        }
+        
+        /* Full Footer */
+        .footer-full {
+            background: var(--gray-900);
+            border-top: 1px solid var(--gray-800);
+            padding: 89px 55px 34px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            gap: 55px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .footer-brand {
+            max-width: 300px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 21px;
+        }
+        .footer-logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+        .footer-logo-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .footer-tagline {
+            color: var(--gray-400);
+            line-height: 1.6;
+            margin-bottom: 21px;
+        }
+        .footer-social {
+            display: flex;
+            gap: 8px;
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .social-btn:hover {
+            border-color: var(--accent-3);
+            color: var(--accent-3);
+            transform: translateY(-2px);
+        }
+        .footer-column h4 {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 21px;
+            color: var(--gray-100);
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 13px;
+        }
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+        .footer-links a:hover {
+            color: var(--gray-100);
+        }
+        .footer-links .badge {
+            display: inline-flex;
+            padding: 2px 8px;
+            background: var(--accent-3);
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+            margin-left: 8px;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 34px;
+            margin-top: 55px;
+            border-top: 1px solid var(--gray-800);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-copyright {
+            color: var(--gray-600);
+            font-size: 13px;
+        }
+        .footer-legal {
+            display: flex;
+            gap: 21px;
+        }
+        .footer-legal a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s ease;
+        }
+        .footer-legal a:hover {
+            color: var(--gray-400);
+        }
+        .footer-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 13px;
+            background: rgba(0, 210, 106, 0.1);
+            border-radius: 21px;
+            font-size: 12px;
+            color: var(--success);
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        /* Minimal Footer */
+        .footer-minimal {
+            padding: 34px 55px;
+            border-top: 1px solid var(--gray-800);
+            margin-top: 89px;
+        }
+        .footer-minimal-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-minimal-left {
+            display: flex;
+            align-items: center;
+            gap: 21px;
+        }
+        .footer-minimal-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-minimal-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .footer-minimal-text {
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+        .footer-minimal-links {
+            display: flex;
+            gap: 21px;
+        }
+        .footer-minimal-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .footer-minimal-links a:hover {
+            color: var(--gray-100);
+        }
+
+        /* CTA Footer */
+        .footer-cta {
+            margin-top: 89px;
+        }
+        .footer-cta-section {
+            padding: 89px 55px;
+            background: linear-gradient(135deg, rgba(255, 0, 135, 0.1), rgba(175, 95, 215, 0.1));
+            text-align: center;
+        }
+        .footer-cta h2 {
+            font-family: var(--font-display);
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+        .footer-cta p {
+            color: var(--gray-400);
+            font-size: 18px;
+            margin-bottom: 34px;
+        }
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 13px;
+        }
+        .cta-btn {
+            padding: 13px 34px;
+            border-radius: 13px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .cta-btn-primary {
+            background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+            color: white;
+        }
+        .cta-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 135, 0.3);
+        }
+        .cta-btn-secondary {
+            background: transparent;
+            border: 1px solid var(--gray-700);
+            color: var(--gray-300);
+        }
+        .cta-btn-secondary:hover {
+            border-color: var(--gray-500);
+            color: var(--gray-100);
+        }
+    </style>
+</head>
+<body>
+    <!-- Full Footer -->
+    <footer class="footer-full">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">🖤</div>
+                    <span class="footer-logo-text">BlackRoad</span>
+                </div>
+                <p class="footer-tagline">The world's most advanced AI orchestration platform. Deploy 30,000+ agents with sub-100ms latency.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-btn">𝕏</a>
+                    <a href="#" class="social-btn">◉</a>
+                    <a href="#" class="social-btn">in</a>
+                    <a href="#" class="social-btn">▶</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Agents <span class="badge">New</span></a></li>
+                    <li><a href="#">Enterprise</a></li>
+                    <li><a href="#">Changelog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Developers</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Reference</a></li>
+                    <li><a href="#">SDKs</a></li>
+                    <li><a href="#">Examples</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers <span class="badge">3</span></a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copyright">© 2026 BlackRoad OS, Inc. All rights reserved.</div>
+            <div class="footer-status">
+                <span class="status-dot"></span>
+                All systems operational
+            </div>
+            <div class="footer-legal">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Minimal Footer -->
+    <footer class="footer-minimal">
+        <div class="footer-minimal-content">
+            <div class="footer-minimal-left">
+                <div class="footer-minimal-logo">
+                    <div class="footer-minimal-icon">🖤</div>
+                    <span class="footer-minimal-text">BlackRoad</span>
+                </div>
+                <span style="color: var(--gray-600); font-size: 13px;">© 2026 BlackRoad OS, Inc.</span>
+            </div>
+            <div class="footer-minimal-links">
+                <a href="#">Docs</a>
+                <a href="#">API</a>
+                <a href="#">Status</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CTA Footer -->
+    <footer class="footer-cta">
+        <div class="footer-cta-section">
+            <h2>Ready to scale your AI?</h2>
+            <p>Join thousands of teams deploying agents with BlackRoad.</p>
+            <div class="cta-buttons">
+                <a href="#" class="cta-btn cta-btn-primary">Start Free Trial →</a>
+                <a href="#" class="cta-btn cta-btn-secondary">Talk to Sales</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

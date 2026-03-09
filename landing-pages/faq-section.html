@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackRoad — FAQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gray-950: #0a0a0a;
+  --gray-900: #171717;
+  --gray-800: #262626;
+  --gray-700: #404040;
+  --gray-500: #737373;
+  --gray-400: #a3a3a3;
+  --gray-300: #d4d4d4;
+  --gray-100: #f5f5f5;
+  --accent-1: #ff8700;
+  --accent-3: #ff0087;
+  --accent-4: #af5fd7;
+  --accent-6: #1e90ff;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--gray-950);
+  color: var(--gray-300);
+  font-family: var(--font-body);
+  padding: 89px 34px;
+}
+.container { max-width: 800px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 55px; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  margin-bottom: 13px;
+}
+.header h1 {
+  font-family: var(--font-headline);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gray-100);
+  margin-bottom: 16px;
+}
+.header p {
+  font-size: 18px;
+  color: var(--gray-500);
+}
+/* FAQ Categories */
+.faq-categories {
+  display: flex;
+  justify-content: center;
+  gap: 13px;
+  margin-bottom: 34px;
+  flex-wrap: wrap;
+}
+.category-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 10px 18px;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 8px;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.category-btn:hover { border-color: var(--gray-700); color: var(--gray-200); }
+.category-btn.active { background: var(--accent-3); border-color: var(--accent-3); color: white; }
+/* FAQ Items */
+.faq-list { margin-bottom: 55px; }
+.faq-item {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  margin-bottom: 13px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.faq-item:hover { border-color: var(--gray-700); }
+.faq-item.open { border-color: var(--accent-6); }
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 21px;
+  cursor: pointer;
+}
+.faq-question h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gray-100);
+}
+.faq-toggle {
+  width: 24px;
+  height: 24px;
+  background: var(--gray-800);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--gray-400);
+  transition: all 0.2s;
+}
+.faq-item.open .faq-toggle {
+  background: var(--accent-6);
+  color: white;
+  transform: rotate(45deg);
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-answer {
+  max-height: 500px;
+}
+.faq-answer-content {
+  padding: 0 21px 21px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--gray-400);
+}
+.faq-answer-content a {
+  color: var(--accent-6);
+  text-decoration: none;
+}
+.faq-answer-content code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--gray-800);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: var(--accent-1);
+}
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, rgba(255,0,135,0.1), rgba(255,135,0,0.1));
+  border: 1px solid var(--gray-800);
+  border-radius: 16px;
+  padding: 55px;
+  text-align: center;
+}
+.cta-section h2 {
+  font-family: var(--font-headline);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 13px;
+}
+.cta-section p {
+  font-size: 16px;
+  color: var(--gray-500);
+  margin-bottom: 24px;
+}
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 13px;
+}
+.cta-btn {
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.cta-btn.primary {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  border: none;
+  color: white;
+}
+.cta-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--gray-700);
+  color: var(--gray-300);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="section-label">FAQ</div>
+    <h1>Frequently asked questions</h1>
+    <p>Everything you need to know about BlackRoad.</p>
+  </div>
+
+  <div class="faq-categories">
+    <button class="category-btn active">All</button>
+    <button class="category-btn">Getting Started</button>
+    <button class="category-btn">Pricing</button>
+    <button class="category-btn">Technical</button>
+    <button class="category-btn">Security</button>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item open">
+      <div class="faq-question">
+        <h3>What is BlackRoad?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          BlackRoad is an operating system for autonomous AI agents. It provides the infrastructure to deploy, orchestrate, and scale thousands of intelligent agents that can learn, adapt, and work together to accomplish complex tasks. Think of it as Kubernetes for AI agents.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How do I get started?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Getting started is easy! Sign up for a free account, install our CLI with <code>npm install -g @blackroad/cli</code>, and deploy your first agent with <code>blackroad deploy</code>. Our quickstart guide will have you running agents in under 5 minutes.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>What's included in the free tier?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          The free tier includes up to 3 agents, 1,000 API calls per month, community support, and basic analytics. It's perfect for learning the platform and building proof-of-concepts. No credit card required to get started.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How does persistent memory work?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Each agent has access to an append-only memory journal that persists across sessions. Memory entries are verified using PS-SHA-∞ hashing for data integrity. Agents can query their memory, learn from past experiences, and share knowledge with other agents in your workspace.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Is my data secure?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Absolutely. We're SOC2 Type II certified and all data is encrypted at rest and in transit. Our PS-SHA-∞ quantum-resistant hashing ensures complete data integrity. Enterprise customers can also use their own encryption keys and deploy in private cloud environments.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>What's the uptime SLA?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          We offer 99.99% uptime SLA for Pro and Scale plans. Our infrastructure is deployed across multiple availability zones with automatic failover. Check our <a href="#">status page</a> for real-time availability information.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Can I self-host BlackRoad?</h3>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-content">
+          Yes! Enterprise customers can deploy BlackRoad in their own cloud environment (AWS, GCP, Azure) or on-premises. We provide full deployment automation and ongoing support. Contact our sales team for more information.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>Still have questions?</h2>
+    <p>Can't find the answer you're looking for? Our team is here to help.</p>
+    <div class="cta-buttons">
+      <a href="#" class="cta-btn primary">Contact Support</a>
+      <a href="#" class="cta-btn secondary">View Documentation</a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    document.querySelectorAll('.faq-item').forEach(i => {
+      if (i !== item) i.classList.remove('open');
+    });
+    item.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
